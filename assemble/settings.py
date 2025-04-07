@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
+    'drf_yasg',
+    'assemble.api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -122,7 +125,86 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# REST Framework settings
 REST_FRAMEWORK = {
-  'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-  'PAGE_SIZE': 10
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'assemble.api.authentication.APIKeyAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        'assemble.api.permissions.HasValidAPIKey',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+    'DEFAULT_VERSION': 'v1',
+    'ALLOWED_VERSIONS': ['v1'],
+    'VERSION_PARAM': 'version',
+    'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [],
+    'DEFAULT_THROTTLE_RATES': {},
+    'DEFAULT_FILTER_BACKENDS': [
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+}
+
+# Custom API title
+API_TITLE = 'Assemble API'
+API_DESCRIPTION = 'Banking-as-a-Service API for Brazil'
+API_VERSION = '1.0.0'
+API_TERMS_OF_SERVICE = '#'
+API_CONTACT = 'contact@assemble.com'
+API_LICENSE = 'MIT'
+
+# Site URL for Swagger
+SITE_URL = 'http://localhost:8000/'
+FORCE_SCRIPT_NAME = None
+
+# Swagger settings
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Basic': {
+            'type': 'basic'
+        },
+        'ApiKey': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': True,
+    'JSON_EDITOR': True,
+    'SUPPORTED_SUBMIT_METHODS': [
+        'get',
+        'post',
+        'put',
+        'delete',
+        'patch'
+    ],
+    'TAGS_SORTER': 'alpha',
+    'OPERATIONS_SORTER': 'alpha',
+    'TAG_DESCRIPTIONS': {
+        'Overview': 'API overview and documentation',
+        'Authentication': 'User and group management endpoints',
+        'Customers': 'Customer management endpoints',
+        'Onboarding': 'Customer onboarding process endpoints',
+        'Accounts': 'Bank account management endpoints',
+        'Transactions': 'Transaction management endpoints',
+        'Dictionary': 'Dictionary management endpoints',
+        'Webhooks': 'Webhook management endpoints',
+        'Limits': 'Transaction limits management endpoints'
+    }
 }
