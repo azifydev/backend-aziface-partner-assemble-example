@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     Tenant, APIKey, Customer, Onboarding, Account, Statement,
     Transaction, Dictionary, Webhook, PixLimit, PixNightLimit,
-    TedLimit, BookLimit
+    TedLimit, BookLimit, IPWhitelist
 )
 
 @admin.register(Tenant)
@@ -97,3 +97,11 @@ class BookLimitAdmin(admin.ModelAdmin):
     list_display = ('tenant', 'daily_limit', 'transaction_limit', 'created_at')
     list_filter = ('tenant',)
     search_fields = ('tenant__name',)
+
+
+@admin.register(IPWhitelist)
+class IPWhitelistAdmin(admin.ModelAdmin):
+    list_display = ('ip_address', 'api_key', 'description', 'created_at', 'is_active')
+    list_filter = ('api_key', 'is_active')
+    search_fields = ('ip_address', 'api_key__name', 'description')
+    list_select_related = ('api_key',)

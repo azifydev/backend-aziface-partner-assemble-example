@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 import uuid
+import ipaddress
 
 # API Key and Tenant Models
 class Tenant(models.Model):
@@ -22,6 +24,35 @@ class APIKey(models.Model):
     
     def __str__(self):
         return f"{self.name} - {self.tenant.name}"
+
+class IPWhitelist(models.Model):
+    api_key = models.ForeignKey(APIKey, on_delete=models.CASCADE, related_name='ip_whitelist')
+    ip_address = models.GenericIPAddressField()
+    description = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return f"{self.ip_address} - {self.api_key.name}"
+    
+    def clean(self):
+        """
+        Validate the IP address.
+        """
+        try:
+            ipaddress.ip_address(self.ip_address)
+        except ValueError:
+            raise ValidationError({'ip_address': 'Invalid IP address format'})
+    
+    def save(self, *args, **kwargs):
+        """
+        Validate the IP address before saving.
+        """
+        self.clean()
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        unique_together = ('api_key', 'ip_address')
 
 # Customer Models
 class Customer(models.Model):

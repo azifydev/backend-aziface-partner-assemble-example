@@ -25,6 +25,7 @@ router = routers.DefaultRouter()
 # Default views
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
+router.register(r'ip-whitelist', views.IPWhitelistViewSet, basename='ip-whitelist')
 
 # API views
 router.register(r'customers', CustomerViewSet, basename='customer')

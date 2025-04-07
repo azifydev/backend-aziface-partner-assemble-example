@@ -3,8 +3,9 @@ from rest_framework import serializers
 from .models import (
     Tenant, APIKey, Customer, Onboarding, Account, Statement, 
     Transaction, Dictionary, Webhook, PixLimit, PixNightLimit, 
-    TedLimit, BookLimit
+    TedLimit, BookLimit, IPWhitelist
 )
+import ipaddress
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,10 +27,29 @@ class TenantSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'created_at', 'updated_at', 'is_active']
 
 
+class IPWhitelistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IPWhitelist
+        fields = ['id', 'api_key', 'ip_address', 'description', 'created_at', 'is_active']
+        read_only_fields = ['created_at']
+    
+    def validate_ip_address(self, value):
+        """
+        Validate that the IP address is in the correct format.
+        """
+        try:
+            ipaddress.ip_address(value)
+        except ValueError:
+            raise serializers.ValidationError("Invalid IP address format")
+        return value
+
+
 class APIKeySerializer(serializers.ModelSerializer):
+    ip_whitelist = IPWhitelistSerializer(many=True, read_only=True)
+    
     class Meta:
         model = APIKey
-        fields = ['id', 'tenant', 'key', 'name', 'created_at', 'last_used', 'is_active']
+        fields = ['id', 'tenant', 'key', 'name', 'created_at', 'last_used', 'is_active', 'ip_whitelist']
         read_only_fields = ['key']
 
 

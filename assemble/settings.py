@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@yeh8p7c=&+y1w8dpx(od$d06$c1=68pd+7!1=0l9h_+%x#=8+'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-for-development')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -78,8 +83,8 @@ WSGI_APPLICATION = 'assemble.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': BASE_DIR / os.getenv('DB_NAME', 'db.sqlite3'),
     }
 }
 
@@ -161,13 +166,21 @@ REST_FRAMEWORK = {
     ],
 }
 
+# API Key IP Whitelist settings
+API_KEY_IP_WHITELIST = {
+    'REVOKE_KEY_ON_IP_MISMATCH': os.getenv('IP_WHITELIST_REVOKE_KEY_ON_MISMATCH', 'False') == 'True',
+    'ALLOW_ALL_IPS_IF_NO_WHITELIST': os.getenv('IP_WHITELIST_ALLOW_ALL_IPS_IF_NO_WHITELIST', 'True') == 'True',
+    'USE_X_FORWARDED_FOR': os.getenv('IP_WHITELIST_USE_X_FORWARDED_FOR', 'True') == 'True',
+    'TRUSTED_PROXIES': os.getenv('IP_WHITELIST_TRUSTED_PROXIES', '').split(',') if os.getenv('IP_WHITELIST_TRUSTED_PROXIES') else [],
+}
+
 # Custom API title
-API_TITLE = 'Assemble API'
-API_DESCRIPTION = 'Banking-as-a-Service API for Brazil'
-API_VERSION = '1.0.0'
-API_TERMS_OF_SERVICE = '#'
-API_CONTACT = 'contact@assemble.com'
-API_LICENSE = 'MIT'
+API_TITLE = os.getenv('API_TITLE', 'Assemble API')
+API_DESCRIPTION = os.getenv('API_DESCRIPTION', 'Banking-as-a-Service API')
+API_VERSION = os.getenv('API_VERSION', '1.0.0')
+API_TERMS_OF_SERVICE = os.getenv('API_TERMS_OF_SERVICE', '#')
+API_CONTACT = os.getenv('API_CONTACT', 'tech@azify.com')
+API_LICENSE = os.getenv('API_LICENSE', 'Commercial')
 
 # Site URL for Swagger
 SITE_URL = 'http://localhost:8000/'
