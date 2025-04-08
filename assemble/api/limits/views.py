@@ -12,12 +12,6 @@ from rest_framework import permissions
 class PixLimitViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing PIX transaction limits.
-    
-    This endpoint allows you to:
-    * Set PIX transaction limits
-    * View current limits
-    * Update limit configurations
-    * Handle limit exceptions
     """
     queryset = PixLimit.objects.all()
     serializer_class = PixLimitSerializer
@@ -41,24 +35,41 @@ class PixLimitViewSet(viewsets.ModelViewSet):
         """
         serializer.save(tenant=self.request.auth.tenant)
     
-    @action(detail=False, methods=['get'])
-    def get_pix_limit(self, request):
+    def list(self, request, *args, **kwargs):
         """
-        Get PIX limits.
+        List all PIX limits for the authenticated tenant.
         """
-        return Response({"message": "Hello world - Get PIX Limit"})
+        return super().list(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve a specific PIX limit by ID.
+        """
+        return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """
+        Create a new PIX limit.
+        """
+        return super().create(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """
+        Update a PIX limit's information.
+        """
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete a PIX limit.
+        """
+        return super().destroy(request, *args, **kwargs)
 
 
 @extend_schema(tags=['limits'])
 class PixNightLimitViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing PIX night transaction limits.
-    
-    This endpoint allows you to:
-    * Set PIX night transaction limits
-    * Configure night time windows
-    * Manage night limit exceptions
-    * View night limit history
     """
     queryset = PixNightLimit.objects.all()
     serializer_class = PixNightLimitSerializer
@@ -82,31 +93,41 @@ class PixNightLimitViewSet(viewsets.ModelViewSet):
         """
         serializer.save(tenant=self.request.auth.tenant)
     
-    @action(detail=False, methods=['get'])
-    def get_pix_night_limit(self, request):
+    def list(self, request, *args, **kwargs):
         """
-        Get PIX night limits.
+        List all PIX night limits for the authenticated tenant.
         """
-        return Response({"message": "Hello world - Get PIX Night Limit"})
+        return super().list(request, *args, **kwargs)
     
-    @action(detail=True, methods=['put'])
-    def update_pix_night_limit(self, request, pk=None):
+    def retrieve(self, request, *args, **kwargs):
         """
-        Update PIX night limits.
+        Retrieve a specific PIX night limit by ID.
         """
-        return Response({"message": "Hello world - Update PIX Night Limit"})
+        return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """
+        Create a new PIX night limit.
+        """
+        return super().create(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """
+        Update a PIX night limit's information.
+        """
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete a PIX night limit.
+        """
+        return super().destroy(request, *args, **kwargs)
 
 
 @extend_schema(tags=['limits'])
 class TedLimitViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing TED transaction limits.
-    
-    This endpoint allows you to:
-    * Set TED transaction limits
-    * Configure TED parameters
-    * Manage TED exceptions
-    * Track TED usage
     """
     queryset = TedLimit.objects.all()
     serializer_class = TedLimitSerializer
@@ -130,24 +151,41 @@ class TedLimitViewSet(viewsets.ModelViewSet):
         """
         serializer.save(tenant=self.request.auth.tenant)
     
-    @action(detail=False, methods=['get'])
-    def get_ted_limit(self, request):
+    def list(self, request, *args, **kwargs):
         """
-        Get TED limits.
+        List all TED limits for the authenticated tenant.
         """
-        return Response({"message": "Hello world - Get TED Limit"})
+        return super().list(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve a specific TED limit by ID.
+        """
+        return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """
+        Create a new TED limit.
+        """
+        return super().create(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """
+        Update a TED limit's information.
+        """
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete a TED limit.
+        """
+        return super().destroy(request, *args, **kwargs)
 
 
 @extend_schema(tags=['limits'])
 class BookLimitViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing book transaction limits.
-    
-    This endpoint allows you to:
-    * Set book transaction limits
-    * Configure book parameters
-    * Manage book exceptions
-    * Track book usage
     """
     queryset = BookLimit.objects.all()
     serializer_class = BookLimitSerializer
@@ -171,9 +209,32 @@ class BookLimitViewSet(viewsets.ModelViewSet):
         """
         serializer.save(tenant=self.request.auth.tenant)
     
-    @action(detail=False, methods=['get'])
-    def get_book_limit(self, request):
+    def list(self, request, *args, **kwargs):
         """
-        Get Book limits.
+        List all book limits for the authenticated tenant.
         """
-        return Response({"message": "Hello world - Get Book Limit"}) 
+        return super().list(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve a specific book limit by ID.
+        """
+        return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        """
+        Create a new book limit.
+        """
+        return super().create(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        """
+        Update a book limit's information.
+        """
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete a book limit.
+        """
+        return super().destroy(request, *args, **kwargs) 

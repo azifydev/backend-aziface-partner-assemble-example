@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status, permissions
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
@@ -11,13 +11,6 @@ from ..authentication import APIKeyAuthentication
 class WebhookViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing webhooks.
-    
-    This endpoint allows you to:
-    * Register webhook endpoints
-    * Configure webhook events
-    * Manage webhook security
-    * Monitor webhook delivery
-    * Handle webhook retries
     """
     queryset = Webhook.objects.all()
     serializer_class = WebhookSerializer
@@ -41,23 +34,32 @@ class WebhookViewSet(viewsets.ModelViewSet):
         """
         serializer.save(tenant=self.request.auth.tenant)
     
-    @action(detail=False, methods=['get'])
-    def list_webhooks(self, request):
+    def list(self, request, *args, **kwargs):
         """
-        List all webhooks.
+        List all webhooks for the authenticated tenant.
         """
-        return Response({"message": "Hello world - List Webhooks"})
+        return super().list(request, *args, **kwargs)
     
-    @action(detail=False, methods=['post'])
-    def create_webhook(self, request):
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve a specific webhook by ID.
+        """
+        return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
         """
         Create a new webhook.
         """
-        return Response({"message": "Hello world - Create Webhook"})
+        return super().create(request, *args, **kwargs)
     
-    @action(detail=True, methods=['delete'])
-    def delete_webhook(self, request, pk=None):
+    def update(self, request, *args, **kwargs):
+        """
+        Update a webhook's information.
+        """
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
         """
         Delete a webhook.
         """
-        return Response({"message": "Hello world - Delete Webhook"}) 
+        return super().destroy(request, *args, **kwargs) 

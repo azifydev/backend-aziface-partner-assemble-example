@@ -1,7 +1,8 @@
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
+from rest_framework.exceptions import MethodNotAllowed
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, OpenApiResponse
 from ..models import Transaction
 from ..serializers import TransactionSerializer
 from ..permissions import HasValidAPIKey, TenantPermission
@@ -11,13 +12,6 @@ from ..authentication import APIKeyAuthentication
 class TransactionViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing transactions.
-    
-    This endpoint allows you to:
-    * Create new transactions
-    * View transaction history
-    * Track transaction status
-    * Handle transaction types (PIX, TED, etc.)
-    * Manage transaction limits
     """
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
@@ -35,37 +29,78 @@ class TransactionViewSet(viewsets.ModelViewSet):
             
         return Transaction.objects.filter(account__customer__tenant=self.request.auth.tenant)
     
-    @action(detail=False, methods=['get'])
-    def lookup(self, request):
+    def list(self, request, *args, **kwargs):
         """
-        Lookup a transaction.
+        List all transactions for the authenticated tenant.
         """
-        return Response({"message": "Hello world - Lookup Transaction"})
+        return super().list(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve a specific transaction by ID.
+        """
+        return super().retrieve(request, *args, **kwargs)
+    
+    @extend_schema(exclude=True)
+    def create(self, request, *args, **kwargs):
+        """
+        Create a new transaction.
+        This endpoint is not available. Please use one of the specific transaction type endpoints:
+        - POST /api/transactions/create_pix/
+        - POST /api/transactions/create_ted/
+        - POST /api/transactions/create_book/
+        - POST /api/transactions/create_tecban/
+        """
+        raise MethodNotAllowed('POST', detail='Please use one of the specific transaction type endpoints')
+    
+    def update(self, request, *args, **kwargs):
+        """
+        Update a transaction's information.
+        """
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete a transaction.
+        """
+        return super().destroy(request, *args, **kwargs)
     
     @action(detail=False, methods=['post'])
     def create_pix(self, request):
         """
-        Create a PIX transaction.
+        Create a new PIX transaction.
         """
-        return Response({"message": "Hello world - Create PIX Transaction"})
+        serializer = self.get_serializer(data={**request.data, 'transaction_type': 'PIX'})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     @action(detail=False, methods=['post'])
     def create_ted(self, request):
         """
-        Create a TED transaction.
+        Create a new TED transaction.
         """
-        return Response({"message": "Hello world - Create TED Transaction"})
+        serializer = self.get_serializer(data={**request.data, 'transaction_type': 'TED'})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     @action(detail=False, methods=['post'])
     def create_book(self, request):
         """
-        Create a Book transaction.
+        Create a new book transaction.
         """
-        return Response({"message": "Hello world - Create Book Transaction"})
+        serializer = self.get_serializer(data={**request.data, 'transaction_type': 'BOOK'})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     @action(detail=False, methods=['post'])
     def create_tecban(self, request):
         """
-        Create a Tecban transaction.
+        Create a new TECBAN transaction.
         """
-        return Response({"message": "Hello world - Create Tecban Transaction"}) 
+        serializer = self.get_serializer(data={**request.data, 'transaction_type': 'TECBAN'})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED) 

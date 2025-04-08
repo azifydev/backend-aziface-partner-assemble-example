@@ -6,17 +6,12 @@ from ..models import Onboarding
 from ..serializers import OnboardingSerializer
 from ..permissions import HasValidAPIKey, TenantPermission
 from ..authentication import APIKeyAuthentication
+from django.utils import timezone
 
 @extend_schema(tags=['onboarding'])
 class OnboardingViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing customer onboarding process.
-    
-    This endpoint allows you to:
-    * Track onboarding status
-    * Update onboarding steps
-    * Manage document verification
-    * Handle KYC process
     """
     queryset = Onboarding.objects.all()
     serializer_class = OnboardingSerializer
@@ -34,44 +29,43 @@ class OnboardingViewSet(viewsets.ModelViewSet):
             
         return Onboarding.objects.filter(customer__tenant=self.request.auth.tenant)
     
-    @action(detail=False, methods=['get'])
-    def list_onboardings(self, request):
+    def list(self, request, *args, **kwargs):
         """
-        List all onboardings.
+        List all onboarding records for the authenticated tenant.
         """
-        return Response({"message": "Hello world - List Onboardings"})
+        return super().list(request, *args, **kwargs)
     
-    @action(detail=True, methods=['get'])
-    def get_onboarding(self, request, pk=None):
+    def retrieve(self, request, *args, **kwargs):
         """
-        Get a specific onboarding.
+        Retrieve a specific onboarding record by ID.
         """
-        return Response({"message": "Hello world - Get Onboarding"})
+        return super().retrieve(request, *args, **kwargs)
     
-    @action(detail=False, methods=['post'])
-    def create_onboarding(self, request):
+    def create(self, request, *args, **kwargs):
         """
-        Create a new onboarding.
+        Create a new onboarding record.
         """
-        return Response({"message": "Hello world - Create Onboarding"})
+        return super().create(request, *args, **kwargs)
     
-    @action(detail=True, methods=['put'])
-    def update_onboarding(self, request, pk=None):
+    def update(self, request, *args, **kwargs):
         """
-        Update an onboarding.
+        Update an onboarding record's information.
         """
-        return Response({"message": "Hello world - Update Onboarding"})
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete an onboarding record.
+        """
+        return super().destroy(request, *args, **kwargs)
     
     @action(detail=True, methods=['post'])
-    def submit_onboarding(self, request, pk=None):
+    def submit(self, request, pk=None):
         """
-        Submit an onboarding.
+        Submit an onboarding record for approval.
         """
-        return Response({"message": "Hello world - Submit Onboarding"})
-    
-    @action(detail=True, methods=['delete'])
-    def delete_onboarding(self, request, pk=None):
-        """
-        Delete an onboarding.
-        """
-        return Response({"message": "Hello world - Delete Onboarding"}) 
+        onboarding = self.get_object()
+        onboarding.status = 'SUBMITTED'
+        onboarding.submitted_at = timezone.now()
+        onboarding.save()
+        return Response({'status': 'submitted'}) 

@@ -11,13 +11,6 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExampl
 class AccountViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing bank accounts.
-    
-    This endpoint allows you to:
-    * Create new bank accounts
-    * View account details
-    * Update account information
-    * Manage account status
-    * Handle account balances
     """
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
@@ -35,37 +28,42 @@ class AccountViewSet(viewsets.ModelViewSet):
             
         return Account.objects.filter(customer__tenant=self.request.auth.tenant)
     
-    @action(detail=False, methods=['get'])
-    def list_accounts(self, request):
+    def list(self, request, *args, **kwargs):
         """
-        List all accounts.
+        List all accounts for the authenticated tenant.
         """
-        return Response({"message": "Hello world - List Accounts"})
+        return super().list(request, *args, **kwargs)
     
-    @action(detail=True, methods=['get'])
-    def get_account(self, request, pk=None):
+    def retrieve(self, request, *args, **kwargs):
         """
-        Get a specific account.
+        Retrieve a specific account by ID.
         """
-        return Response({"message": "Hello world - Get Account"})
+        return super().retrieve(request, *args, **kwargs)
     
-    @action(detail=False, methods=['post'])
-    def create_account(self, request):
+    def create(self, request, *args, **kwargs):
         """
-        Create a new account.
+        Create a new account for a customer.
         """
-        return Response({"message": "Hello world - Create Account"})
+        return super().create(request, *args, **kwargs)
     
-    @action(detail=True, methods=['delete'])
-    def delete_account(self, request, pk=None):
+    def update(self, request, *args, **kwargs):
+        """
+        Update an account's information.
+        """
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
         """
         Delete an account.
         """
-        return Response({"message": "Hello world - Delete Account"})
+        return super().destroy(request, *args, **kwargs)
     
     @action(detail=True, methods=['get'])
     def statement(self, request, pk=None):
         """
         Get account statement with pagination and filters.
         """
-        return Response({"message": "Hello world - Account Statement"}) 
+        account = self.get_object()
+        statements = Statement.objects.filter(account=account)
+        serializer = StatementSerializer(statements, many=True)
+        return Response(serializer.data) 

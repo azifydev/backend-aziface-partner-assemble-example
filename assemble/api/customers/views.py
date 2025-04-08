@@ -11,13 +11,6 @@ from ..authentication import APIKeyAuthentication
 class CustomerViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing customers.
-    
-    This endpoint allows you to:
-    * List all customers
-    * Create new customers
-    * Retrieve specific customer details
-    * Update customer information
-    * Delete customers
     """
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
@@ -41,37 +34,32 @@ class CustomerViewSet(viewsets.ModelViewSet):
         """
         serializer.save(tenant=self.request.auth.tenant)
     
-    @action(detail=False, methods=['get'])
-    def list_customers(self, request):
+    def list(self, request, *args, **kwargs):
         """
-        List all customers.
+        List all customers for the authenticated tenant.
         """
-        return Response({"message": "Hello world - List Customers"})
+        return super().list(request, *args, **kwargs)
     
-    @action(detail=True, methods=['get'])
-    def get_customer(self, request, pk=None):
+    def retrieve(self, request, *args, **kwargs):
         """
-        Get a specific customer.
+        Retrieve a specific customer by ID.
         """
-        return Response({"message": "Hello world - Get Customer"})
+        return super().retrieve(request, *args, **kwargs)
     
-    @action(detail=False, methods=['post'])
-    def create_customer(self, request):
+    def create(self, request, *args, **kwargs):
         """
-        Create a new customer.
+        Create a new customer for the authenticated tenant.
         """
-        return Response({"message": "Hello world - Create Customer"})
+        return super().create(request, *args, **kwargs)
     
-    @action(detail=True, methods=['put'])
-    def update_customer(self, request, pk=None):
+    def update(self, request, *args, **kwargs):
         """
-        Update a customer.
+        Update a customer's information.
         """
-        return Response({"message": "Hello world - Update Customer"})
+        return super().update(request, *args, **kwargs)
     
-    @action(detail=True, methods=['delete'])
-    def delete_customer(self, request, pk=None):
+    def destroy(self, request, *args, **kwargs):
         """
         Delete a customer.
         """
-        return Response({"message": "Hello world - Delete Customer"}) 
+        return super().destroy(request, *args, **kwargs) 
