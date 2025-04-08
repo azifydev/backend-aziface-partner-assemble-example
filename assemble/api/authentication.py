@@ -2,21 +2,41 @@ from rest_framework import authentication
 from rest_framework import exceptions
 from django.utils import timezone
 from django.conf import settings
-from .models import APIKey, IPWhitelist
+from .models import APIKey, IPWhitelist, Tenant
 import ipaddress
 
 class APIKeyAuthentication(authentication.BaseAuthentication):
     """
-    Custom authentication class for API keys.
+    Authentication class for API key-based authentication.
     """
     def authenticate(self, request):
-        api_key = request.META.get('HTTP_AUTHORIZATION')
+        # Try X-API-Key header first
+        api_key = request.headers.get('X-API-Key')
+        
+        # If not found, try Authorization header
+        if not api_key:
+            auth_header = request.headers.get('Authorization')
+            if auth_header:
+                # Remove 'Bearer ' prefix if present
+                api_key = auth_header.replace('Bearer ', '').strip()
         
         if not api_key:
             return None
-        
+            
         try:
-            api_key_obj = APIKey.objects.get(key=api_key, is_active=True)
+            api_key_obj = APIKey.objects.select_related('tenant').get(key=api_key, is_active=True)
+            
+            # Update last used timestamp
+            api_key_obj.last_used = timezone.now()
+            api_key_obj.save(update_fields=['last_used'])
+            
+            # Check if tenant is active
+            if not api_key_obj.tenant.is_active:
+                raise exceptions.AuthenticationFailed('Tenant is inactive')
+                
+            # Set the tenant on the request for later use
+            request.auth = api_key_obj
+            request.tenant = api_key_obj.tenant
             
             # Check if the IP is in the whitelist
             client_ip = self._get_client_ip(request)
@@ -37,17 +57,15 @@ class APIKeyAuthentication(authentication.BaseAuthentication):
                 else:
                     raise exceptions.AuthenticationFailed('IP address not allowed for this API key')
             
-            # Update last used timestamp
-            api_key_obj.last_used = timezone.now()
-            api_key_obj.save()
+            return (api_key_obj.tenant, api_key_obj)
             
-            # Return a tuple of (user, auth) where user is None since we're using API keys
-            return (None, api_key_obj)
         except APIKey.DoesNotExist:
             raise exceptions.AuthenticationFailed('Invalid API key')
-    
+        except Exception as e:
+            raise exceptions.AuthenticationFailed(str(e))
+            
     def authenticate_header(self, request):
-        return 'Authorization'
+        return 'Bearer'
     
     def _get_client_ip(self, request):
         """

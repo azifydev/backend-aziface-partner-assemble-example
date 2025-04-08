@@ -45,6 +45,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'assemble.api',
+    'assemble.api.customers',
+    'assemble.api.onboarding',
+    'assemble.api.accounts',
+    'assemble.api.transactions',
+    'assemble.api.dict',
+    'assemble.api.webhooks',
+    'assemble.api.limits',
 ]
 
 MIDDLEWARE = [

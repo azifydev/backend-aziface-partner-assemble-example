@@ -1,107 +1,145 @@
 from django.contrib import admin
 from .models import (
-    Tenant, APIKey, Customer, Onboarding, Account, Statement,
-    Transaction, Dictionary, Webhook, PixLimit, PixNightLimit,
-    TedLimit, BookLimit, IPWhitelist
+    Tenant, APIKey, IPWhitelist, Customer, Account, Transaction,
+    Onboarding, PixLimit, Webhook, WebhookEvent, Statement,
+    PixNightLimit, TedLimit, BookLimit
 )
+
+class APIKeyInline(admin.TabularInline):
+    model = APIKey
+    extra = 1
+    readonly_fields = ('key', 'created_at')
 
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created_at', 'updated_at', 'is_active')
+    list_display = ('name', 'is_active', 'created_at')
     list_filter = ('is_active',)
     search_fields = ('name',)
-
+    readonly_fields = ('created_at', 'updated_at')
+    inlines = [APIKeyInline]
 
 @admin.register(APIKey)
 class APIKeyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'tenant', 'key', 'created_at', 'last_used', 'is_active')
-    list_filter = ('tenant', 'is_active')
-    search_fields = ('name', 'tenant__name')
-    readonly_fields = ('key',)
-
-
-@admin.register(Customer)
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'tenant', 'document', 'document_type', 'email', 'created_at')
-    list_filter = ('tenant', 'document_type')
-    search_fields = ('name', 'document', 'email', 'tenant__name')
-
-
-@admin.register(Onboarding)
-class OnboardingAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'status', 'created_at', 'updated_at', 'submitted_at')
-    list_filter = ('status', 'customer__tenant')
-    search_fields = ('customer__name', 'customer__document')
-
-
-@admin.register(Account)
-class AccountAdmin(admin.ModelAdmin):
-    list_display = ('account_number', 'branch', 'customer', 'status', 'balance', 'created_at')
-    list_filter = ('status', 'customer__tenant')
-    search_fields = ('account_number', 'customer__name', 'customer__document')
-
-
-@admin.register(Statement)
-class StatementAdmin(admin.ModelAdmin):
-    list_display = ('account', 'date', 'description', 'amount', 'balance', 'transaction_type')
-    list_filter = ('date', 'transaction_type', 'account__customer__tenant')
-    search_fields = ('account__account_number', 'description')
-    date_hierarchy = 'date'
-
-
-@admin.register(Transaction)
-class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('transaction_id', 'account', 'transaction_type', 'amount', 'status', 'created_at')
-    list_filter = ('transaction_type', 'status', 'account__customer__tenant')
-    search_fields = ('transaction_id', 'account__account_number')
-    readonly_fields = ('transaction_id',)
-
-
-@admin.register(Dictionary)
-class DictionaryAdmin(admin.ModelAdmin):
-    list_display = ('key', 'tenant', 'created_at', 'updated_at')
-    list_filter = ('tenant',)
-    search_fields = ('key', 'tenant__name')
-
-
-@admin.register(Webhook)
-class WebhookAdmin(admin.ModelAdmin):
-    list_display = ('url', 'tenant', 'is_active', 'created_at')
-    list_filter = ('tenant', 'is_active')
-    search_fields = ('url', 'tenant__name')
-
-
-@admin.register(PixLimit)
-class PixLimitAdmin(admin.ModelAdmin):
-    list_display = ('tenant', 'daily_limit', 'transaction_limit', 'created_at')
-    list_filter = ('tenant',)
-    search_fields = ('tenant__name',)
-
-
-@admin.register(PixNightLimit)
-class PixNightLimitAdmin(admin.ModelAdmin):
-    list_display = ('tenant', 'daily_limit', 'transaction_limit', 'created_at')
-    list_filter = ('tenant',)
-    search_fields = ('tenant__name',)
-
-
-@admin.register(TedLimit)
-class TedLimitAdmin(admin.ModelAdmin):
-    list_display = ('tenant', 'daily_limit', 'transaction_limit', 'created_at')
-    list_filter = ('tenant',)
-    search_fields = ('tenant__name',)
-
-
-@admin.register(BookLimit)
-class BookLimitAdmin(admin.ModelAdmin):
-    list_display = ('tenant', 'daily_limit', 'transaction_limit', 'created_at')
-    list_filter = ('tenant',)
-    search_fields = ('tenant__name',)
-
+    list_display = ('name', 'tenant', 'key', 'is_active', 'created_at')
+    list_filter = ('is_active', 'tenant')
+    search_fields = ('name', 'key', 'tenant__name')
+    readonly_fields = ('key', 'created_at')
 
 @admin.register(IPWhitelist)
 class IPWhitelistAdmin(admin.ModelAdmin):
-    list_display = ('ip_address', 'api_key', 'description', 'created_at', 'is_active')
-    list_filter = ('api_key', 'is_active')
-    search_fields = ('ip_address', 'api_key__name', 'description')
-    list_select_related = ('api_key',)
+    list_display = ('ip_address', 'tenant', 'description', 'is_active', 'created_at')
+    list_filter = ('is_active', 'tenant')
+    search_fields = ('ip_address', 'description', 'tenant__name')
+    readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'tenant', 'document', 'email', 'phone', 'is_active', 'created_at')
+    list_filter = ('is_active', 'tenant')
+    search_fields = ('name', 'document', 'email', 'phone', 'tenant__name')
+    readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(Account)
+class AccountAdmin(admin.ModelAdmin):
+    list_display = ('account_number', 'customer', 'customer_tenant', 'account_type', 'balance', 'is_active', 'created_at')
+    list_filter = ('is_active', 'account_type', 'customer__tenant')
+    search_fields = ('account_number', 'customer__name', 'customer__tenant__name')
+    readonly_fields = ('balance', 'created_at', 'updated_at')
+
+    def customer_tenant(self, obj):
+        return obj.customer.tenant
+    customer_tenant.short_description = 'Tenant'
+    customer_tenant.admin_order_field = 'customer__tenant'
+
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'account', 'account_tenant', 'transaction_type', 'amount', 'status', 'created_at')
+    list_filter = ('transaction_type', 'status', 'account__customer__tenant')
+    search_fields = ('id', 'account__account_number', 'idempotency_key', 'account__customer__tenant__name')
+    readonly_fields = ('id', 'status', 'created_at', 'updated_at')
+
+    def account_tenant(self, obj):
+        return obj.account.customer.tenant
+    account_tenant.short_description = 'Tenant'
+    account_tenant.admin_order_field = 'account__customer__tenant'
+
+@admin.register(Onboarding)
+class OnboardingAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'status', 'submitted_at', 'approved_at', 'rejected_at', 'created_at')
+    list_filter = ('status', 'customer__tenant')
+    search_fields = ('customer__name', 'customer__document')
+    readonly_fields = ('status', 'submitted_at', 'approved_at', 'rejected_at', 'created_at', 'updated_at')
+
+@admin.register(PixLimit)
+class PixLimitAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'customer_tenant', 'daily_limit', 'monthly_limit', 'is_active', 'created_at')
+    list_filter = ('is_active', 'customer__tenant')
+    search_fields = ('customer__name', 'customer__document', 'customer__tenant__name')
+    readonly_fields = ('created_at', 'updated_at')
+
+    def customer_tenant(self, obj):
+        return obj.customer.tenant
+    customer_tenant.short_description = 'Tenant'
+    customer_tenant.admin_order_field = 'customer__tenant'
+
+@admin.register(PixNightLimit)
+class PixNightLimitAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'customer_tenant', 'daily_limit', 'monthly_limit', 'is_active', 'created_at')
+    list_filter = ('is_active', 'customer__tenant')
+    search_fields = ('customer__name', 'customer__document', 'customer__tenant__name')
+    readonly_fields = ('created_at', 'updated_at')
+
+    def customer_tenant(self, obj):
+        return obj.customer.tenant
+    customer_tenant.short_description = 'Tenant'
+    customer_tenant.admin_order_field = 'customer__tenant'
+
+@admin.register(TedLimit)
+class TedLimitAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'customer_tenant', 'daily_limit', 'monthly_limit', 'is_active', 'created_at')
+    list_filter = ('is_active', 'customer__tenant')
+    search_fields = ('customer__name', 'customer__document', 'customer__tenant__name')
+    readonly_fields = ('created_at', 'updated_at')
+
+    def customer_tenant(self, obj):
+        return obj.customer.tenant
+    customer_tenant.short_description = 'Tenant'
+    customer_tenant.admin_order_field = 'customer__tenant'
+
+@admin.register(BookLimit)
+class BookLimitAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'customer_tenant', 'daily_limit', 'monthly_limit', 'is_active', 'created_at')
+    list_filter = ('is_active', 'customer__tenant')
+    search_fields = ('customer__name', 'customer__document', 'customer__tenant__name')
+    readonly_fields = ('created_at', 'updated_at')
+
+    def customer_tenant(self, obj):
+        return obj.customer.tenant
+    customer_tenant.short_description = 'Tenant'
+    customer_tenant.admin_order_field = 'customer__tenant'
+
+@admin.register(Webhook)
+class WebhookAdmin(admin.ModelAdmin):
+    list_display = ('url', 'tenant', 'event_type', 'is_active', 'created_at')
+    list_filter = ('is_active', 'event_type', 'tenant')
+    search_fields = ('url', 'event_type', 'tenant__name')
+    readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(WebhookEvent)
+class WebhookEventAdmin(admin.ModelAdmin):
+    list_display = ('webhook', 'status', 'response_code', 'created_at')
+    list_filter = ('status', 'response_code', 'webhook__tenant')
+    search_fields = ('webhook__url', 'payload')
+    readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(Statement)
+class StatementAdmin(admin.ModelAdmin):
+    list_display = ('account', 'account_tenant', 'date', 'description', 'amount', 'balance', 'transaction_type', 'created_at')
+    list_filter = ('transaction_type', 'account__customer__tenant')
+    search_fields = ('account__account_number', 'description', 'account__customer__tenant__name')
+    readonly_fields = ('created_at',)
+
+    def account_tenant(self, obj):
+        return obj.account.customer.tenant
+    account_tenant.short_description = 'Tenant'
+    account_tenant.admin_order_field = 'account__customer__tenant'

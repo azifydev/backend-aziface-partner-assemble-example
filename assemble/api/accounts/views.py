@@ -26,7 +26,7 @@ class AccountViewSet(viewsets.ModelViewSet):
         if getattr(self, 'swagger_fake_view', False):
             return Account.objects.none()
             
-        return Account.objects.filter(customer__tenant=self.request.auth.tenant)
+        return Account.objects.filter(tenant=self.request.auth.tenant)
     
     def list(self, request, *args, **kwargs):
         """
@@ -66,4 +66,10 @@ class AccountViewSet(viewsets.ModelViewSet):
         account = self.get_object()
         statements = Statement.objects.filter(account=account)
         serializer = StatementSerializer(statements, many=True)
-        return Response(serializer.data) 
+        return Response(serializer.data)
+    
+    def perform_create(self, serializer):
+        """
+        Set the tenant when creating an account.
+        """
+        serializer.save(tenant=self.request.auth.tenant) 
