@@ -1,12 +1,14 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from ..models import PixLimit, PixNightLimit, TedLimit, BookLimit
 from ..serializers import PixLimitSerializer, PixNightLimitSerializer, TedLimitSerializer, BookLimitSerializer
 from ..permissions import HasValidAPIKey, TenantPermission
 from ..authentication import APIKeyAuthentication
 from rest_framework import permissions
 
+@extend_schema(tags=['limits'])
 class PixLimitViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing PIX transaction limits.
@@ -47,6 +49,7 @@ class PixLimitViewSet(viewsets.ModelViewSet):
         return Response({"message": "Hello world - Get PIX Limit"})
 
 
+@extend_schema(tags=['limits'])
 class PixNightLimitViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing PIX night transaction limits.
@@ -94,6 +97,7 @@ class PixNightLimitViewSet(viewsets.ModelViewSet):
         return Response({"message": "Hello world - Update PIX Night Limit"})
 
 
+@extend_schema(tags=['limits'])
 class TedLimitViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing TED transaction limits.
@@ -134,6 +138,7 @@ class TedLimitViewSet(viewsets.ModelViewSet):
         return Response({"message": "Hello world - Get TED Limit"})
 
 
+@extend_schema(tags=['limits'])
 class BookLimitViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing book transaction limits.

@@ -5,7 +5,9 @@ from ..models import Account, Statement
 from ..serializers import AccountSerializer, StatementSerializer
 from ..permissions import HasValidAPIKey, TenantPermission
 from ..authentication import APIKeyAuthentication
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 
+@extend_schema(tags=['accounts'])
 class AccountViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing bank accounts.

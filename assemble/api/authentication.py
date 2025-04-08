@@ -10,7 +10,7 @@ class APIKeyAuthentication(authentication.BaseAuthentication):
     Custom authentication class for API keys.
     """
     def authenticate(self, request):
-        api_key = request.META.get('HTTP_X_API_KEY')
+        api_key = request.META.get('HTTP_AUTHORIZATION')
         
         if not api_key:
             return None
@@ -47,7 +47,7 @@ class APIKeyAuthentication(authentication.BaseAuthentication):
             raise exceptions.AuthenticationFailed('Invalid API key')
     
     def authenticate_header(self, request):
-        return 'ApiKey'
+        return 'Authorization'
     
     def _get_client_ip(self, request):
         """

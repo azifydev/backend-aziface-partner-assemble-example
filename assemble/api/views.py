@@ -5,120 +5,72 @@ from rest_framework.response import Response
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
 from rest_framework.decorators import action
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
+from django.urls import reverse
 
 from assemble.api.serializers import GroupSerializer, UserSerializer, IPWhitelistSerializer
 from assemble.api.models import IPWhitelist, APIKey
 from assemble.api.authentication import APIKeyAuthentication
 from assemble.api.permissions import HasValidAPIKey, TenantPermission
 
+@extend_schema(tags=['users'])
 class UserViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint for managing users.
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    swagger_tags = ['Authentication']
+    authentication_classes = [APIKeyAuthentication]
+    permission_classes = [HasValidAPIKey, TenantPermission]
 
-
+@extend_schema(tags=['groups'])
 class GroupViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint for managing groups.
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    swagger_tags = ['Authentication']
+    authentication_classes = [APIKeyAuthentication]
+    permission_classes = [HasValidAPIKey, TenantPermission]
 
-
-class APIRootView(APIView):
-    """
-    API root view that provides an overview of all available endpoints.
-    """
-    permission_classes = [permissions.IsAuthenticated]
-    swagger_tags = ['Overview']
-    
-    def get(self, request, format=None):
-        return Response({
-            'customers': {
-                'list': '/api/customers/',
-                'detail': '/api/customers/{id}/',
-                'description': 'Customer management endpoints'
-            },
-            'onboarding': {
-                'list': '/api/onboarding/',
-                'detail': '/api/onboarding/{id}/',
-                'description': 'Customer onboarding process endpoints'
-            },
-            'accounts': {
-                'list': '/api/accounts/',
-                'detail': '/api/accounts/{id}/',
-                'description': 'Bank account management endpoints'
-            },
-            'transactions': {
-                'list': '/api/transactions/',
-                'detail': '/api/transactions/{id}/',
-                'description': 'Transaction management endpoints'
-            },
-            'dictionary': {
-                'list': '/api/dict/',
-                'detail': '/api/dict/{id}/',
-                'description': 'Dictionary management endpoints'
-            },
-            'webhooks': {
-                'list': '/api/webhooks/',
-                'detail': '/api/webhooks/{id}/',
-                'description': 'Webhook management endpoints'
-            },
-            'limits': {
-                'pix': {
-                    'list': '/api/limits/pix/',
-                    'detail': '/api/limits/pix/{id}/',
-                    'description': 'PIX transaction limits'
-                },
-                'pix-night': {
-                    'list': '/api/limits/pix-night/',
-                    'detail': '/api/limits/pix-night/{id}/',
-                    'description': 'PIX night transaction limits'
-                },
-                'ted': {
-                    'list': '/api/limits/ted/',
-                    'detail': '/api/limits/ted/{id}/',
-                    'description': 'TED transaction limits'
-                },
-                'book': {
-                    'list': '/api/limits/book/',
-                    'detail': '/api/limits/book/{id}/',
-                    'description': 'Book transaction limits'
-                }
-            },
-            'users': {
-                'list': '/api/users/',
-                'detail': '/api/users/{id}/',
-                'description': 'User management endpoints'
-            },
-            'groups': {
-                'list': '/api/groups/',
-                'detail': '/api/groups/{id}/',
-                'description': 'Group management endpoints'
-            }
-        })
-
+@extend_schema(tags=['security'])
 class IPWhitelistViewSet(viewsets.ModelViewSet):
     """
-    API endpoint for managing IP whitelists for API keys.
-    
-    This endpoint allows you to:
-    * Add IP addresses to the whitelist
-    * Remove IP addresses from the whitelist
-    * View all whitelisted IPs for an API key
+    API endpoint for managing IP whitelist.
     """
     queryset = IPWhitelist.objects.all()
     serializer_class = IPWhitelistSerializer
     authentication_classes = [APIKeyAuthentication]
     permission_classes = [HasValidAPIKey, TenantPermission]
-    swagger_tags = ['Authentication']
+
+@extend_schema(tags=['api'])
+class APIRootView(APIView):
+    """
+    API root view.
+    """
+    authentication_classes = [APIKeyAuthentication]
+    permission_classes = [HasValidAPIKey]
     
+    def get(self, request, format=None):
+        """
+        Return a list of available API endpoints.
+        """
+        return Response({
+            'users': reverse('user-list', request=request, format=format),
+            'groups': reverse('group-list', request=request, format=format),
+            'ip-whitelist': reverse('ip-whitelist-list', request=request, format=format),
+            'customers': reverse('customer-list', request=request, format=format),
+            'onboarding': reverse('onboarding-list', request=request, format=format),
+            'accounts': reverse('account-list', request=request, format=format),
+            'transactions': reverse('transaction-list', request=request, format=format),
+            'dict': reverse('dict-list', request=request, format=format),
+            'webhooks': reverse('webhook-list', request=request, format=format),
+            'limits/pix': reverse('pix-limit-list', request=request, format=format),
+            'limits/pix-night': reverse('pix-night-limit-list', request=request, format=format),
+            'limits/ted': reverse('ted-limit-list', request=request, format=format),
+            'limits/book': reverse('book-limit-list', request=request, format=format),
+        })
+
     def get_queryset(self):
         """
         Filter IP whitelist entries by tenant.

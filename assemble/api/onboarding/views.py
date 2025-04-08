@@ -1,12 +1,13 @@
-from rest_framework import viewsets, status, permissions
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from ..models import Onboarding
 from ..serializers import OnboardingSerializer
 from ..permissions import HasValidAPIKey, TenantPermission
 from ..authentication import APIKeyAuthentication
 
+@extend_schema(tags=['onboarding'])
 class OnboardingViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing customer onboarding process.

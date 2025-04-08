@@ -1,8 +1,7 @@
 from django.urls import include, path
 from django.contrib import admin
 from rest_framework import routers, permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
+from drf_spectacular.views import SpectacularSwaggerView, SpectacularRedocView
 from django.conf import settings
 
 from assemble.api import views
@@ -15,6 +14,8 @@ from assemble.api.webhooks.views import WebhookViewSet
 from assemble.api.limits.views import (
     PixLimitViewSet, PixNightLimitViewSet, TedLimitViewSet, BookLimitViewSet
 )
+from assemble.api.authentication import APIKeyAuthentication
+from assemble.api.schema_view import CustomSchemaView
 
 # Change admin site title
 admin.site.site_header = 'Assemble Management'
@@ -39,24 +40,6 @@ router.register(r'limits/pix-night', PixNightLimitViewSet, basename='pix-night-l
 router.register(r'limits/ted', TedLimitViewSet, basename='ted-limit')
 router.register(r'limits/book', BookLimitViewSet, basename='book-limit')
 
-# Swagger schema view
-schema_view = get_schema_view(
-    openapi.Info(
-        title=settings.API_TITLE,
-        default_version=settings.API_VERSION,
-        description=settings.API_DESCRIPTION,
-        terms_of_service=settings.API_TERMS_OF_SERVICE,
-        contact=openapi.Contact(email=settings.API_CONTACT),
-        license=openapi.License(name=settings.API_LICENSE),
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-    url=settings.SITE_URL if hasattr(settings, 'SITE_URL') else None,
-    patterns=[
-        path('api/', include(router.urls)),
-    ],
-)
-
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
@@ -65,8 +48,8 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     
-    # Swagger documentation URLs
-    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # OpenAPI 3 documentation with Spectacular
+    path('api/schema/', CustomSchemaView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]

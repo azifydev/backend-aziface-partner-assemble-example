@@ -43,16 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'django_filters',
-    'drf_yasg',
-    'assemble.api.apps.ApiConfig',
+    'drf_spectacular',
+    'assemble.api',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'assemble.api.middlewares.CustomCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -63,7 +62,7 @@ ROOT_URLCONF = 'assemble.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'assemble' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,38 +131,26 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # REST Framework settings
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
         'assemble.api.authentication.APIKeyAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
         'assemble.api.permissions.HasValidAPIKey',
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
     'DEFAULT_VERSION': 'v1',
     'ALLOWED_VERSIONS': ['v1'],
-    'VERSION_PARAM': 'version',
-    'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser',
-    ],
-    'DEFAULT_THROTTLE_CLASSES': [],
-    'DEFAULT_THROTTLE_RATES': {},
     'DEFAULT_FILTER_BACKENDS': [
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
+        'django_filters.rest_framework.DjangoFilterBackend',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 # API Key IP Whitelist settings
@@ -183,41 +170,19 @@ API_CONTACT = os.getenv('API_CONTACT', 'tech@azify.com')
 API_LICENSE = os.getenv('API_LICENSE', 'Commercial')
 
 # Site URL for Swagger
-SITE_URL = 'http://localhost:8000/'
-FORCE_SCRIPT_NAME = None
+SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000')
+FORCE_SCRIPT_NAME = os.getenv('FORCE_SCRIPT_NAME', '')
 
-# Swagger settings
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'Basic': {
-            'type': 'basic'
-        },
-        'ApiKey': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        }
+# drf-spectacular settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Assemble API',
+    'DESCRIPTION': 'API for managing Assemble platform',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SECURITY': [{'ApiKey': ['read', 'write']}],
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
     },
-    'USE_SESSION_AUTH': True,
-    'JSON_EDITOR': True,
-    'SUPPORTED_SUBMIT_METHODS': [
-        'get',
-        'post',
-        'put',
-        'delete',
-        'patch'
-    ],
-    'TAGS_SORTER': 'alpha',
-    'OPERATIONS_SORTER': 'alpha',
-    'TAG_DESCRIPTIONS': {
-        'Overview': 'API overview and documentation',
-        'Authentication': 'User and group management endpoints',
-        'Customers': 'Customer management endpoints',
-        'Onboarding': 'Customer onboarding process endpoints',
-        'Accounts': 'Bank account management endpoints',
-        'Transactions': 'Transaction management endpoints',
-        'Dictionary': 'Dictionary management endpoints',
-        'Webhooks': 'Webhook management endpoints',
-        'Limits': 'Transaction limits management endpoints'
-    }
 }

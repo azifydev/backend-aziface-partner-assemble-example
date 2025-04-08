@@ -1,11 +1,13 @@
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from ..models import Transaction
 from ..serializers import TransactionSerializer
 from ..permissions import HasValidAPIKey, TenantPermission
 from ..authentication import APIKeyAuthentication
 
+@extend_schema(tags=['transactions'])
 class TransactionViewSet(viewsets.ModelViewSet):
     """
     API endpoint for managing transactions.
