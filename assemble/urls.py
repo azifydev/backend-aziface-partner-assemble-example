@@ -1,10 +1,10 @@
-from django.urls import include, path
 from django.contrib import admin
-from rest_framework import routers, permissions
-from drf_spectacular.views import SpectacularSwaggerView, SpectacularRedocView
+from django.urls import path, include
 from django.conf import settings
-
-from assemble.api import views
+from django.conf.urls.static import static
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+from assemble.api.schema_view import CustomSchemaView
+from assemble.api.views import IPWhitelistViewSet
 from assemble.api.customers.views import CustomerViewSet
 from assemble.api.onboarding.views import OnboardingViewSet
 from assemble.api.accounts.views import AccountViewSet
@@ -14,21 +14,16 @@ from assemble.api.webhooks.views import WebhookViewSet
 from assemble.api.limits.views import (
     PixLimitViewSet, PixNightLimitViewSet, TedLimitViewSet, BookLimitViewSet
 )
-from assemble.api.authentication import APIKeyAuthentication
-from assemble.api.schema_view import CustomSchemaView
+from rest_framework.routers import DefaultRouter
 
 # Change admin site title
 admin.site.site_header = 'Assemble Management'
 admin.site.site_title = 'Assemble Management'
 admin.site.index_title = 'Welcome to Assemble Management'
 
-router = routers.DefaultRouter()
-# Default views
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
-router.register(r'ip-whitelist', views.IPWhitelistViewSet, basename='ip-whitelist')
-
-# API views
+# Create a router and register our viewsets with it
+router = DefaultRouter()
+router.register(r'ip-whitelist', IPWhitelistViewSet, basename='ip-whitelist')
 router.register(r'customers', CustomerViewSet, basename='customer')
 router.register(r'onboarding', OnboardingViewSet, basename='onboarding')
 router.register(r'accounts', AccountViewSet, basename='account')
@@ -40,16 +35,16 @@ router.register(r'limits/pix-night', PixNightLimitViewSet, basename='pix-night-l
 router.register(r'limits/ted', TedLimitViewSet, basename='ted-limit')
 router.register(r'limits/book', BookLimitViewSet, basename='book-limit')
 
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
+# The API URLs are now determined automatically by the router
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.APIRootView.as_view(), name='api-root'),
     path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    
-    # OpenAPI 3 documentation with Spectacular
     path('api/schema/', CustomSchemaView.as_view(), name='schema'),
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
+
+# Add static and media URLs in development
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

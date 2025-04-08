@@ -6,32 +6,11 @@ from django.conf import settings
 from rest_framework.exceptions import ValidationError
 from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
-from django.urls import reverse
 
-from assemble.api.serializers import GroupSerializer, UserSerializer, IPWhitelistSerializer
+from assemble.api.serializers import IPWhitelistSerializer
 from assemble.api.models import IPWhitelist, APIKey
 from assemble.api.authentication import APIKeyAuthentication
 from assemble.api.permissions import HasValidAPIKey, TenantPermission
-
-@extend_schema(tags=['users'])
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint for managing users.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    authentication_classes = [APIKeyAuthentication]
-    permission_classes = [HasValidAPIKey, TenantPermission]
-
-@extend_schema(tags=['groups'])
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint for managing groups.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    authentication_classes = [APIKeyAuthentication]
-    permission_classes = [HasValidAPIKey, TenantPermission]
 
 @extend_schema(tags=['security'])
 class IPWhitelistViewSet(viewsets.ModelViewSet):
@@ -42,34 +21,6 @@ class IPWhitelistViewSet(viewsets.ModelViewSet):
     serializer_class = IPWhitelistSerializer
     authentication_classes = [APIKeyAuthentication]
     permission_classes = [HasValidAPIKey, TenantPermission]
-
-@extend_schema(tags=['api'])
-class APIRootView(APIView):
-    """
-    API root view.
-    """
-    authentication_classes = [APIKeyAuthentication]
-    permission_classes = [HasValidAPIKey]
-    
-    def get(self, request, format=None):
-        """
-        Return a list of available API endpoints.
-        """
-        return Response({
-            'users': reverse('user-list', request=request, format=format),
-            'groups': reverse('group-list', request=request, format=format),
-            'ip-whitelist': reverse('ip-whitelist-list', request=request, format=format),
-            'customers': reverse('customer-list', request=request, format=format),
-            'onboarding': reverse('onboarding-list', request=request, format=format),
-            'accounts': reverse('account-list', request=request, format=format),
-            'transactions': reverse('transaction-list', request=request, format=format),
-            'dict': reverse('dict-list', request=request, format=format),
-            'webhooks': reverse('webhook-list', request=request, format=format),
-            'limits/pix': reverse('pix-limit-list', request=request, format=format),
-            'limits/pix-night': reverse('pix-night-limit-list', request=request, format=format),
-            'limits/ted': reverse('ted-limit-list', request=request, format=format),
-            'limits/book': reverse('book-limit-list', request=request, format=format),
-        })
 
     def get_queryset(self):
         """

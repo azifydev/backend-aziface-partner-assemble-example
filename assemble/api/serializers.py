@@ -8,18 +8,6 @@ from .models import (
 import ipaddress
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'groups']
-
-
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ['url', 'name']
-
-
 # Tenant and APIKey Serializers
 class TenantSerializer(serializers.ModelSerializer):
     class Meta:

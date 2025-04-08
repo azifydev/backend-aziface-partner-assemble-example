@@ -10,8 +10,8 @@ class APIKeyScheme(OpenApiAuthenticationExtension):
         return {
             'type': 'apiKey',
             'in': 'header',
-            'name': 'X-API-Key',
-            'description': 'API key authentication. Add your API key with header "X-API-Key: your-api-key"'
+            'name': 'Authorization',
+            'description': 'API key authentication. Add your API key with header "Authorization: your-api-key"'
         }
 
 # Register the authentication scheme using the class method
