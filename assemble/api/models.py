@@ -124,8 +124,7 @@ class Account(BaseModel):
         ('CHECKING', 'Checking'),
         ('SAVINGS', 'Savings'),
     ])
-    balance = models.DecimalField(max_digits=15, decimal_places=2, default=0)
-    is_active = models.BooleanField(default=True)
+    branch = models.CharField(max_length=4, default='0000')
     
     def __str__(self):
         return f"{self.account_number} - {self.customer.name}"
@@ -133,6 +132,8 @@ class Account(BaseModel):
     def save(self, *args, **kwargs):
         if self.customer and not self.tenant:
             self.tenant = self.customer.tenant
+        if not self.branch:
+            self.branch = self.tenant.branch if hasattr(self.tenant, 'branch') else '0000'
         super().save(*args, **kwargs)
 
 class Statement(BaseModel):

@@ -60,10 +60,32 @@ class OnboardingSerializer(serializers.ModelSerializer):
 
 # Account Serializers
 class AccountSerializer(serializers.ModelSerializer):
+    customer_id = serializers.PrimaryKeyRelatedField(source='customer', read_only=True)
+    customer = CustomerSerializer(read_only=True, required=False)
+
     class Meta:
         model = Account
-        fields = ['id', 'tenant', 'customer', 'account_number', 'account_type', 'balance', 'is_active', 'created_at', 'updated_at']
-        read_only_fields = ['id', 'tenant', 'balance', 'created_at', 'updated_at']
+        fields = ['id', 'customer_id', 'customer', 'account_number', 'account_type', 'branch', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'customer_id', 'branch', 'created_at', 'updated_at']
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        request = self.context.get('request')
+        if not (request and request.query_params.get('includeCustomer') == 'true'):
+            ret['customer'] = None
+        return ret
+
+    def to_internal_value(self, data):
+        if isinstance(data.get('customer'), dict):
+            data['customer'] = data['customer']['id']
+        return super().to_internal_value(data)
+
+    def get_fields(self):
+        fields = super().get_fields()
+        request = self.context.get('request')
+        if request and request.query_params.get('includeCustomer') == 'true':
+            fields['customer'] = CustomerSerializer()
+        return fields
 
 
 class StatementSerializer(serializers.ModelSerializer):

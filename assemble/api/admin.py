@@ -41,10 +41,10 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Account)
 class AccountAdmin(admin.ModelAdmin):
-    list_display = ('account_number', 'customer', 'customer_tenant', 'account_type', 'balance', 'is_active', 'created_at')
-    list_filter = ('is_active', 'account_type', 'customer__tenant')
+    list_display = ('account_number', 'customer', 'customer_tenant', 'account_type', 'branch', 'created_at')
+    list_filter = ('account_type', 'customer__tenant')
     search_fields = ('account_number', 'customer__name', 'customer__tenant__name')
-    readonly_fields = ('balance', 'created_at', 'updated_at')
+    readonly_fields = ('created_at', 'updated_at')
 
     def customer_tenant(self, obj):
         return obj.customer.tenant
