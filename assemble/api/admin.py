@@ -10,6 +10,11 @@ class APIKeyInline(admin.TabularInline):
     extra = 1
     readonly_fields = ('key', 'created_at')
 
+class IPWhitelistInline(admin.TabularInline):
+    model = IPWhitelist
+    extra = 1
+    fields = ('ip_address', 'description', 'is_active')
+
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_active', 'created_at')
@@ -24,6 +29,7 @@ class APIKeyAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'tenant')
     search_fields = ('name', 'key', 'tenant__name')
     readonly_fields = ('key', 'created_at')
+    inlines = [IPWhitelistInline]
 
 @admin.register(IPWhitelist)
 class IPWhitelistAdmin(admin.ModelAdmin):

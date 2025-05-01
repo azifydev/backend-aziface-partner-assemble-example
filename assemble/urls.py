@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from assemble.api.schema_view import CustomSchemaView
-from assemble.api.views import IPWhitelistViewSet
 from assemble.api.customers.views import CustomerViewSet
 from assemble.api.onboarding.views import OnboardingViewSet
 from assemble.api.accounts.views import AccountViewSet
@@ -23,7 +22,6 @@ admin.site.index_title = 'Welcome to Assemble Management'
 
 # Create a router and register our viewsets with it
 router = DefaultRouter()
-router.register(r'ip-whitelist', IPWhitelistViewSet, basename='ip-whitelist')
 router.register(r'customers', CustomerViewSet, basename='customer')
 router.register(r'onboarding', OnboardingViewSet, basename='onboarding')
 router.register(r'accounts', AccountViewSet, basename='account')
