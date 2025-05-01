@@ -78,14 +78,21 @@ class OnboardingSerializer(serializers.ModelSerializer):
 class AccountSerializer(serializers.ModelSerializer):
     customer_id = serializers.PrimaryKeyRelatedField(source='customer', read_only=True)
     customer = CustomerSerializer(read_only=True, required=False)
+    compe = serializers.CharField(source='tenant.compe', read_only=True)
+    ispb = serializers.CharField(source='tenant.ispb', read_only=True)
+    branch = serializers.CharField(source='tenant.branch', read_only=True)
 
     class Meta:
         model = Account
-        fields = ['id', 'customer_id', 'customer', 'account_number', 'account_type', 'branch', 'created_at', 'updated_at']
-        read_only_fields = ['id', 'customer_id', 'branch', 'created_at', 'updated_at']
+        fields = ['id', 'customer_id', 'customer', 'account_number', 'account_type', 'branch', 'compe', 'ispb', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'customer_id', 'branch', 'compe', 'ispb', 'created_at', 'updated_at']
 
     def to_representation(self, instance):
+        """
+        Ensure all fields, including compe and ispb, are included in the response.
+        """
         ret = super().to_representation(instance)
+        # Ensure customer is excluded if not requested
         request = self.context.get('request')
         if not (request and request.query_params.get('includeCustomer') == 'true'):
             ret['customer'] = None

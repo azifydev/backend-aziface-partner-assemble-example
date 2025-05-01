@@ -1,0 +1,3247 @@
+openapi: 3.0.3
+info:
+  title: Assemble API
+  version: 1.0.0
+  description: API for managing Assemble platform
+paths:
+  /api/accounts/:
+    get:
+      operationId: api_accounts_list
+      description: |-
+        List all accounts for the authenticated tenant.
+        Query Parameters:
+            includeCustomer (bool): If true, includes full customer object in the customer field
+      parameters:
+      - in: query
+        name: includeCustomer
+        schema:
+          type: boolean
+          default: false
+        description: Include full customer object in response (customer field)
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - accounts
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAccountList'
+              examples:
+                WithoutCustomerDetails:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - count: 1
+                      next: null
+                      previous: null
+                      results:
+                      - id: uuid
+                        customer_id: customer-uuid
+                        customer: null
+                        account_number: '12345'
+                        account_type: CHECKING
+                        branch: '0001'
+                        created_at: '2024-01-01T00:00:00Z'
+                        updated_at: '2024-01-01T00:00:00Z'
+                  summary: Without customer details
+                WithCustomerDetails:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - count: 1
+                      next: null
+                      previous: null
+                      results:
+                      - id: uuid
+                        customer_id: customer-uuid
+                        customer:
+                          id: customer-uuid
+                          name: John Doe
+                          document: '12345678900'
+                          email: john@example.com
+                          phone: '+5511999999999'
+                          is_active: true
+                          created_at: '2024-01-01T00:00:00Z'
+                          updated_at: '2024-01-01T00:00:00Z'
+                        account_number: '12345'
+                        account_type: CHECKING
+                        branch: '0001'
+                        created_at: '2024-01-01T00:00:00Z'
+                        updated_at: '2024-01-01T00:00:00Z'
+                  summary: With customer details
+          description: List of accounts
+    post:
+      operationId: api_accounts_create
+      description: Create a new account for a customer.
+      parameters:
+      - in: query
+        name: includeCustomer
+        schema:
+          type: boolean
+          default: false
+        description: Include full customer object in response (customer field)
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+              examples:
+                WithoutCustomerDetails:
+                  value:
+                    id: uuid
+                    customer_id: customer-uuid
+                    customer: null
+                    account_number: '12345'
+                    account_type: CHECKING
+                    ispb: '12345678'
+                    compe: '123'
+                    branch: '0001'
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Without customer details
+                WithCustomerDetails:
+                  value:
+                    id: uuid
+                    customer_id: customer-uuid
+                    customer:
+                      id: customer-uuid
+                      name: John Doe
+                      document: '12345678900'
+                      email: john@example.com
+                      phone: '+5511999999999'
+                      is_active: true
+                      created_at: '2024-01-01T00:00:00Z'
+                      updated_at: '2024-01-01T00:00:00Z'
+                    ispb: '12345678'
+                    compe: '123'
+                    account_number: '12345'
+                    account_type: CHECKING
+                    branch: '0001'
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: With customer details
+          description: Account details
+  /api/accounts/{id}/:
+    get:
+      operationId: api_accounts_retrieve
+      description: |-
+        Retrieve a specific account by ID.
+        Query Parameters:
+            includeCustomer (bool): If true, includes full customer object in the customer field
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this account.
+        required: true
+      - in: query
+        name: includeCustomer
+        schema:
+          type: boolean
+          default: false
+        description: Include full customer object in response (customer field)
+      tags:
+      - accounts
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+              examples:
+                WithoutCustomerDetails:
+                  value:
+                    id: uuid
+                    customer_id: customer-uuid
+                    customer: null
+                    account_number: '12345'
+                    account_type: CHECKING
+                    ispb: '12345678'
+                    compe: '123'
+                    branch: '0001'
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Without customer details
+                WithCustomerDetails:
+                  value:
+                    id: uuid
+                    customer_id: customer-uuid
+                    customer:
+                      id: customer-uuid
+                      name: John Doe
+                      document: '12345678900'
+                      email: john@example.com
+                      phone: '+5511999999999'
+                      is_active: true
+                      created_at: '2024-01-01T00:00:00Z'
+                      updated_at: '2024-01-01T00:00:00Z'
+                    ispb: '12345678'
+                    compe: '123'
+                    account_number: '12345'
+                    account_type: CHECKING
+                    branch: '0001'
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: With customer details
+          description: Account details
+    delete:
+      operationId: api_accounts_destroy
+      description: Delete an account.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this account.
+        required: true
+      - in: query
+        name: includeCustomer
+        schema:
+          type: boolean
+          default: false
+        description: Include full customer object in response (customer field)
+      tags:
+      - accounts
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+              examples:
+                WithoutCustomerDetails:
+                  value:
+                    id: uuid
+                    customer_id: customer-uuid
+                    customer: null
+                    account_number: '12345'
+                    account_type: CHECKING
+                    ispb: '12345678'
+                    compe: '123'
+                    branch: '0001'
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Without customer details
+                WithCustomerDetails:
+                  value:
+                    id: uuid
+                    customer_id: customer-uuid
+                    customer:
+                      id: customer-uuid
+                      name: John Doe
+                      document: '12345678900'
+                      email: john@example.com
+                      phone: '+5511999999999'
+                      is_active: true
+                      created_at: '2024-01-01T00:00:00Z'
+                      updated_at: '2024-01-01T00:00:00Z'
+                    ispb: '12345678'
+                    compe: '123'
+                    account_number: '12345'
+                    account_type: CHECKING
+                    branch: '0001'
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: With customer details
+          description: Account details
+  /api/accounts/{id}/statement/:
+    get:
+      operationId: api_accounts_statement_retrieve
+      description: Get account statement with pagination and filters.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this account.
+        required: true
+      - in: query
+        name: includeCustomer
+        schema:
+          type: boolean
+          default: false
+        description: Include full customer object in response (customer field)
+      tags:
+      - accounts
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+              examples:
+                WithoutCustomerDetails:
+                  value:
+                    id: uuid
+                    customer_id: customer-uuid
+                    customer: null
+                    account_number: '12345'
+                    account_type: CHECKING
+                    ispb: '12345678'
+                    compe: '123'
+                    branch: '0001'
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Without customer details
+                WithCustomerDetails:
+                  value:
+                    id: uuid
+                    customer_id: customer-uuid
+                    customer:
+                      id: customer-uuid
+                      name: John Doe
+                      document: '12345678900'
+                      email: john@example.com
+                      phone: '+5511999999999'
+                      is_active: true
+                      created_at: '2024-01-01T00:00:00Z'
+                      updated_at: '2024-01-01T00:00:00Z'
+                    ispb: '12345678'
+                    compe: '123'
+                    account_number: '12345'
+                    account_type: CHECKING
+                    branch: '0001'
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: With customer details
+          description: Account details
+  /api/customers/:
+    get:
+      operationId: api_customers_list
+      description: List all customers for the authenticated tenant.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - customers
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomerList'
+              examples:
+                IndividualCustomer:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - id: uuid
+                      name: John Doe
+                      secondary_name: John's Trading
+                      document: '12345678900'
+                      email: john@example.com
+                      phone: '+5511999999999'
+                      nature: INDIVIDUAL
+                      created_at: '2024-01-01T00:00:00Z'
+                      updated_at: '2024-01-01T00:00:00Z'
+                  summary: Individual customer
+                CorporateCustomer:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - id: uuid
+                      name: Acme Corp
+                      secondary_name: Acme Trading
+                      document: '12345678000199'
+                      email: contact@acme.com
+                      phone: '+5511999999999'
+                      nature: CORPORATE
+                      created_at: '2024-01-01T00:00:00Z'
+                      updated_at: '2024-01-01T00:00:00Z'
+                  summary: Corporate customer
+          description: Customer details
+    post:
+      operationId: api_customers_create
+      description: Create a new customer for the authenticated tenant.
+      tags:
+      - customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+              examples:
+                IndividualCustomer:
+                  value:
+                    id: uuid
+                    name: John Doe
+                    secondary_name: John's Trading
+                    document: '12345678900'
+                    email: john@example.com
+                    phone: '+5511999999999'
+                    nature: INDIVIDUAL
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Individual customer
+                CorporateCustomer:
+                  value:
+                    id: uuid
+                    name: Acme Corp
+                    secondary_name: Acme Trading
+                    document: '12345678000199'
+                    email: contact@acme.com
+                    phone: '+5511999999999'
+                    nature: CORPORATE
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Corporate customer
+          description: Customer details
+  /api/customers/{id}/:
+    get:
+      operationId: api_customers_retrieve
+      description: Retrieve a specific customer by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this customer.
+        required: true
+      tags:
+      - customers
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+              examples:
+                IndividualCustomer:
+                  value:
+                    id: uuid
+                    name: John Doe
+                    secondary_name: John's Trading
+                    document: '12345678900'
+                    email: john@example.com
+                    phone: '+5511999999999'
+                    nature: INDIVIDUAL
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Individual customer
+                CorporateCustomer:
+                  value:
+                    id: uuid
+                    name: Acme Corp
+                    secondary_name: Acme Trading
+                    document: '12345678000199'
+                    email: contact@acme.com
+                    phone: '+5511999999999'
+                    nature: CORPORATE
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Corporate customer
+          description: Customer details
+    put:
+      operationId: api_customers_update
+      description: |-
+        Update customer contact information.
+        Only email and phone can be updated.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this customer.
+        required: true
+      tags:
+      - customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+              examples:
+                IndividualCustomer:
+                  value:
+                    id: uuid
+                    name: John Doe
+                    secondary_name: John's Trading
+                    document: '12345678900'
+                    email: john@example.com
+                    phone: '+5511999999999'
+                    nature: INDIVIDUAL
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Individual customer
+                CorporateCustomer:
+                  value:
+                    id: uuid
+                    name: Acme Corp
+                    secondary_name: Acme Trading
+                    document: '12345678000199'
+                    email: contact@acme.com
+                    phone: '+5511999999999'
+                    nature: CORPORATE
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Corporate customer
+          description: Customer details
+    patch:
+      operationId: api_customers_partial_update
+      description: |-
+        Partially update customer contact information.
+        Only email and phone can be updated.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this customer.
+        required: true
+      tags:
+      - customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerRequest'
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+              examples:
+                IndividualCustomer:
+                  value:
+                    id: uuid
+                    name: John Doe
+                    secondary_name: John's Trading
+                    document: '12345678900'
+                    email: john@example.com
+                    phone: '+5511999999999'
+                    nature: INDIVIDUAL
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Individual customer
+                CorporateCustomer:
+                  value:
+                    id: uuid
+                    name: Acme Corp
+                    secondary_name: Acme Trading
+                    document: '12345678000199'
+                    email: contact@acme.com
+                    phone: '+5511999999999'
+                    nature: CORPORATE
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Corporate customer
+          description: Customer details
+    delete:
+      operationId: api_customers_destroy
+      description: Delete a customer.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this customer.
+        required: true
+      tags:
+      - customers
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+              examples:
+                IndividualCustomer:
+                  value:
+                    id: uuid
+                    name: John Doe
+                    secondary_name: John's Trading
+                    document: '12345678900'
+                    email: john@example.com
+                    phone: '+5511999999999'
+                    nature: INDIVIDUAL
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Individual customer
+                CorporateCustomer:
+                  value:
+                    id: uuid
+                    name: Acme Corp
+                    secondary_name: Acme Trading
+                    document: '12345678000199'
+                    email: contact@acme.com
+                    phone: '+5511999999999'
+                    nature: CORPORATE
+                    created_at: '2024-01-01T00:00:00Z'
+                    updated_at: '2024-01-01T00:00:00Z'
+                  summary: Corporate customer
+          description: Customer details
+  /api/dict/:
+    get:
+      operationId: api_dict_list
+      description: List all dictionary entries for the authenticated tenant.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - dictionary
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDictionaryList'
+          description: ''
+    post:
+      operationId: api_dict_create
+      description: Create a new dictionary entry.
+      tags:
+      - dictionary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DictionaryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DictionaryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DictionaryRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dictionary'
+          description: ''
+  /api/dict/{id}/:
+    get:
+      operationId: api_dict_retrieve
+      description: Retrieve a specific dictionary entry by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this dictionary.
+        required: true
+      tags:
+      - dictionary
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dictionary'
+          description: ''
+    put:
+      operationId: api_dict_update
+      description: Update a dictionary entry's information.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this dictionary.
+        required: true
+      tags:
+      - dictionary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DictionaryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DictionaryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DictionaryRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dictionary'
+          description: ''
+    patch:
+      operationId: api_dict_partial_update
+      description: API endpoint for managing dictionary entries.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this dictionary.
+        required: true
+      tags:
+      - dictionary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDictionaryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDictionaryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDictionaryRequest'
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dictionary'
+          description: ''
+    delete:
+      operationId: api_dict_destroy
+      description: Delete a dictionary entry.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this dictionary.
+        required: true
+      tags:
+      - dictionary
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '204':
+          description: No response body
+  /api/limits/book/:
+    get:
+      operationId: api_limits_book_list
+      description: List all book limits for the authenticated tenant.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookLimitList'
+          description: ''
+    post:
+      operationId: api_limits_book_create
+      description: Create a new book limit.
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookLimitRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookLimit'
+          description: ''
+  /api/limits/book/{id}/:
+    get:
+      operationId: api_limits_book_retrieve
+      description: Retrieve a specific book limit by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this book limit.
+        required: true
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookLimit'
+          description: ''
+    put:
+      operationId: api_limits_book_update
+      description: Update a book limit's information.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this book limit.
+        required: true
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookLimitRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookLimit'
+          description: ''
+    patch:
+      operationId: api_limits_book_partial_update
+      description: API endpoint for managing book transaction limits.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this book limit.
+        required: true
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBookLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBookLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBookLimitRequest'
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookLimit'
+          description: ''
+    delete:
+      operationId: api_limits_book_destroy
+      description: Delete a book limit.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this book limit.
+        required: true
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '204':
+          description: No response body
+  /api/limits/pix/:
+    get:
+      operationId: api_limits_pix_list
+      description: List all PIX limits for the authenticated tenant.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPixLimitList'
+          description: ''
+    post:
+      operationId: api_limits_pix_create
+      description: Create a new PIX limit.
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PixLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PixLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PixLimitRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PixLimit'
+          description: ''
+  /api/limits/pix-night/:
+    get:
+      operationId: api_limits_pix_night_list
+      description: List all PIX night limits for the authenticated tenant.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPixNightLimitList'
+          description: ''
+    post:
+      operationId: api_limits_pix_night_create
+      description: Create a new PIX night limit.
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PixNightLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PixNightLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PixNightLimitRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PixNightLimit'
+          description: ''
+  /api/limits/pix-night/{id}/:
+    get:
+      operationId: api_limits_pix_night_retrieve
+      description: Retrieve a specific PIX night limit by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pix night limit.
+        required: true
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PixNightLimit'
+          description: ''
+    put:
+      operationId: api_limits_pix_night_update
+      description: Update a PIX night limit's information.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pix night limit.
+        required: true
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PixNightLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PixNightLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PixNightLimitRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PixNightLimit'
+          description: ''
+    patch:
+      operationId: api_limits_pix_night_partial_update
+      description: API endpoint for managing PIX night transaction limits.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pix night limit.
+        required: true
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPixNightLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPixNightLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPixNightLimitRequest'
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PixNightLimit'
+          description: ''
+    delete:
+      operationId: api_limits_pix_night_destroy
+      description: Delete a PIX night limit.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pix night limit.
+        required: true
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '204':
+          description: No response body
+  /api/limits/pix/{id}/:
+    get:
+      operationId: api_limits_pix_retrieve
+      description: Retrieve a specific PIX limit by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pix limit.
+        required: true
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PixLimit'
+          description: ''
+    put:
+      operationId: api_limits_pix_update
+      description: Update a PIX limit's information.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pix limit.
+        required: true
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PixLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PixLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PixLimitRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PixLimit'
+          description: ''
+    patch:
+      operationId: api_limits_pix_partial_update
+      description: API endpoint for managing PIX transaction limits.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pix limit.
+        required: true
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPixLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPixLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPixLimitRequest'
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PixLimit'
+          description: ''
+    delete:
+      operationId: api_limits_pix_destroy
+      description: Delete a PIX limit.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this pix limit.
+        required: true
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '204':
+          description: No response body
+  /api/limits/ted/:
+    get:
+      operationId: api_limits_ted_list
+      description: List all TED limits for the authenticated tenant.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTedLimitList'
+          description: ''
+    post:
+      operationId: api_limits_ted_create
+      description: Create a new TED limit.
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TedLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TedLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TedLimitRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TedLimit'
+          description: ''
+  /api/limits/ted/{id}/:
+    get:
+      operationId: api_limits_ted_retrieve
+      description: Retrieve a specific TED limit by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ted limit.
+        required: true
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TedLimit'
+          description: ''
+    put:
+      operationId: api_limits_ted_update
+      description: Update a TED limit's information.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ted limit.
+        required: true
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TedLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TedLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TedLimitRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TedLimit'
+          description: ''
+    patch:
+      operationId: api_limits_ted_partial_update
+      description: API endpoint for managing TED transaction limits.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ted limit.
+        required: true
+      tags:
+      - limits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTedLimitRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTedLimitRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTedLimitRequest'
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TedLimit'
+          description: ''
+    delete:
+      operationId: api_limits_ted_destroy
+      description: Delete a TED limit.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ted limit.
+        required: true
+      tags:
+      - limits
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '204':
+          description: No response body
+  /api/onboarding/:
+    get:
+      operationId: api_onboarding_list
+      description: List all onboarding records for the authenticated tenant.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - onboarding
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOnboardingList'
+          description: ''
+    post:
+      operationId: api_onboarding_create
+      description: Create a new onboarding record.
+      tags:
+      - onboarding
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Onboarding'
+          description: ''
+  /api/onboarding/{id}/:
+    get:
+      operationId: api_onboarding_retrieve
+      description: Retrieve a specific onboarding record by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this onboarding.
+        required: true
+      tags:
+      - onboarding
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Onboarding'
+          description: ''
+    put:
+      operationId: api_onboarding_update
+      description: Update an onboarding record's information.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this onboarding.
+        required: true
+      tags:
+      - onboarding
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Onboarding'
+          description: ''
+    patch:
+      operationId: api_onboarding_partial_update
+      description: API endpoint for managing customer onboarding process.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this onboarding.
+        required: true
+      tags:
+      - onboarding
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOnboardingRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOnboardingRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOnboardingRequest'
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Onboarding'
+          description: ''
+    delete:
+      operationId: api_onboarding_destroy
+      description: Delete an onboarding record.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this onboarding.
+        required: true
+      tags:
+      - onboarding
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '204':
+          description: No response body
+  /api/onboarding/{id}/submit/:
+    post:
+      operationId: api_onboarding_submit_create
+      description: Submit an onboarding record for approval.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this onboarding.
+        required: true
+      tags:
+      - onboarding
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Onboarding'
+          description: ''
+  /api/transactions/:
+    get:
+      operationId: api_transactions_list
+      description: List all transactions for the authenticated tenant.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - transactions
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTransactionList'
+          description: ''
+  /api/transactions/{id}/:
+    get:
+      operationId: api_transactions_retrieve
+      description: Retrieve a specific transaction by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this transaction.
+        required: true
+      tags:
+      - transactions
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+    put:
+      operationId: api_transactions_update
+      description: Update a transaction's information.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this transaction.
+        required: true
+      tags:
+      - transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+    patch:
+      operationId: api_transactions_partial_update
+      description: API endpoint for managing transactions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this transaction.
+        required: true
+      tags:
+      - transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionRequest'
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+    delete:
+      operationId: api_transactions_destroy
+      description: Delete a transaction.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this transaction.
+        required: true
+      tags:
+      - transactions
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '204':
+          description: No response body
+  /api/transactions/create_book/:
+    post:
+      operationId: api_transactions_create_book_create
+      description: |-
+        Create a new book transaction.
+
+        To ensure idempotency, include an X-Idempotency-Key header with a unique value.
+        If a transaction with the same idempotency key already exists, the existing transaction will be returned.
+      tags:
+      - transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+  /api/transactions/create_pix/:
+    post:
+      operationId: api_transactions_create_pix_create
+      description: |-
+        Create a new PIX transaction.
+
+        To ensure idempotency, include an X-Idempotency-Key header with a unique value.
+        If a transaction with the same idempotency key already exists, the existing transaction will be returned.
+      tags:
+      - transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+  /api/transactions/create_tecban/:
+    post:
+      operationId: api_transactions_create_tecban_create
+      description: |-
+        Create a new TECBAN transaction.
+
+        To ensure idempotency, include an X-Idempotency-Key header with a unique value.
+        If a transaction with the same idempotency key already exists, the existing transaction will be returned.
+      tags:
+      - transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+  /api/transactions/create_ted/:
+    post:
+      operationId: api_transactions_create_ted_create
+      description: |-
+        Create a new TED transaction.
+
+        To ensure idempotency, include an X-Idempotency-Key header with a unique value.
+        If a transaction with the same idempotency key already exists, the existing transaction will be returned.
+      tags:
+      - transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+  /api/webhooks/:
+    get:
+      operationId: api_webhooks_list
+      description: List all webhooks for the authenticated tenant.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - webhooks
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedWebhookList'
+          description: ''
+    post:
+      operationId: api_webhooks_create
+      description: Create a new webhook.
+      tags:
+      - webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+          description: ''
+  /api/webhooks/{id}/:
+    get:
+      operationId: api_webhooks_retrieve
+      description: Retrieve a specific webhook by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this webhook.
+        required: true
+      tags:
+      - webhooks
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+          description: ''
+    put:
+      operationId: api_webhooks_update
+      description: Update a webhook's information.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this webhook.
+        required: true
+      tags:
+      - webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+        required: true
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+          description: ''
+    patch:
+      operationId: api_webhooks_partial_update
+      description: API endpoint for managing webhooks.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this webhook.
+        required: true
+      tags:
+      - webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedWebhookRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedWebhookRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedWebhookRequest'
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+          description: ''
+    delete:
+      operationId: api_webhooks_destroy
+      description: Delete a webhook.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this webhook.
+        required: true
+      tags:
+      - webhooks
+      security:
+      - ApiKey: []
+      - ApiKey:
+        - read
+        - write
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        customer_id:
+          type: string
+          format: uuid
+          readOnly: true
+        customer:
+          allOf:
+          - $ref: '#/components/schemas/Customer'
+          readOnly: true
+        account_number:
+          type: string
+          maxLength: 20
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        branch:
+          type: string
+          readOnly: true
+        compe:
+          type: string
+          readOnly: true
+        ispb:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - account_number
+      - account_type
+      - branch
+      - compe
+      - created_at
+      - customer
+      - customer_id
+      - id
+      - ispb
+      - updated_at
+    AccountRequest:
+      type: object
+      properties:
+        account_number:
+          type: string
+          minLength: 1
+          maxLength: 20
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+      required:
+      - account_number
+      - account_type
+    AccountTypeEnum:
+      enum:
+      - CHECKING
+      - SAVINGS
+      type: string
+      description: |-
+        * `CHECKING` - Checking
+        * `SAVINGS` - Savings
+    BookLimit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        tenant:
+          type: string
+          format: uuid
+          readOnly: true
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - daily_limit
+      - id
+      - monthly_limit
+      - tenant
+      - updated_at
+    BookLimitRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+      required:
+      - customer
+      - daily_limit
+      - monthly_limit
+    Customer:
+      type: object
+      description: |-
+        Serializer for the Customer model.
+        Only email and phone can be updated via PUT/PATCH.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        secondary_name:
+          type: string
+          readOnly: true
+        document:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          maxLength: 20
+        nature:
+          allOf:
+          - $ref: '#/components/schemas/NatureEnum'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - document
+      - email
+      - id
+      - name
+      - nature
+      - phone
+      - secondary_name
+      - updated_at
+    CustomerRequest:
+      type: object
+      description: |-
+        Serializer for the Customer model.
+        Only email and phone can be updated via PUT/PATCH.
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        phone:
+          type: string
+          minLength: 1
+          maxLength: 20
+      required:
+      - email
+      - phone
+    Dictionary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        tenant:
+          type: string
+          format: uuid
+          readOnly: true
+        key:
+          type: string
+          maxLength: 255
+        value: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - key
+      - tenant
+      - updated_at
+      - value
+    DictionaryRequest:
+      type: object
+      properties:
+        key:
+          type: string
+          minLength: 1
+          maxLength: 255
+        value: {}
+      required:
+      - key
+      - value
+    NatureEnum:
+      enum:
+      - INDIVIDUAL
+      - CORPORATE
+      type: string
+      description: |-
+        * `INDIVIDUAL` - Individual
+        * `CORPORATE` - Corporate
+    Onboarding:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        tenant:
+          type: string
+          format: uuid
+          readOnly: true
+        customer:
+          type: string
+          format: uuid
+        status:
+          allOf:
+          - $ref: '#/components/schemas/OnboardingStatusEnum'
+          readOnly: true
+        submitted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        approved_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        rejected_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        rejection_reason:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - approved_at
+      - created_at
+      - customer
+      - id
+      - rejected_at
+      - status
+      - submitted_at
+      - tenant
+      - updated_at
+    OnboardingRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        rejection_reason:
+          type: string
+      required:
+      - customer
+    OnboardingStatusEnum:
+      enum:
+      - DRAFT
+      - SUBMITTED
+      - APPROVED
+      - REJECTED
+      type: string
+      description: |-
+        * `DRAFT` - Draft
+        * `SUBMITTED` - Submitted
+        * `APPROVED` - Approved
+        * `REJECTED` - Rejected
+    PaginatedAccountList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+    PaginatedBookLimitList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookLimit'
+    PaginatedCustomerList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+    PaginatedDictionaryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dictionary'
+    PaginatedOnboardingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Onboarding'
+    PaginatedPixLimitList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PixLimit'
+    PaginatedPixNightLimitList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PixNightLimit'
+    PaginatedTedLimitList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TedLimit'
+    PaginatedTransactionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+    PaginatedWebhookList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Webhook'
+    PatchedBookLimitRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+    PatchedCustomerRequest:
+      type: object
+      description: |-
+        Serializer for the Customer model.
+        Only email and phone can be updated via PUT/PATCH.
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        phone:
+          type: string
+          minLength: 1
+          maxLength: 20
+    PatchedDictionaryRequest:
+      type: object
+      properties:
+        key:
+          type: string
+          minLength: 1
+          maxLength: 255
+        value: {}
+    PatchedOnboardingRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        rejection_reason:
+          type: string
+    PatchedPixLimitRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+    PatchedPixNightLimitRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+    PatchedTedLimitRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+    PatchedTransactionRequest:
+      type: object
+      properties:
+        account:
+          type: string
+          format: uuid
+        transaction_type:
+          $ref: '#/components/schemas/TransactionTypeEnum'
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        description:
+          type: string
+        idempotency_key:
+          type: string
+          nullable: true
+          maxLength: 100
+    PatchedWebhookRequest:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 200
+        event_type:
+          type: string
+          minLength: 1
+          maxLength: 50
+        is_active:
+          type: boolean
+    PixLimit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        tenant:
+          type: string
+          format: uuid
+          readOnly: true
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - daily_limit
+      - id
+      - monthly_limit
+      - tenant
+      - updated_at
+    PixLimitRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+      required:
+      - customer
+      - daily_limit
+      - monthly_limit
+    PixNightLimit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        tenant:
+          type: string
+          format: uuid
+          readOnly: true
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - daily_limit
+      - id
+      - monthly_limit
+      - tenant
+      - updated_at
+    PixNightLimitRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+      required:
+      - customer
+      - daily_limit
+      - monthly_limit
+    TedLimit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        tenant:
+          type: string
+          format: uuid
+          readOnly: true
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - daily_limit
+      - id
+      - monthly_limit
+      - tenant
+      - updated_at
+    TedLimitRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        daily_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_limit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+      required:
+      - customer
+      - daily_limit
+      - monthly_limit
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        tenant:
+          type: string
+          format: uuid
+          readOnly: true
+        account:
+          type: string
+          format: uuid
+        transaction_type:
+          $ref: '#/components/schemas/TransactionTypeEnum'
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        status:
+          allOf:
+          - $ref: '#/components/schemas/TransactionStatusEnum'
+          readOnly: true
+        description:
+          type: string
+        idempotency_key:
+          type: string
+          nullable: true
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - account
+      - amount
+      - created_at
+      - id
+      - status
+      - tenant
+      - transaction_type
+      - updated_at
+    TransactionRequest:
+      type: object
+      properties:
+        account:
+          type: string
+          format: uuid
+        transaction_type:
+          $ref: '#/components/schemas/TransactionTypeEnum'
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        description:
+          type: string
+        idempotency_key:
+          type: string
+          nullable: true
+          maxLength: 100
+      required:
+      - account
+      - amount
+      - transaction_type
+    TransactionStatusEnum:
+      enum:
+      - PENDING
+      - COMPLETED
+      - FAILED
+      - CANCELLED
+      type: string
+      description: |-
+        * `PENDING` - Pending
+        * `COMPLETED` - Completed
+        * `FAILED` - Failed
+        * `CANCELLED` - Cancelled
+    TransactionTypeEnum:
+      enum:
+      - PIX
+      - TED
+      - BOOK
+      - TECBAN
+      type: string
+      description: |-
+        * `PIX` - PIX
+        * `TED` - TED
+        * `BOOK` - Book Transfer
+        * `TECBAN` - TecBan
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        tenant:
+          type: string
+          format: uuid
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+        event_type:
+          type: string
+          maxLength: 50
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - event_type
+      - id
+      - tenant
+      - updated_at
+      - url
+    WebhookRequest:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 200
+        event_type:
+          type: string
+          minLength: 1
+          maxLength: 50
+        is_active:
+          type: boolean
+      required:
+      - event_type
+      - url
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key authentication. Add your API key with header "Authorization:
+        your-api-key"'

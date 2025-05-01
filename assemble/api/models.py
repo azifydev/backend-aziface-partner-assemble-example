@@ -25,6 +25,9 @@ class Tenant(BaseModel):
     """
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
+    branch = models.CharField(max_length=4, blank=True, null=True)
+    compe = models.CharField(max_length=3, blank=True, null=True)
+    ispb = models.CharField(max_length=8, blank=True, null=True)
     
     def __str__(self):
         return self.name
@@ -128,7 +131,9 @@ class Account(BaseModel):
         ('CHECKING', 'Checking'),
         ('SAVINGS', 'Savings'),
     ])
-    branch = models.CharField(max_length=4, default='0000')
+    branch = models.CharField(max_length=4, blank=True, null=True)
+    compe = models.CharField(max_length=3, blank=True, null=True)  # New field
+    ispb = models.CharField(max_length=8, blank=True, null=True)  # New field
     
     def __str__(self):
         return f"{self.account_number} - {self.customer.name}"
@@ -136,8 +141,10 @@ class Account(BaseModel):
     def save(self, *args, **kwargs):
         if self.customer and not self.tenant:
             self.tenant = self.customer.tenant
-        if not self.branch:
-            self.branch = self.tenant.branch if hasattr(self.tenant, 'branch') else '0000'
+        if self.tenant:
+            self.compe = self.tenant.compe
+            self.ispb = self.tenant.ispb
+            self.branch = self.tenant.branch
         super().save(*args, **kwargs)
 
 class Statement(BaseModel):
