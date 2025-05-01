@@ -78,10 +78,14 @@ class Customer(BaseModel):
     """
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, related_name='customers')
     name = models.CharField(max_length=100)
+    secondary_name = models.CharField(max_length=100, blank=True)
     document = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20)
-    is_active = models.BooleanField(default=True)
+    nature = models.CharField(max_length=20, choices=[
+        ('INDIVIDUAL', 'Individual'),
+        ('CORPORATE', 'Corporate'),
+    ])
     
     def __str__(self):
         return f"{self.name} ({self.document})"

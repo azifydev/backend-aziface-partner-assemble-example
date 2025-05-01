@@ -34,9 +34,9 @@ class IPWhitelistAdmin(admin.ModelAdmin):
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'tenant', 'document', 'email', 'phone', 'is_active', 'created_at')
-    list_filter = ('is_active', 'tenant')
-    search_fields = ('name', 'document', 'email', 'phone', 'tenant__name')
+    list_display = ('name', 'secondary_name', 'document', 'email', 'phone', 'nature', 'tenant')
+    list_filter = ('nature', 'tenant')
+    search_fields = ('name', 'secondary_name', 'document', 'email')
     readonly_fields = ('created_at', 'updated_at')
 
 @admin.register(Account)

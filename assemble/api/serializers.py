@@ -44,10 +44,26 @@ class APIKeySerializer(serializers.ModelSerializer):
 
 # Customer Serializers
 class CustomerSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Customer model.
+    Only email and phone can be updated via PUT/PATCH.
+    """
     class Meta:
         model = Customer
-        fields = ['id', 'name', 'document', 'email', 'phone', 'is_active', 'created_at', 'updated_at']
-        read_only_fields = ['id', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'secondary_name', 'document', 'email', 'phone', 'nature', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'name', 'secondary_name', 'document', 'nature', 'created_at', 'updated_at']
+    
+    def update(self, instance, validated_data):
+        """
+        Only allow updating email and phone.
+        """
+        if set(validated_data.keys()) - {'email', 'phone'}:
+            raise serializers.ValidationError("Only email and phone fields can be updated.")
+            
+        instance.email = validated_data.get('email', instance.email)
+        instance.phone = validated_data.get('phone', instance.phone)
+        instance.save()
+        return instance
 
 
 # Onboarding Serializers
