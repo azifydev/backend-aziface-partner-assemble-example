@@ -187,4 +187,24 @@ class AccountViewSet(viewsets.ModelViewSet):
         """
         Set the tenant when creating an account.
         """
-        serializer.save(tenant=self.request.auth.tenant) 
+        serializer.save(tenant=self.request.auth.tenant)
+
+    @extend_schema(exclude=True)
+    def update(self, request, *args, **kwargs):
+        """
+        Update is not allowed for accounts.
+        """
+        return Response(
+            {"detail": "Account information cannot be updated."},
+            status=status.HTTP_405_METHOD_NOT_ALLOWED
+        )
+
+    @extend_schema(exclude=True)
+    def partial_update(self, request, *args, **kwargs):
+        """
+        Partial update is not allowed for accounts.
+        """
+        return Response(
+            {"detail": "Account information cannot be updated."},
+            status=status.HTTP_405_METHOD_NOT_ALLOWED
+        ) 
