@@ -38,3 +38,45 @@ class HealthCheckViewSet(viewsets.ViewSet):
             "status": "ok",
             "timestamp": datetime.utcnow().isoformat() + 'Z'
         }, status=status.HTTP_200_OK)
+    
+@extend_schema(tags=['meta'])
+class BanksViewSet(viewsets.ViewSet):
+    """
+    API endpoint for banks.
+    """
+    authentication_classes = [APIKeyAuthentication]
+    permission_classes = [HasValidAPIKey, TenantPermission]
+    
+    @extend_schema(
+        responses={
+            200: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description='List of banks',
+                examples=[
+                    OpenApiExample(
+                        'Banks List',
+                        value=[
+                            {
+                                "id": 1,
+                                "name": "Bank A"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Bank B"
+                            }
+                        ]
+                    )
+                ]
+            )
+        }
+    )
+    def list(self, request, *args, **kwargs):
+        """
+        List all banks.
+        """
+        # Dummy data for demonstration purposes
+        banks = [
+            {"id": 1, "name": "Bank A"},
+            {"id": 2, "name": "Bank B"}
+        ]
+        return Response(banks, status=status.HTTP_200_OK)

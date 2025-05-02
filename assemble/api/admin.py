@@ -1,22 +1,28 @@
 from django.contrib import admin
+from unfold import admin as unfold_admin
 from .models import (
     Tenant, APIKey, IPWhitelist, Customer, Account, Transaction,
     Onboarding, PixLimit, Webhook, WebhookEvent, Statement,
     PixNightLimit, TedLimit, BookLimit
 )
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
+from django.contrib.auth.models import User, Group
+from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
+from unfold.admin import ModelAdmin
 
-class APIKeyInline(admin.TabularInline):
+class APIKeyInline(unfold_admin.TabularInline):
     model = APIKey
     extra = 1
     readonly_fields = ('key', 'created_at')
 
-class IPWhitelistInline(admin.TabularInline):
+class IPWhitelistInline(unfold_admin.TabularInline):
     model = IPWhitelist
     extra = 1
     fields = ('ip_address', 'description', 'is_active')
 
 @admin.register(Tenant)
-class TenantAdmin(admin.ModelAdmin):
+class TenantAdmin(unfold_admin.ModelAdmin):
     list_display = ('name', 'is_active', 'created_at')
     list_filter = ('is_active',)
     search_fields = ('name',)
@@ -24,7 +30,7 @@ class TenantAdmin(admin.ModelAdmin):
     inlines = [APIKeyInline]
 
 @admin.register(APIKey)
-class APIKeyAdmin(admin.ModelAdmin):
+class APIKeyAdmin(unfold_admin.ModelAdmin):
     list_display = ('name', 'tenant', 'key', 'is_active', 'created_at')
     list_filter = ('is_active', 'tenant')
     search_fields = ('name', 'key', 'tenant__name')
@@ -32,21 +38,21 @@ class APIKeyAdmin(admin.ModelAdmin):
     inlines = [IPWhitelistInline]
 
 @admin.register(IPWhitelist)
-class IPWhitelistAdmin(admin.ModelAdmin):
+class IPWhitelistAdmin(unfold_admin.ModelAdmin):
     list_display = ('ip_address', 'tenant', 'description', 'is_active', 'created_at')
     list_filter = ('is_active', 'tenant')
     search_fields = ('ip_address', 'description', 'tenant__name')
     readonly_fields = ('created_at', 'updated_at')
 
 @admin.register(Customer)
-class CustomerAdmin(admin.ModelAdmin):
+class CustomerAdmin(unfold_admin.ModelAdmin):
     list_display = ('name', 'secondary_name', 'document', 'email', 'phone', 'nature', 'tenant')
     list_filter = ('nature', 'tenant')
     search_fields = ('name', 'secondary_name', 'document', 'email')
     readonly_fields = ('created_at', 'updated_at')
 
 @admin.register(Account)
-class AccountAdmin(admin.ModelAdmin):
+class AccountAdmin(unfold_admin.ModelAdmin):
     list_display = ('account_number', 'customer', 'customer_tenant', 'account_type', 'branch', 'created_at')
     list_filter = ('account_type', 'customer__tenant')
     search_fields = ('account_number', 'customer__name', 'customer__tenant__name')
@@ -58,7 +64,7 @@ class AccountAdmin(admin.ModelAdmin):
     customer_tenant.admin_order_field = 'customer__tenant'
 
 @admin.register(Transaction)
-class TransactionAdmin(admin.ModelAdmin):
+class TransactionAdmin(unfold_admin.ModelAdmin):
     list_display = ('id', 'account', 'account_tenant', 'transaction_type', 'amount', 'status', 'created_at')
     list_filter = ('transaction_type', 'status', 'account__customer__tenant')
     search_fields = ('id', 'account__account_number', 'idempotency_key', 'account__customer__tenant__name')
@@ -70,14 +76,14 @@ class TransactionAdmin(admin.ModelAdmin):
     account_tenant.admin_order_field = 'account__customer__tenant'
 
 @admin.register(Onboarding)
-class OnboardingAdmin(admin.ModelAdmin):
+class OnboardingAdmin(unfold_admin.ModelAdmin):
     list_display = ('customer', 'status', 'submitted_at', 'approved_at', 'rejected_at', 'created_at')
     list_filter = ('status', 'customer__tenant')
     search_fields = ('customer__name', 'customer__document')
     readonly_fields = ('status', 'submitted_at', 'approved_at', 'rejected_at', 'created_at', 'updated_at')
 
 @admin.register(PixLimit)
-class PixLimitAdmin(admin.ModelAdmin):
+class PixLimitAdmin(unfold_admin.ModelAdmin):
     list_display = ('customer', 'customer_tenant', 'daily_limit', 'monthly_limit', 'is_active', 'created_at')
     list_filter = ('is_active', 'customer__tenant')
     search_fields = ('customer__name', 'customer__document', 'customer__tenant__name')
@@ -89,7 +95,7 @@ class PixLimitAdmin(admin.ModelAdmin):
     customer_tenant.admin_order_field = 'customer__tenant'
 
 @admin.register(PixNightLimit)
-class PixNightLimitAdmin(admin.ModelAdmin):
+class PixNightLimitAdmin(unfold_admin.ModelAdmin):
     list_display = ('customer', 'customer_tenant', 'daily_limit', 'monthly_limit', 'is_active', 'created_at')
     list_filter = ('is_active', 'customer__tenant')
     search_fields = ('customer__name', 'customer__document', 'customer__tenant__name')
@@ -101,7 +107,7 @@ class PixNightLimitAdmin(admin.ModelAdmin):
     customer_tenant.admin_order_field = 'customer__tenant'
 
 @admin.register(TedLimit)
-class TedLimitAdmin(admin.ModelAdmin):
+class TedLimitAdmin(unfold_admin.ModelAdmin):
     list_display = ('customer', 'customer_tenant', 'daily_limit', 'monthly_limit', 'is_active', 'created_at')
     list_filter = ('is_active', 'customer__tenant')
     search_fields = ('customer__name', 'customer__document', 'customer__tenant__name')
@@ -113,7 +119,7 @@ class TedLimitAdmin(admin.ModelAdmin):
     customer_tenant.admin_order_field = 'customer__tenant'
 
 @admin.register(BookLimit)
-class BookLimitAdmin(admin.ModelAdmin):
+class BookLimitAdmin(unfold_admin.ModelAdmin):
     list_display = ('customer', 'customer_tenant', 'daily_limit', 'monthly_limit', 'is_active', 'created_at')
     list_filter = ('is_active', 'customer__tenant')
     search_fields = ('customer__name', 'customer__document', 'customer__tenant__name')
@@ -125,21 +131,21 @@ class BookLimitAdmin(admin.ModelAdmin):
     customer_tenant.admin_order_field = 'customer__tenant'
 
 @admin.register(Webhook)
-class WebhookAdmin(admin.ModelAdmin):
+class WebhookAdmin(unfold_admin.ModelAdmin):
     list_display = ('url', 'tenant', 'event_type', 'is_active', 'created_at')
     list_filter = ('is_active', 'event_type', 'tenant')
     search_fields = ('url', 'event_type', 'tenant__name')
     readonly_fields = ('created_at', 'updated_at')
 
 @admin.register(WebhookEvent)
-class WebhookEventAdmin(admin.ModelAdmin):
+class WebhookEventAdmin(unfold_admin.ModelAdmin):
     list_display = ('webhook', 'status', 'response_code', 'created_at')
     list_filter = ('status', 'response_code', 'webhook__tenant')
     search_fields = ('webhook__url', 'payload')
     readonly_fields = ('created_at', 'updated_at')
 
 @admin.register(Statement)
-class StatementAdmin(admin.ModelAdmin):
+class StatementAdmin(unfold_admin.ModelAdmin):
     list_display = ('account', 'account_tenant', 'date', 'description', 'amount', 'balance', 'transaction_type', 'created_at')
     list_filter = ('transaction_type', 'account__customer__tenant')
     search_fields = ('account__account_number', 'description', 'account__customer__tenant__name')
@@ -149,3 +155,19 @@ class StatementAdmin(admin.ModelAdmin):
         return obj.account.customer.tenant
     account_tenant.short_description = 'Tenant'
     account_tenant.admin_order_field = 'account__customer__tenant'
+
+# re-register users/groups models to use unfold admin
+admin.site.unregister(User)
+admin.site.unregister(Group)
+
+@admin.register(User)
+class UserAdmin(BaseUserAdmin, unfold_admin.ModelAdmin):
+    # Forms loaded from `unfold.forms`
+    form = UserChangeForm
+    add_form = UserCreationForm
+    change_password_form = AdminPasswordChangeForm
+
+
+@admin.register(Group)
+class GroupAdmin(BaseGroupAdmin, unfold_admin.ModelAdmin):
+    pass

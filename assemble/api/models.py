@@ -6,6 +6,8 @@ import ipaddress
 from django.utils import timezone
 import secrets
 import string
+from cryptography.fernet import Fernet
+from django.conf import settings
 
 # API Key and Tenant Models
 class BaseModel(models.Model):
@@ -28,6 +30,35 @@ class Tenant(BaseModel):
     branch = models.CharField(max_length=4, blank=True, null=True)
     compe = models.CharField(max_length=3, blank=True, null=True)
     ispb = models.CharField(max_length=8, blank=True, null=True)
+    maestro_client_id = models.UUIDField(null=True)
+    maestro_client_secret = models.CharField(max_length=255, blank=True, null=True)
+    maestro_env = models.CharField(max_length=20, choices=[
+        ('sandbox', 'Sandbox'),
+        ('production', 'Production'),
+    ], null=True)
+
+    def save(self, *args, **kwargs):
+        """
+        Encrypt the maestro_client_secret before saving.
+        """
+        if self.maestro_client_secret:
+            fernet = Fernet(getattr(settings, 'SECRET_KEY').encode())
+            self.maestro_client_secret = fernet.encrypt(self.maestro_client_secret.encode()).decode()
+        super().save(*args, **kwargs)
+
+    def __getattribute__(self, name):
+        """
+        Decrypt the maestro_client_secret when accessing it.
+        """
+        value = super().__getattribute__(name)
+        if name == 'maestro_client_secret' and value:
+            try:
+                fernet = Fernet(getattr(settings, 'SECRET_KEY').encode())
+                return fernet.decrypt(value.encode()).decode()
+            except Exception:
+                pass  # Handle decryption errors if necessary
+        return value
+
     
     def __str__(self):
         return self.name
