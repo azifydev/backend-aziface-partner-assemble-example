@@ -11,7 +11,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1.0', {
     exclude: [
       { path: 'panel', method: RequestMethod.ALL },
-      { path: 'panel/(.*)', method: RequestMethod.ALL },
+      { path: 'panel/*path', method: RequestMethod.ALL },
     ],
   });
 
@@ -33,7 +33,7 @@ async function bootstrap() {
     }),
   );
 
-  app.useStaticAssets(join(process.cwd(), 'public'), {
+  app.useStaticAssets(join(process.cwd(), 'static'), {
     prefix: '/static',
   });
   app.setBaseViewsDir(join(process.cwd(), 'views'));

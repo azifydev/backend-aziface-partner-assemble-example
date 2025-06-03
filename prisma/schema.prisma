@@ -7,9 +7,290 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  password String
-  createdAt DateTime @default(now())
+enum CustomerNature {
+  INDIVIDUAL
+  CORPORATE
+}
+
+enum OnboardingStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+enum TransactionType {
+  PIX
+  TED
+  BOOK
+  TECBAN
+}
+
+enum WebhookStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum MaestroEnv {
+  HOMOLOG
+  PROD
+}
+
+enum AccountType {
+  CHECKING
+  SAVINGS
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+model Tenant {
+  id                String   @id @default(uuid())
+  name              String   @db.VarChar(100)
+  isActive          Boolean  @default(true)
+  branch            String?  @db.VarChar(4)
+  compe             String?  @db.VarChar(3)
+  ispb              String?  @db.VarChar(8)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  apiKeys           APIKey[]
+  ipWhitelists      IPWhitelist[]
+  customers         Customer[]
+  onboardings       Onboarding[]
+  accounts          Account[]
+  statements        Statement[]
+  transactions      Transaction[]
+  dictionaries      Dictionary[]
+  webhooks          Webhook[]
+  pixLimits         PixLimit[]
+  pixNightLimits    PixNightLimit[]
+  tedLimits         TedLimit[]
+  bookLimits        BookLimit[]
+}
+
+model TenantConfig {
+  id          String   @id @default(uuid())
+  tenantId    String?
+  key         String   @db.VarChar(255)
+  value       Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model APIKey {
+  id          String   @id @default(uuid())
+  tenantId    String
+  key         String   @unique @db.VarChar(100)
+  name        String   @db.VarChar(100)
+  isActive    Boolean  @default(true)
+  lastUsed    DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  ipWhitelists IPWhitelist[]
+}
+
+model IPWhitelist {
+  id          String   @id @default(uuid())
+  tenantId    String?
+  apiKeyId    String?
+  ipAddress   String
+  description String?  @db.VarChar(255)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant?  @relation(fields: [tenantId], references: [id])
+  apiKey      APIKey?  @relation(fields: [apiKeyId], references: [id])
+
+  @@unique([apiKeyId, ipAddress])
+}
+
+model Customer {
+  id            String         @id @default(uuid())
+  tenantId      String
+  name          String         @db.VarChar(100)
+  secondaryName String?        @db.VarChar(100)
+  document      String         @unique @db.VarChar(20)
+  email         String         @db.VarChar(100)
+  phone         String         @db.VarChar(100)
+  nature        CustomerNature
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  tenant        Tenant         @relation(fields: [tenantId], references: [id])
+  onboardings   Onboarding[]
+  accounts      Account[]
+  pixLimits     PixLimit[]
+  pixNightLimits PixNightLimit[]
+  tedLimits     TedLimit[]
+  bookLimits    BookLimit[]
+}
+
+model Onboarding {
+  id              String           @id @default(uuid())
+  tenantId        String
+  customerId      String
+  status          OnboardingStatus @default(DRAFT)
+  submittedAt     DateTime?
+  approvedAt      DateTime?
+  rejectedAt      DateTime?
+  rejectionReason String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  tenant          Tenant           @relation(fields: [tenantId], references: [id])
+  customer        Customer         @relation(fields: [customerId], references: [id])
+}
+
+model Account {
+  id            String      @id @default(uuid())
+  tenantId      String
+  customerId    String
+  accountNumber String      @unique @db.VarChar(20)
+  accountType   AccountType
+  branch        String?     @db.VarChar(4)
+  compe         String?     @db.VarChar(3)
+  ispb          String?     @db.VarChar(8)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  tenant        Tenant      @relation(fields: [tenantId], references: [id])
+  customer      Customer    @relation(fields: [customerId], references: [id])
+  statements    Statement[]
+  transactions  Transaction[]
+}
+
+model Statement {
+  id              String   @id @default(uuid())
+  tenantId        String
+  accountId       String
+  date            DateTime
+  description     String
+  amount          Decimal  @db.Decimal(15, 2)
+  balance         Decimal  @db.Decimal(15, 2)
+  transactionType String   @db.VarChar(20)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tenant          Tenant   @relation(fields: [tenantId], references: [id])
+  account         Account  @relation(fields: [accountId], references: [id])
+}
+
+model Transaction {
+  id              String            @id @default(uuid())
+  tenantId        String
+  accountId       String
+  transactionType TransactionType
+  amount          Decimal           @db.Decimal(15, 2)
+  status          TransactionStatus @default(PENDING)
+  description     String?
+  idempotencyKey  String?           @unique @db.VarChar(100)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  tenant          Tenant            @relation(fields: [tenantId], references: [id])
+  account         Account           @relation(fields: [accountId], references: [id])
+}
+
+model Dictionary {
+  id         String   @id @default(uuid())
+  tenantId   String
+  key        String   @db.VarChar(255)
+  value      Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, key])
+}
+
+model Webhook {
+  id         String   @id @default(uuid())
+  tenantId   String
+  url        String
+  eventType  String   @db.VarChar(50)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  events     WebhookEvent[]
+}
+
+model WebhookEvent {
+  id           String        @id @default(uuid())
+  webhookId    String
+  payload      Json
+  status       WebhookStatus @default(PENDING)
+  responseCode Int?
+  responseBody String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  webhook      Webhook       @relation(fields: [webhookId], references: [id])
+}
+
+model PixLimit {
+  id            String   @id @default(uuid())
+  tenantId      String
+  customerId    String
+  dailyLimit    Decimal  @db.Decimal(15, 2)
+  monthlyLimit  Decimal  @db.Decimal(15, 2)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant        Tenant   @relation(fields: [tenantId], references: [id])
+  customer      Customer @relation(fields: [customerId], references: [id])
+}
+
+model PixNightLimit {
+  id            String   @id @default(uuid())
+  tenantId      String
+  customerId    String
+  dailyLimit    Decimal  @db.Decimal(15, 2)
+  monthlyLimit  Decimal  @db.Decimal(15, 2)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant        Tenant   @relation(fields: [tenantId], references: [id])
+  customer      Customer @relation(fields: [customerId], references: [id])
+}
+
+model TedLimit {
+  id            String   @id @default(uuid())
+  tenantId      String
+  customerId    String
+  dailyLimit    Decimal  @db.Decimal(15, 2)
+  monthlyLimit  Decimal  @db.Decimal(15, 2)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant        Tenant   @relation(fields: [tenantId], references: [id])
+  customer      Customer @relation(fields: [customerId], references: [id])
+}
+
+model BookLimit {
+  id            String   @id @default(uuid())
+  tenantId      String
+  customerId    String
+  dailyLimit    Decimal  @db.Decimal(15, 2)
+  monthlyLimit  Decimal  @db.Decimal(15, 2)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant        Tenant   @relation(fields: [tenantId], references: [id])
+  customer      Customer @relation(fields: [customerId], references: [id])
 }
