@@ -2,25 +2,23 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
-import { CreateSystemUserDto } from './dto/create-system-user.dto';
-import { SystemUserDto } from './dto/system-user.dto';
-import { UpdateSystemUserDto } from './dto/update-system-user.dto';
-import { SystemUser } from './entities/system-user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 import { AuthenticationService } from 'src/authentication/authentication.service';
 
 @Injectable()
-export class SystemUsersService {
+export class UsersService {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly authenticationService: AuthenticationService,
   ) {}
 
-  async create(
-    createSystemUserDto: CreateSystemUserDto,
-  ): Promise<SystemUserDto> {
+  async create(createUserDto: CreateUserDto): Promise<UserDto> {
     const authentication = await this.prismaService.authentication.findFirst({
       where: {
-        username: createSystemUserDto.username,
+        username: createUserDto.username,
       },
     });
 
@@ -28,16 +26,16 @@ export class SystemUsersService {
       throw new BadRequestException('Username is already in use');
     }
 
-    const data = await this.prismaService.system_users.create({
+    const data = await this.prismaService.users.create({
       data: {
-        name: createSystemUserDto.name,
-        external_id: createSystemUserDto?.externalId,
+        name: createUserDto.name,
+        assemble_user_id: createUserDto?.assembleUserId,
       },
       select: {
         id: true,
 
         name: true,
-        external_id: true,
+        assemble_user_id: true,
         created_at: true,
         updated_at: true,
         deleted_at: true,
@@ -46,28 +44,28 @@ export class SystemUsersService {
 
     await this.authenticationService.createAuthentication({
       userId: data.id,
-      username: createSystemUserDto.username,
-      password: createSystemUserDto.password,
+      username: createUserDto.username,
+      password: createUserDto.password,
     });
 
-    return new SystemUserDto({
+    return new UserDto({
       id: data.id,
 
       name: data.name,
-      externalId: data.external_id,
+      assembleUserId: data.assemble_user_id,
       createdAt: data.created_at,
       updatedAt: data.updated_at,
       deletedAt: data.deleted_at,
     });
   }
 
-  async findAll(): Promise<SystemUserDto[]> {
-    const data = await this.prismaService.system_users.findMany({
+  async findAll(): Promise<UserDto[]> {
+    const data = await this.prismaService.users.findMany({
       select: {
         id: true,
 
         name: true,
-        external_id: true,
+        assemble_user_id: true,
         created_at: true,
         updated_at: true,
         deleted_at: true,
@@ -78,11 +76,10 @@ export class SystemUsersService {
     });
     return data.map(
       (item) =>
-        new SystemUserDto({
+        new UserDto({
           id: item.id,
-
           name: item.name,
-          externalId: item.external_id,
+          assembleUserId: item.assemble_user_id,
           createdAt: item.created_at,
           updatedAt: item.updated_at,
           deletedAt: item.deleted_at,
@@ -90,55 +87,52 @@ export class SystemUsersService {
     );
   }
 
-  async findOne(id: string): Promise<SystemUserDto | null> {
-    const data = await this.prismaService.system_users.findUnique({
+  async findOne(id: string): Promise<UserDto | null> {
+    const data = await this.prismaService.users.findUnique({
       where: { id },
       select: {
         id: true,
 
         name: true,
-        external_id: true,
+        assemble_user_id: true,
         created_at: true,
         updated_at: true,
         deleted_at: true,
       },
     });
     if (!data) return null;
-    return new SystemUserDto({
+    return new UserDto({
       id: data.id,
 
       name: data.name,
-      externalId: data.external_id,
+      assembleUserId: data.assemble_user_id,
       createdAt: data.created_at,
       updatedAt: data.updated_at,
       deletedAt: data.deleted_at,
     });
   }
 
-  async update(
-    id: string,
-    updateSystemUserDto: UpdateSystemUserDto,
-  ): Promise<SystemUserDto> {
-    const entity = SystemUser.partialBuilder(updateSystemUserDto);
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<UserDto> {
+    const entity = User.partialBuilder(updateUserDto);
 
-    const data = await this.prismaService.system_users.update({
+    const data = await this.prismaService.users.update({
       where: { id },
       data: entity.toDB,
       select: {
         id: true,
 
         name: true,
-        external_id: true,
+        assemble_user_id: true,
         created_at: true,
         updated_at: true,
         deleted_at: true,
       },
     });
-    return new SystemUserDto({
+    return new UserDto({
       id: data.id,
 
       name: data.name,
-      externalId: data.external_id,
+      assembleUserId: data.assemble_user_id,
       createdAt: data.created_at,
       updatedAt: data.updated_at,
       deletedAt: data.deleted_at,
@@ -146,7 +140,7 @@ export class SystemUsersService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.prismaService.system_users.delete({
+    await this.prismaService.users.delete({
       where: { id },
     });
   }

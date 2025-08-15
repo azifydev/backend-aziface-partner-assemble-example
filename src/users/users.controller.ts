@@ -24,27 +24,27 @@ import { BadRequestDto } from 'src/common/dtos/bad-request.dto';
 import { ForbiddenRequestDto } from 'src/common/dtos/forbidden-request.dto';
 import { UnauthorizedRequestDto } from 'src/common/dtos/unauthorizated-request.dto';
 
-import { CreateSystemUserDto } from './dto/create-system-user.dto';
-import { SystemUserDto } from './dto/system-user.dto';
-import { UpdateSystemUserDto } from './dto/update-system-user.dto';
-import { SystemUsersService } from './system-users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
 
 @ApiSecurity('x-api-key-partner')
-@ApiTags('System Users')
+@ApiTags('Users')
 @UseGuards(ApiKeyGuard)
-@Controller('system-users')
-export class SystemUsersController {
-  constructor(private readonly systemUsersService: SystemUsersService) {}
+@Controller('users')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({
-    summary: 'Create a new system user',
+    summary: 'Create a new user',
     description:
-      'Creates a new system user with the provided data. Returns the created user with all its details.',
+      'Creates a new user with the provided data. Returns the created user with all its details.',
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'User successfully created. Returns the created user data.',
-    type: SystemUserDto,
+    type: UserDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -70,12 +70,10 @@ export class SystemUsersController {
     example: 'd41d8cd98f00b204e9800998ecf8427e',
   })
   @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Body() createSystemUserDto: CreateSystemUserDto,
-  ): Promise<SystemUserDto> {
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
     try {
-      return await this.systemUsersService.create(createSystemUserDto);
+      return await this.usersService.create(createUserDto);
     } catch (error) {
       const err = error as Error;
       throw new BadRequestException(err.name, {
@@ -85,14 +83,13 @@ export class SystemUsersController {
   }
 
   @ApiOperation({
-    summary: 'List all system users',
-    description:
-      'Returns a list of all system users that have not been soft deleted.',
+    summary: 'List all users',
+    description: 'Returns a list of all users.',
   })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of users successfully returned.',
-    type: SystemUserDto,
+    type: UserDto,
     isArray: true,
   })
   @ApiResponse({
@@ -117,9 +114,9 @@ export class SystemUsersController {
     example: 'd41d8cd98f00b204e9800998ecf8427e',
   })
   @Get()
-  async findAll(): Promise<SystemUserDto[]> {
+  async findAll(): Promise<UserDto[]> {
     try {
-      return await this.systemUsersService.findAll();
+      return await this.usersService.findAll();
     } catch (error) {
       const err = error as Error;
       throw new BadRequestException(err.name, {
@@ -129,14 +126,14 @@ export class SystemUsersController {
   }
 
   @ApiOperation({
-    summary: 'Get a system user by ID',
+    summary: 'Get a user by ID',
     description:
-      'Fetches and returns the details of a system user by its unique identifier (UUID).',
+      'Fetches and returns the details of a user by its unique identifier (UUID).',
   })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User found and returned successfully.',
-    type: SystemUserDto,
+    type: UserDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -160,9 +157,9 @@ export class SystemUsersController {
     example: 'd41d8cd98f00b204e9800998ecf8427e',
   })
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<SystemUserDto | null> {
+  async findOne(@Param('id') id: string): Promise<UserDto | null> {
     try {
-      return await this.systemUsersService.findOne(id);
+      return await this.usersService.findOne(id);
     } catch (error: any) {
       const err = error as Error;
       throw new BadRequestException(err.name, {
@@ -172,14 +169,14 @@ export class SystemUsersController {
   }
 
   @ApiOperation({
-    summary: 'Update a system user by ID',
+    summary: 'Update a user by ID',
     description:
-      'Updates the details of a system user identified by its UUID. Returns the updated user.',
+      'Updates the details of a user identified by its UUID. Returns the updated user.',
   })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User successfully updated.',
-    type: SystemUserDto,
+    type: UserDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -205,10 +202,10 @@ export class SystemUsersController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateSystemUserDto: UpdateSystemUserDto,
-  ): Promise<SystemUserDto> {
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<UserDto> {
     try {
-      return await this.systemUsersService.update(id, updateSystemUserDto);
+      return await this.usersService.update(id, updateUserDto);
     } catch (error) {
       const err = error as Error;
       throw new BadRequestException(err.name, {
@@ -218,14 +215,13 @@ export class SystemUsersController {
   }
 
   @ApiOperation({
-    summary: 'Soft delete a system user by ID',
+    summary: 'Delete a user by ID',
     description:
-      'Performs a soft delete on a system user by its UUID. The user is not removed from the database, only marked as deleted.',
+      'Performs a delete on a user by its UUID. The user is not removed from the database, only marked as deleted.',
   })
   @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'User successfully soft deleted.',
-    type: SystemUserDto,
+    status: HttpStatus.NO_CONTENT,
+    description: 'User successfully deleted.',
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -251,7 +247,7 @@ export class SystemUsersController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<void> {
     try {
-      await this.systemUsersService.remove(id);
+      await this.usersService.remove(id);
     } catch (error) {
       const err = error as Error;
       throw new BadRequestException(err.name, {

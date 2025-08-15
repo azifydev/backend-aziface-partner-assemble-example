@@ -14,7 +14,7 @@ import { HttpClientModule } from './http-client/http-client.module';
 import { HttpClientService } from './http-client/http-client.service';
 import { LoggingMiddleware } from './middleware/logger.middleware';
 import { PrismaModule } from './prisma/prisma.module';
-import { SystemUsersModule } from './system-users/system-users.module';
+import { UsersModule } from './users/users.module';
 import { BiometricsModule } from './biometrics/biometrics.module';
 
 /**
@@ -44,7 +44,7 @@ import { BiometricsModule } from './biometrics/biometrics.module';
 
     AuthenticationModule,
 
-    SystemUsersModule,
+    UsersModule,
 
     BiometricsModule,
 

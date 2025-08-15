@@ -87,9 +87,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         deleted_at: null,
       },
       include: {
-        system_users: {
+        users: {
           select: {
-            external_id: true,
+            assemble_user_id: true,
           },
         },
       },
@@ -114,7 +114,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     request.user = {
       id: authResult.user_id,
-      external_id: authResult.system_users.external_id,
+      assemble_user_id: authResult.users.assemble_user_id,
     };
   }
 }
