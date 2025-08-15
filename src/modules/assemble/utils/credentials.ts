@@ -1,7 +1,8 @@
 import { UnauthorizedException } from '@nestjs/common';
 
 import type { PartnerInfo } from 'src/authentication/guards/partner-api-key.guard';
-import type { BusinessPartnerDto } from 'src/business-partners/dto/bussiness-partner.dto';
+import type { BusinessPartnerDto } from '../dto/bussiness-partner.dto';
+
 
 export function getCredentialsMaestro(
   partner: BusinessPartnerDto | PartnerInfo,

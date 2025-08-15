@@ -860,6 +860,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Creates a new biometric id",
         "tags": [
           "Biometrics"
@@ -913,6 +918,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Create a new biometric token session",
         "tags": [
           "Biometrics"
@@ -921,8 +931,8 @@
     }
   },
   "info": {
-    "title": "Assemble API",
-    "description": "Documentação da API Assemble",
+    "title": "Backend Aziface Partner Assemble Example API",
+    "description": "Documentação da API Backend Aziface Partner Assemble Example",
     "version": "1.0",
     "contact": {}
   },
@@ -935,12 +945,6 @@
         "in": "header",
         "name": "x-api-key",
         "description": "Partner ApiKey"
-      },
-      "x-api-key-admin": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "x-api-key",
-        "description": "Admin Wisiex ApiKey"
       },
       "bearer": {
         "scheme": "bearer",

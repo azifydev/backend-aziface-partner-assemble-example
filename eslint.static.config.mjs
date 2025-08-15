@@ -1,4 +1,3 @@
-import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
@@ -7,11 +6,6 @@ import security from 'eslint-plugin-security';
 import importPlugin from 'eslint-plugin-import';
 import unicorn from 'eslint-plugin-unicorn';
 import nodePlugin from 'eslint-plugin-n';
-
-const compat = new FlatCompat({
-  baseDirectory: process.cwd(),
-  recommendedConfig: js.configs.recommended,
-});
 
 export default [
   js.configs.recommended,

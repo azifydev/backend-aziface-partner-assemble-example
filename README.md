@@ -5,8 +5,20 @@
 ## � Início Rápido
 
 ```bash
+# Setup config node
+$ nvm use
+
 # Instalar dependências
 $ pnpm install
+
+# Iniciar containers (database)
+$ docker compose up -d
+
+# Executar os migrations
+$ db:migrate:deploy
+
+# Gerar os schemas prisma
+$ pnpm db:generate
 
 # Executar em modo desenvolvimento
 $ pnpm run start:dev

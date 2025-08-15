@@ -63,3 +63,23 @@ export class PartnerApiKeyGuard implements CanActivate {
     }
   }
 }
+
+export interface PartnerInfo {
+  id: PartnerId;
+  name: string;
+  external_id_maestro: string;
+  partner_id_watchman?: string | null;
+  credentials_maestro: {
+    client_id: string;
+    client_secret: string;
+  };
+  credentials_aziface: {
+    client_id: string;
+    client_secret: string;
+  };
+}
+export interface RequestWithPartner extends Request {
+  partner?: PartnerInfo;
+}
+
+export type PartnerId = string;
