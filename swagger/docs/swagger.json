@@ -816,12 +816,64 @@
     },
     "/biometrics/biometric-auth": {
       "post": {
-        "description": "Creates a new system user with the provided data. Returns the created user with all its details.",
-        "operationId": "BiometricsController_create",
+        "operationId": "BiometricsController_createProcess",
         "parameters": [],
         "responses": {
           "201": {
-            "description": "User successfully created. Returns the created user data.",
+            "description": "Process biometric successfully created. Returns the created process data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BiometricProcessDataDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. The provided data is invalid or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request. The user is not authenticated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The user does not have permission to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Creates a new biometric id",
+        "tags": [
+          "Biometrics"
+        ]
+      }
+    },
+    "/biometrics/biometric-auth/session": {
+      "post": {
+        "description": "Creates a new token for biometric authentication process.",
+        "operationId": "BiometricsController_createTokenSession",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Token successfully created. Returns the created token data.",
             "content": {
               "application/json": {
                 "schema": {
@@ -861,7 +913,7 @@
             }
           }
         },
-        "summary": "Create a new system user",
+        "summary": "Create a new biometric token session",
         "tags": [
           "Biometrics"
         ]
@@ -1118,6 +1170,16 @@
             "type": "string",
             "description": "User password",
             "example": "johnDoe"
+          }
+        }
+      },
+      "BiometricProcessDataDto": {
+        "type": "object",
+        "properties": {
+          "process": {
+            "type": "object",
+            "description": "Process ID for biometric",
+            "example": "1234-5678-9012-345678901234"
           }
         }
       },

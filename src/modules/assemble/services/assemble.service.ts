@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 
 import { AssembleBiometricService } from './assemble-biometric.service';
 import { AuthenticatedUser } from 'src/authentication/authentication.controller';
-import { BiometricAuthTokenSessionDataDto } from '../dto/generic-error-maestro.dto';
+import {
+  BiometricAuthTokenSessionDataDto,
+  BiometricProcessDataDto,
+} from '../dto/generic-error-maestro.dto';
 
 @Injectable()
 export class AssembleService {
@@ -10,9 +13,15 @@ export class AssembleService {
     private readonly assembleBiometricService: AssembleBiometricService,
   ) {}
 
-  async createProcess(
+  async createTokenSession(
     user: AuthenticatedUser,
   ): Promise<BiometricAuthTokenSessionDataDto> {
+    return await this.assembleBiometricService.createTokenSession(user);
+  }
+
+  async createProcess(
+    user: AuthenticatedUser,
+  ): Promise<BiometricProcessDataDto> {
     return await this.assembleBiometricService.createProcess(user);
   }
 }

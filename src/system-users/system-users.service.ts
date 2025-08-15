@@ -31,6 +31,7 @@ export class SystemUsersService {
     const data = await this.prismaService.system_users.create({
       data: {
         name: createSystemUserDto.name,
+        external_id: createSystemUserDto?.externalId,
       },
       select: {
         id: true,
@@ -144,28 +145,9 @@ export class SystemUsersService {
     });
   }
 
-  async remove(id: string): Promise<SystemUserDto> {
-    const data = await this.prismaService.system_users.update({
+  async remove(id: string): Promise<void> {
+    await this.prismaService.system_users.delete({
       where: { id },
-      data: { deleted_at: new Date() },
-      select: {
-        id: true,
-
-        name: true,
-        external_id: true,
-        created_at: true,
-        updated_at: true,
-        deleted_at: true,
-      },
-    });
-    return new SystemUserDto({
-      id: data.id,
-
-      name: data.name,
-      externalId: data.external_id,
-      createdAt: data.created_at,
-      updatedAt: data.updated_at,
-      deletedAt: data.deleted_at,
     });
   }
 }

@@ -40,6 +40,16 @@ export class BiometricAuthTokenSessionDataDto {
   token?: string | null;
 }
 
+export class BiometricProcessDataDto {
+  @ApiPropertyOptional({
+    description: 'Process ID for biometric',
+    example: '1234-5678-9012-345678901234',
+  })
+  @IsOptional()
+  @IsString()
+  process?: string | null;
+}
+
 export class BiometricAuthTokenSessionDto extends ResponseFromAssembleDto {
   @ApiProperty({
     description: 'Data related to the biometric authentication token session',
@@ -47,4 +57,13 @@ export class BiometricAuthTokenSessionDto extends ResponseFromAssembleDto {
   })
   @IsObject()
   data: BiometricAuthTokenSessionDataDto;
+}
+
+export class BiometricProcessDto extends ResponseFromAssembleDto {
+  @ApiProperty({
+    description: 'Data related to the biometric authentication token session',
+    type: BiometricProcessDataDto,
+  })
+  @IsObject()
+  data: BiometricProcessDataDto;
 }
