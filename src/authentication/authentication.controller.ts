@@ -11,7 +11,7 @@ import { AuthResponseDto } from './dto/auth-response.dto';
 export interface AuthenticatedUser {
   id: string;
   name?: string;
-  external_id?: string;
+  assemble_user_id?: string;
 }
 
 @Controller('auth')

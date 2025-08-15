@@ -5,7 +5,7 @@ export interface AuthenticationRecord {
   created_at: Date;
   updated_at: Date;
   deleted_at: Date | null;
-  system_users: {
-    external_id: string;
+  users: {
+    assemble_user_id: string;
   };
 }

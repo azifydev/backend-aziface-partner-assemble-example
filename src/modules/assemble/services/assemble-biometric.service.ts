@@ -50,14 +50,14 @@ export class AssembleBiometricService {
     user: AuthenticatedUser,
   ): Promise<BiometricAuthTokenSessionDataDto> {
     try {
-      const systemUser = await this.prismaService.system_users.findFirst({
+      const users = await this.prismaService.users.findFirst({
         where: {
           id: user.id,
         },
       });
 
-      if (!systemUser) {
-        throw new NotFoundException('System user not found');
+      if (!users) {
+        throw new NotFoundException('User not found');
       }
 
       const endpoint = `${this.baseUrl}/biometric/sessions`;
@@ -67,7 +67,7 @@ export class AssembleBiometricService {
       const result = await this.httpClientService.post(
         endpoint,
         {
-          userId: systemUser.external_id,
+          userId: users.assemble_user_id,
         },
         {
           headers,
@@ -94,14 +94,14 @@ export class AssembleBiometricService {
     user: AuthenticatedUser,
   ): Promise<BiometricProcessDataDto> {
     try {
-      const systemUser = await this.prismaService.system_users.findFirst({
+      const users = await this.prismaService.users.findFirst({
         where: {
           id: user.id,
         },
       });
 
-      if (!systemUser) {
-        throw new NotFoundException('System user not found');
+      if (!users) {
+        throw new NotFoundException('User not found');
       }
 
       const endpoint = `${this.baseUrl}/biometric/process`;
@@ -111,7 +111,7 @@ export class AssembleBiometricService {
       const result = await this.httpClientService.post(
         endpoint,
         {
-          userId: systemUser.external_id,
+          userId: users.assemble_user_id,
         },
         {
           headers,

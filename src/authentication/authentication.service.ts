@@ -35,11 +35,11 @@ export class AuthenticationService {
   public async login(authLoginDto: AuthLoginDto): Promise<AuthResponseDto> {
     const { username, password } = authLoginDto;
 
-    const systemUser = await this.prismaService.system_users.findFirst({
+    const users = await this.prismaService.users.findFirst({
       select: {
         id: true,
         name: true,
-        external_id: true,
+        assemble_user_id: true,
         deleted_at: true,
         authentication: {
           select: {
@@ -59,17 +59,17 @@ export class AuthenticationService {
       },
     });
 
-    if (!systemUser || systemUser.deleted_at) {
+    if (!users || users.deleted_at) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     // Verificar se existe autenticação para o usuário
-    if (systemUser.authentication.length === 0) {
+    if (users.authentication.length === 0) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     // Verificar a senha
-    const [authentication] = systemUser.authentication;
+    const [authentication] = users.authentication;
     const isValid = await compare(password, authentication.secret);
 
     if (!isValid) {
@@ -78,9 +78,9 @@ export class AuthenticationService {
 
     // Gerar JWT token
     const payload: Omit<JwtPayload, 'iat' | 'exp'> = {
-      sub: systemUser.id,
-      name: systemUser.name || undefined,
-      external_id: systemUser.external_id || undefined,
+      sub: users.id,
+      name: users.name || undefined,
+      assemble_user_id: users.assemble_user_id || undefined,
     };
 
     const expiresIn = this.configService.get<number>('JWT_EXPIRES_IN') || 3600;
@@ -93,8 +93,8 @@ export class AuthenticationService {
       tokenType: 'Bearer',
       expiresIn,
       user: {
-        id: systemUser.id,
-        name: systemUser.name || undefined,
+        id: users.id,
+        name: users.name || undefined,
       },
     };
   }
@@ -102,7 +102,7 @@ export class AuthenticationService {
   public async validateUser(
     userId: string,
   ): Promise<{ id: string; name: string } | null> {
-    const user = await this.prismaService.system_users.findUnique({
+    const user = await this.prismaService.users.findUnique({
       where: {
         id: userId,
       },

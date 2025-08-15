@@ -433,10 +433,10 @@
         ]
       }
     },
-    "/system-users": {
+    "/users": {
       "post": {
-        "description": "Creates a new system user with the provided data. Returns the created user with all its details.",
-        "operationId": "SystemUsersController_create",
+        "description": "Creates a new user with the provided data. Returns the created user with all its details.",
+        "operationId": "UsersController_create",
         "parameters": [
           {
             "name": "x-api-key",
@@ -453,7 +453,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateSystemUserDto"
+                "$ref": "#/components/schemas/CreateUserDto"
               }
             }
           }
@@ -464,7 +464,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemUserDto"
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -505,14 +505,14 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "Create a new system user",
+        "summary": "Create a new user",
         "tags": [
-          "System Users"
+          "Users"
         ]
       },
       "get": {
-        "description": "Returns a list of all system users that have not been soft deleted.",
-        "operationId": "SystemUsersController_findAll",
+        "description": "Returns a list of all users.",
+        "operationId": "UsersController_findAll",
         "parameters": [
           {
             "name": "x-api-key",
@@ -532,7 +532,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/SystemUserDto"
+                    "$ref": "#/components/schemas/UserDto"
                   }
                 }
               }
@@ -574,16 +574,16 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "List all system users",
+        "summary": "List all users",
         "tags": [
-          "System Users"
+          "Users"
         ]
       }
     },
-    "/system-users/{id}": {
+    "/users/{id}": {
       "get": {
-        "description": "Fetches and returns the details of a system user by its unique identifier (UUID).",
-        "operationId": "SystemUsersController_findOne",
+        "description": "Fetches and returns the details of a user by its unique identifier (UUID).",
+        "operationId": "UsersController_findOne",
         "parameters": [
           {
             "name": "id",
@@ -609,7 +609,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemUserDto"
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -650,14 +650,14 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "Get a system user by ID",
+        "summary": "Get a user by ID",
         "tags": [
-          "System Users"
+          "Users"
         ]
       },
       "patch": {
-        "description": "Updates the details of a system user identified by its UUID. Returns the updated user.",
-        "operationId": "SystemUsersController_update",
+        "description": "Updates the details of a user identified by its UUID. Returns the updated user.",
+        "operationId": "UsersController_update",
         "parameters": [
           {
             "name": "id",
@@ -682,7 +682,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateSystemUserDto"
+                "$ref": "#/components/schemas/UpdateUserDto"
               }
             }
           }
@@ -693,7 +693,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemUserDto"
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -734,14 +734,14 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "Update a system user by ID",
+        "summary": "Update a user by ID",
         "tags": [
-          "System Users"
+          "Users"
         ]
       },
       "delete": {
-        "description": "Performs a soft delete on a system user by its UUID. The user is not removed from the database, only marked as deleted.",
-        "operationId": "SystemUsersController_remove",
+        "description": "Performs a delete on a user by its UUID. The user is not removed from the database, only marked as deleted.",
+        "operationId": "UsersController_remove",
         "parameters": [
           {
             "name": "id",
@@ -762,15 +762,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "User successfully soft deleted.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SystemUserDto"
-                }
-              }
-            }
+          "204": {
+            "description": "User successfully deleted."
           },
           "400": {
             "description": "Bad request when removing user.",
@@ -808,9 +801,9 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "Soft delete a system user by ID",
+        "summary": "Delete a user by ID",
         "tags": [
-          "System Users"
+          "Users"
         ]
       }
     },
@@ -1054,7 +1047,7 @@
           "error"
         ]
       },
-      "CreateSystemUserDto": {
+      "CreateUserDto": {
         "type": "object",
         "properties": {
           "name": {
@@ -1062,7 +1055,7 @@
             "description": "User's name",
             "example": "João Silva"
           },
-          "externalId": {
+          "assembleUserId": {
             "type": "string",
             "description": "External identifier of the user in other systems",
             "example": "external123"
@@ -1084,12 +1077,12 @@
           "password"
         ]
       },
-      "SystemUserDto": {
+      "UserDto": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "description": "Unique identifier for the system user",
+            "description": "Unique identifier for the user",
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           "name": {
@@ -1097,7 +1090,7 @@
             "description": "Name of the user",
             "example": "John Doe"
           },
-          "externalId": {
+          "assembleUserId": {
             "type": "string",
             "description": "External identifier of the user in other systems",
             "example": "external-123"
@@ -1152,7 +1145,7 @@
           "error"
         ]
       },
-      "UpdateSystemUserDto": {
+      "UpdateUserDto": {
         "type": "object",
         "properties": {
           "name": {
@@ -1160,7 +1153,7 @@
             "description": "User's name",
             "example": "João Silva"
           },
-          "externalId": {
+          "assembleUserId": {
             "type": "string",
             "description": "External identifier of the user in other systems",
             "example": "external123"
