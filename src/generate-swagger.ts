@@ -4,7 +4,6 @@ import type { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from 'src/app.module';
 import {
   configSwagger,
-  configSwaggerInternal,
 } from 'src/config/config.swagger';
 
 /**
@@ -27,7 +26,6 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   configSwagger(app);
-  configSwaggerInternal(app);
 }
 
 void bootstrap();

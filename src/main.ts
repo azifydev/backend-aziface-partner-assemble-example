@@ -1,21 +1,15 @@
-import { join } from 'node:path';
-
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 
-import express, {
-  type Request,
-  type Response,
-  type NextFunction,
-} from 'express';
+import express from 'express';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 import { configAppEnv } from './config/config.app.env';
 import { configCors } from './config/config.cors';
-import { configSwagger, configSwaggerInternal } from './config/config.swagger';
+import { configSwagger } from './config/config.swagger';
 export type Teste = 'teste';
 
 /**
@@ -52,42 +46,7 @@ async function bootstrap(): Promise<void> {
   app.useLogger(logger);
 
   configSwagger(app);
-  configSwaggerInternal(app);
 
-  app.use('/docs-static', (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
-
-    console.log(`Authorization Header: ${authHeader}`);
-
-    if (!authHeader || !authHeader.startsWith('Basic ')) {
-      res.set('WWW-Authenticate', 'Basic realm="Documentation"');
-      return res.status(401).send('Authentication required');
-    }
-
-    const [, base64Credentials] = authHeader.split(' ');
-    const credentials = Buffer.from(base64Credentials, 'base64').toString(
-      'utf-8',
-    );
-
-    const [username, password] = credentials.split(':');
-
-    console.log(`Username: ${username}, Password: ${password}`);
-
-    if (
-      username === process.env.DOCS_USER &&
-      password === process.env.DOCS_PASSWORD
-    ) {
-      next();
-    } else {
-      res.set('WWW-Authenticate', 'Basic realm="Documentation"');
-      res.status(401).send('Invalid credentials');
-    }
-  });
-
-  // Servir documentação estática após autenticação
-  app.useStaticAssets(join(__dirname, '..', 'docs'), {
-    prefix: '/docs-static/',
-  });
   configAppEnv();
 
   configCors(app);

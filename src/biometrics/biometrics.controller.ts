@@ -6,7 +6,7 @@ import {
   BadRequestException,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 import { BadRequestDto } from 'src/common/dtos/bad-request.dto';
 import { ForbiddenRequestDto } from 'src/common/dtos/forbidden-request.dto';
@@ -23,6 +23,7 @@ import {
 
 @ApiTags('Biometrics')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 @Controller('biometrics')
 export class BiometricsController {
   constructor(private readonly assembleService: AssembleService) {}

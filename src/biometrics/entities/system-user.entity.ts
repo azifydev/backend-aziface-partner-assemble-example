@@ -4,8 +4,9 @@ import {
   type SnakeCaseLike,
   toSnakeLike,
 } from 'src/common/types/snake-like-object';
+import { CreateSystemUserDto } from 'src/system-users/dto/create-system-user.dto';
 
-import type { CreateSystemUserDto } from '../dto/create-system-user.dto';
+
 
 export class SystemUser {
   id: string;
