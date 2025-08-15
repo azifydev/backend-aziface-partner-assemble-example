@@ -1,0 +1,1136 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Returns a simple hello world message",
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get Hello World",
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthController_check",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Check application health status",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/health/liveness": {
+      "get": {
+        "operationId": "HealthController_getLiveness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Application is alive"
+          }
+        },
+        "summary": "Liveness probe for Kubernetes",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/health/readiness": {
+      "get": {
+        "operationId": "HealthController_getReadiness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Readiness probe for Kubernetes",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Authenticates a user and returns a JWT access token",
+        "operationId": "AuthenticationController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthLoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "User login with JWT token generation",
+        "tags": [
+          "Authentication",
+          "Authentication"
+        ]
+      }
+    },
+    "/system-users": {
+      "post": {
+        "description": "Creates a new system user with the provided data. Returns the created user with all its details.",
+        "operationId": "SystemUsersController_create",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "Partner api key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSystemUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully created. Returns the created user data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. The provided data is invalid or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request. The user is not authenticated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The user does not have permission to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key-partner": []
+          }
+        ],
+        "summary": "Create a new system user",
+        "tags": [
+          "System Users"
+        ]
+      },
+      "get": {
+        "description": "Returns a list of all system users that have not been soft deleted.",
+        "operationId": "SystemUsersController_findAll",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "Partner api key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users successfully returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SystemUserDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request when listing users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request when listing users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access when listing users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key-partner": []
+          }
+        ],
+        "summary": "List all system users",
+        "tags": [
+          "System Users"
+        ]
+      }
+    },
+    "/system-users/{id}": {
+      "get": {
+        "description": "Fetches and returns the details of a system user by its unique identifier (UUID).",
+        "operationId": "SystemUsersController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "Partner api key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found and returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request when fetching user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request when fetching user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access when fetching user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key-partner": []
+          }
+        ],
+        "summary": "Get a system user by ID",
+        "tags": [
+          "System Users"
+        ]
+      },
+      "patch": {
+        "description": "Updates the details of a system user identified by its UUID. Returns the updated user.",
+        "operationId": "SystemUsersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "Partner api key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSystemUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request when updating user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request when updating user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access when updating user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key-partner": []
+          }
+        ],
+        "summary": "Update a system user by ID",
+        "tags": [
+          "System Users"
+        ]
+      },
+      "delete": {
+        "description": "Performs a soft delete on a system user by its UUID. The user is not removed from the database, only marked as deleted.",
+        "operationId": "SystemUsersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "Partner api key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully soft deleted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request when removing user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request when removing user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access when removing user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key-partner": []
+          }
+        ],
+        "summary": "Soft delete a system user by ID",
+        "tags": [
+          "System Users"
+        ]
+      }
+    },
+    "/biometrics/biometric-auth": {
+      "post": {
+        "description": "Creates a new system user with the provided data. Returns the created user with all its details.",
+        "operationId": "BiometricsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "User successfully created. Returns the created user data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BiometricAuthTokenSessionDataDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. The provided data is invalid or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request. The user is not authenticated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden. The user does not have permission to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create a new system user",
+        "tags": [
+          "Biometrics"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Assemble API",
+    "description": "Documentação da API Assemble",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "x-api-key-partner": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "Partner ApiKey"
+      },
+      "x-api-key-admin": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "Admin Wisiex ApiKey"
+      },
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "in": "header",
+        "name": "bearer",
+        "description": "Autorization Bearer"
+      }
+    },
+    "schemas": {
+      "AuthLoginDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "User ID in the Assemble system",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "minha-chave-secreta-123"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "AuthResponseDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "Token JWT de acesso",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          },
+          "tokenType": {
+            "type": "string",
+            "description": "Tipo do token",
+            "example": "Bearer"
+          },
+          "expiresIn": {
+            "type": "number",
+            "description": "Tempo de expiração do token em segundos",
+            "example": 3600
+          },
+          "user": {
+            "type": "object",
+            "description": "Dados do usuário autenticado"
+          }
+        },
+        "required": [
+          "accessToken",
+          "tokenType",
+          "expiresIn",
+          "user"
+        ]
+      },
+      "BadRequestDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error message describing the bad request",
+            "example": "Invalid input data"
+          },
+          "statusCode": {
+            "type": "number",
+            "description": "HTTP status code for the error",
+            "example": 400
+          },
+          "error": {
+            "type": "string",
+            "description": "Error type or name",
+            "example": "Bad Request"
+          }
+        },
+        "required": [
+          "message",
+          "statusCode",
+          "error"
+        ]
+      },
+      "UnauthorizedRequestDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error message describing the unauthorized request"
+          },
+          "statusCode": {
+            "type": "number",
+            "description": "HTTP status code for the error",
+            "example": 401
+          },
+          "error": {
+            "type": "string",
+            "description": "Error type or name",
+            "example": "Unauthorized"
+          }
+        },
+        "required": [
+          "message",
+          "statusCode",
+          "error"
+        ]
+      },
+      "CreateSystemUserDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "João Silva"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "External identifier of the user in other systems",
+            "example": "external123"
+          },
+          "username": {
+            "type": "string",
+            "description": "User name",
+            "example": "johnDoe"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "example": "johnDoe"
+          }
+        },
+        "required": [
+          "name",
+          "username",
+          "password"
+        ]
+      },
+      "SystemUserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the system user",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the user",
+            "example": "John Doe"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "External identifier of the user in other systems",
+            "example": "external-123"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Timestamp when the user was created",
+            "example": "2023-10-01T12:00:00Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Timestamp when the user was last updated",
+            "example": "2023-10-01T12:00:00Z"
+          },
+          "deletedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "If null the user is not deleted, otherwise it is the timestamp when the user was deleted",
+            "example": null
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ForbiddenRequestDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error message describing the forbidden request",
+            "example": "You do not have permission to access this resource"
+          },
+          "statusCode": {
+            "type": "number",
+            "description": "HTTP status code for the error",
+            "example": 403
+          },
+          "error": {
+            "type": "string",
+            "description": "Error type or name",
+            "example": "Forbidden"
+          }
+        },
+        "required": [
+          "message",
+          "statusCode",
+          "error"
+        ]
+      },
+      "UpdateSystemUserDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "João Silva"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "External identifier of the user in other systems",
+            "example": "external123"
+          },
+          "username": {
+            "type": "string",
+            "description": "User name",
+            "example": "johnDoe"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "example": "johnDoe"
+          }
+        }
+      },
+      "BiometricAuthTokenSessionDataDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "object",
+            "description": "Token for biometric authentication",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          }
+        }
+      }
+    }
+  }
+}

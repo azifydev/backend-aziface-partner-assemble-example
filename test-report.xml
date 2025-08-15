@@ -1,0 +1,1069 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="/home/wisiex/work/assemble/src/modules/aziface/services/aziface.service.spec.ts">
+    <testCase name="AzifaceService should be defined" duration="34"/>
+    <testCase name="AzifaceService retrieveConfig should throw BadRequestException when Erro desconhecido" duration="51"/>
+    <testCase name="AzifaceService createProcess should throw NotFoundException when User not found" duration="4"/>
+    <testCase name="AzifaceService createProcess should throw NotFoundException when user not found in partner" duration="3"/>
+    <testCase name="AzifaceService createProcess should throw NotFoundException when service Aziface error" duration="10"/>
+    <testCase name="AzifaceService createProcess should throw NotFoundException when service Aziface return error `true`" duration="4"/>
+    <testCase name="AzifaceService createProcess should create a new processIdAziface" duration="4"/>
+    <testCase name="AzifaceService createProcess should update processIdAziface" duration="3"/>
+    <testCase name="AzifaceService createProcess should create a new processId" duration="5"/>
+    <testCase name="AzifaceService createProcess should update a processId" duration="4"/>
+    <testCase name="AzifaceService createTokenSessionService should throw NotFoundException when Erro desconhecido" duration="4"/>
+    <testCase name="AzifaceService createTokenSessionService should throw NotFoundException when user not found in partner" duration="4"/>
+    <testCase name="AzifaceService createTokenSessionService should throw NotFoundException when service Aziface error" duration="5"/>
+    <testCase name="AzifaceService createTokenSessionService should throw NotFoundException when service Aziface return error `true`" duration="4"/>
+    <testCase name="AzifaceService createTokenSessionService should create a onboardingEnrollmentId" duration="3"/>
+    <testCase name="AzifaceService createTokenSessionService should create a new token session" duration="4"/>
+    <testCase name="AzifaceService retrieveProcess should throw NotFoundException when processId not found" duration="4"/>
+    <testCase name="AzifaceService retrieveProcess should throw NotFoundException when user not found in partner" duration="39"/>
+    <testCase name="AzifaceService retrieveProcess should throw NotFoundException when service Aziface error`" duration="17"/>
+    <testCase name="AzifaceService retrieveProcess should throw NotFoundException when service Aziface return error `true`" duration="11"/>
+    <testCase name="AzifaceService retrieveProcess should retrieve a biometric process`" duration="6"/>
+    <testCase name="AzifaceService validateProcess should throw NotFoundException when processId not found" duration="31"/>
+    <testCase name="AzifaceService validateProcess should throw NotFoundException when user not found in partner" duration="2"/>
+    <testCase name="AzifaceService validateProcess should throw NotFoundException when service Aziface error`" duration="2"/>
+    <testCase name="AzifaceService validateProcess should throw NotFoundException when service Aziface return error `true`" duration="2"/>
+    <testCase name="AzifaceService validateProcess should validate a biometric process status PENDING`" duration="2"/>
+    <testCase name="AzifaceService validateProcess should validate a biometric process status COMPLETE`" duration="2"/>
+    <testCase name="AzifaceService validateProcess should validate a biometric process status FAILED`" duration="5"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/notifications/controllers/notifications.controller.spec.ts">
+    <testCase name="NotificationsController should be defined" duration="17"/>
+    <testCase name="NotificationsController createOnboardingNotification should create a new onboarding notification " duration="4"/>
+    <testCase name="NotificationsController createOnboardingNotification should throw NotFoundException on service error" duration="10"/>
+    <testCase name="NotificationsController createOnboardingNotification should throw BadGatewayException on service error" duration="3"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users-groups/groups-permissions-management.service.spec.ts">
+    <testCase name="GroupsPermissionsManagementService Basic functionality should be defined" duration="39"/>
+    <testCase name="GroupsPermissionsManagementService getAllSystemPermissions should return all system permissions" duration="30"/>
+    <testCase name="GroupsPermissionsManagementService getAllSystemPermissions should handle empty permissions result" duration="18"/>
+    <testCase name="GroupsPermissionsManagementService getAllGroups should return all active groups without filter" duration="17"/>
+    <testCase name="GroupsPermissionsManagementService getAllGroups should return groups filtered by partnerId" duration="19"/>
+    <testCase name="GroupsPermissionsManagementService getAllGroups should handle empty groups result" duration="24"/>
+    <testCase name="GroupsPermissionsManagementService getAllGroupsPermissions should return all group permissions without filter" duration="76"/>
+    <testCase name="GroupsPermissionsManagementService getAllGroupsPermissions should return group permissions filtered by partnerId" duration="12"/>
+    <testCase name="GroupsPermissionsManagementService createPermissionAssociations should create permission associations successfully" duration="15"/>
+    <testCase name="GroupsPermissionsManagementService createPermissionAssociations should handle empty permissions array" duration="25"/>
+    <testCase name="GroupsPermissionsManagementService ensureRequiredGroupsPermissionsExist should complete permissions management process successfully" duration="15"/>
+    <testCase name="GroupsPermissionsManagementService ensureRequiredGroupsPermissionsExist should skip processing when no groups found" duration="41"/>
+    <testCase name="GroupsPermissionsManagementService ensureRequiredGroupsPermissionsExist should handle no missing permissions case" duration="17"/>
+    <testCase name="GroupsPermissionsManagementService ensureRequiredGroupsPermissionsExist should handle specific partner filter" duration="26"/>
+    <testCase name="GroupsPermissionsManagementService Private methods behavior through public interface should correctly match WISIEX admin groups and assign permissions" duration="23"/>
+    <testCase name="GroupsPermissionsManagementService Private methods behavior through public interface should correctly match PARTNER admin groups and assign permissions" duration="13"/>
+    <testCase name="GroupsPermissionsManagementService Private methods behavior through public interface should correctly match CUSTOMER groups and assign permissions" duration="34"/>
+    <testCase name="GroupsPermissionsManagementService Private methods behavior through public interface should warn when permission not found in system" duration="16"/>
+    <testCase name="GroupsPermissionsManagementService Private methods behavior through public interface should not process groups that do not match any pattern" duration="33"/>
+    <testCase name="GroupsPermissionsManagementService Error handling should handle Prisma errors gracefully in getAllSystemPermissions" duration="36"/>
+    <testCase name="GroupsPermissionsManagementService Error handling should handle Prisma errors gracefully in getAllGroups" duration="21"/>
+    <testCase name="GroupsPermissionsManagementService Error handling should handle Prisma errors gracefully in getAllGroupsPermissions" duration="13"/>
+    <testCase name="GroupsPermissionsManagementService Error handling should handle Prisma errors gracefully in createPermissionAssociations" duration="21"/>
+    <testCase name="GroupsPermissionsManagementService Error handling should handle errors in the main orchestration method" duration="12"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/onboarding_process/onboarding-process.service.spec.ts">
+    <testCase name="OnboardingProcessService Basic functionality should be defined" duration="57"/>
+    <testCase name="OnboardingProcessService create should create a new onboarding process successfully" duration="19"/>
+    <testCase name="OnboardingProcessService create should handle entity transformation correctly" duration="43"/>
+    <testCase name="OnboardingProcessService create should handle prisma errors" duration="68"/>
+    <testCase name="OnboardingProcessService findAll should return all onboarding processes excluding deleted ones" duration="16"/>
+    <testCase name="OnboardingProcessService findAll should return empty array when no processes exist" duration="12"/>
+    <testCase name="OnboardingProcessService findAll should handle database errors" duration="28"/>
+    <testCase name="OnboardingProcessService findOne should return a single onboarding process by id" duration="14"/>
+    <testCase name="OnboardingProcessService findOne should return null when process not found" duration="24"/>
+    <testCase name="OnboardingProcessService findOne should handle database errors" duration="19"/>
+    <testCase name="OnboardingProcessService findByUserId should return onboarding process by user id" duration="28"/>
+    <testCase name="OnboardingProcessService findByUserId should return null when no process found for user" duration="11"/>
+    <testCase name="OnboardingProcessService update should update and return the onboarding process" duration="31"/>
+    <testCase name="OnboardingProcessService update should handle partial updates" duration="12"/>
+    <testCase name="OnboardingProcessService update should handle update errors" duration="31"/>
+    <testCase name="OnboardingProcessService remove should soft delete onboarding process" duration="12"/>
+    <testCase name="OnboardingProcessService remove should handle remove errors" duration="23"/>
+    <testCase name="OnboardingProcessService setOnboardingProcess should create new onboarding process when none exists" duration="12"/>
+    <testCase name="OnboardingProcessService setOnboardingProcess should update existing onboarding process when it exists" duration="37"/>
+    <testCase name="OnboardingProcessService setOnboardingProcess should handle null status and eventName correctly" duration="17"/>
+    <testCase name="OnboardingProcessService setOnboardingProcess should handle errors in setOnboardingProcess" duration="21"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users-groups/groups-management.service.spec.ts">
+    <testCase name="GroupsManagementService Basic functionality should be defined" duration="50"/>
+    <testCase name="GroupsManagementService getAllPartners should return all partners without filter" duration="14"/>
+    <testCase name="GroupsManagementService getAllPartners should return partners filtered by partnerId" duration="20"/>
+    <testCase name="GroupsManagementService getAllPartners should return empty array when no partners found" duration="29"/>
+    <testCase name="GroupsManagementService getAllGroups should return all groups without filter" duration="23"/>
+    <testCase name="GroupsManagementService getAllGroups should return groups filtered by partnerId" duration="33"/>
+    <testCase name="GroupsManagementService getGroupsByPartnerId should return groups for specific partner" duration="64"/>
+    <testCase name="GroupsManagementService getGroupsByPartnerId should return empty array when no groups found for partner" duration="26"/>
+    <testCase name="GroupsManagementService detectMissingGroups should detect missing groups correctly" duration="17"/>
+    <testCase name="GroupsManagementService detectMissingGroups should return empty array when no groups are missing" duration="14"/>
+    <testCase name="GroupsManagementService detectMissingGroups should handle partner with no existing groups" duration="26"/>
+    <testCase name="GroupsManagementService createMissingGroups should create missing groups successfully" duration="42"/>
+    <testCase name="GroupsManagementService createMissingGroups should handle empty missing groups array" duration="20"/>
+    <testCase name="GroupsManagementService verifyPartnerRequiredGroups should verify partner has all required groups" duration="43"/>
+    <testCase name="GroupsManagementService verifyPartnerRequiredGroups should detect missing required groups" duration="18"/>
+    <testCase name="GroupsManagementService verifyPartnerRequiredGroups should throw error when partner not found" duration="78"/>
+    <testCase name="GroupsManagementService ensureRequiredGroupsExist should complete groups management process successfully" duration="12"/>
+    <testCase name="GroupsManagementService ensureRequiredGroupsExist should skip processing when no partners found" duration="28"/>
+    <testCase name="GroupsManagementService ensureRequiredGroupsExist should handle no missing groups case" duration="17"/>
+    <testCase name="GroupsManagementService ensureRequiredGroupsExist should handle specific partner filter" duration="29"/>
+    <testCase name="GroupsManagementService Error handling should handle Prisma errors gracefully in getAllPartners" duration="14"/>
+    <testCase name="GroupsManagementService Error handling should handle Prisma errors gracefully in getAllGroups" duration="26"/>
+    <testCase name="GroupsManagementService Error handling should handle Prisma errors gracefully in createMissingGroups" duration="12"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/group-required-constraints/group-required-constraints.service.spec.ts">
+    <testCase name="GroupRequiredConstraintsService Basic functionality should be defined" duration="49"/>
+    <testCase name="GroupRequiredConstraintsService create should create a group required constraint successfully" duration="20"/>
+    <testCase name="GroupRequiredConstraintsService create should handle creation errors" duration="124"/>
+    <testCase name="GroupRequiredConstraintsService create should handle result without created_at and set it" duration="15"/>
+    <testCase name="GroupRequiredConstraintsService findAll should return all group required constraints for a partner" duration="21"/>
+    <testCase name="GroupRequiredConstraintsService findAll should return empty array when no constraints exist" duration="28"/>
+    <testCase name="GroupRequiredConstraintsService findAll should handle database errors" duration="17"/>
+    <testCase name="GroupRequiredConstraintsService findOne should return a group required constraint by id and partner" duration="31"/>
+    <testCase name="GroupRequiredConstraintsService findOne should throw NotFoundException when constraint not found" duration="18"/>
+    <testCase name="GroupRequiredConstraintsService findOne should handle database errors" duration="32"/>
+    <testCase name="GroupRequiredConstraintsService findByGroupId should return constraints by group id and partner" duration="24"/>
+    <testCase name="GroupRequiredConstraintsService findByGroupId should return empty array when no constraints exist for group" duration="39"/>
+    <testCase name="GroupRequiredConstraintsService findByResourceId should return constraints by resource id and partner" duration="13"/>
+    <testCase name="GroupRequiredConstraintsService findByConstraintId should return constraints by constraint id and partner" duration="28"/>
+    <testCase name="GroupRequiredConstraintsService update should update a group required constraint successfully" duration="12"/>
+    <testCase name="GroupRequiredConstraintsService update should throw NotFoundException when constraint to update not found" duration="29"/>
+    <testCase name="GroupRequiredConstraintsService update should handle partial updates" duration="13"/>
+    <testCase name="GroupRequiredConstraintsService update should handle update errors" duration="26"/>
+    <testCase name="GroupRequiredConstraintsService remove should soft delete a group required constraint" duration="18"/>
+    <testCase name="GroupRequiredConstraintsService remove should throw NotFoundException when constraint to remove not found" duration="22"/>
+    <testCase name="GroupRequiredConstraintsService remove should handle deletion errors" duration="16"/>
+    <testCase name="GroupRequiredConstraintsService remove should set deleted_at and updated_at with current timestamp" duration="30"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/system-permission-constraints/system-permission-constraints.service.spec.ts">
+    <testCase name="SystemPermissionConstraintsService Basic functionality should be defined" duration="38"/>
+    <testCase name="SystemPermissionConstraintsService create should create a system permission constraint successfully" duration="23"/>
+    <testCase name="SystemPermissionConstraintsService create should handle database creation errors" duration="64"/>
+    <testCase name="SystemPermissionConstraintsService create should create constraint with optional description" duration="50"/>
+    <testCase name="SystemPermissionConstraintsService findAll should return all active system permission constraints" duration="73"/>
+    <testCase name="SystemPermissionConstraintsService findAll should return empty array when no constraints exist" duration="11"/>
+    <testCase name="SystemPermissionConstraintsService findAll should handle database query errors" duration="21"/>
+    <testCase name="SystemPermissionConstraintsService findOne should return a constraint when found" duration="25"/>
+    <testCase name="SystemPermissionConstraintsService findOne should return null when constraint not found" duration="19"/>
+    <testCase name="SystemPermissionConstraintsService findOne should handle database query errors" duration="46"/>
+    <testCase name="SystemPermissionConstraintsService findByPartnerId should return constraints for a specific partner" duration="26"/>
+    <testCase name="SystemPermissionConstraintsService findByPartnerId should return empty array when partner has no constraints" duration="34"/>
+    <testCase name="SystemPermissionConstraintsService findByPartnerId should handle database query errors" duration="12"/>
+    <testCase name="SystemPermissionConstraintsService update should update a system permission constraint successfully" duration="28"/>
+    <testCase name="SystemPermissionConstraintsService update should handle partial updates" duration="15"/>
+    <testCase name="SystemPermissionConstraintsService update should handle update errors" duration="20"/>
+    <testCase name="SystemPermissionConstraintsService update should clear optional fields when set to undefined" duration="10"/>
+    <testCase name="SystemPermissionConstraintsService remove should soft delete a system permission constraint" duration="34"/>
+    <testCase name="SystemPermissionConstraintsService remove should handle removal errors" duration="19"/>
+    <testCase name="SystemPermissionConstraintsService remove should handle database connection errors during removal" duration="26"/>
+    <testCase name="SystemPermissionConstraintsService mapToDto should correctly map prisma data to DTO" duration="12"/>
+    <testCase name="SystemPermissionConstraintsService mapToDto should handle null values correctly in mapping" duration="26"/>
+    <testCase name="SystemPermissionConstraintsService Integration scenarios should handle complete CRUD lifecycle" duration="16"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/onboardings/services/onboardings.service.spec.ts">
+    <testCase name="OnboardingsService should be defined" duration="21"/>
+    <testCase name="OnboardingsService getOboardingByBankUserId should throw BadRequestException when customer type not found" duration="47"/>
+    <testCase name="OnboardingsService getOboardingByBankUserId should throw BadRequestException when customer type invalid" duration="12"/>
+    <testCase name="OnboardingsService getOboardingByBankUserId should throw NotFoundException when customer not found" duration="6"/>
+    <testCase name="OnboardingsService getOboardingByBankUserId should throw NotFoundException when partner not found" duration="7"/>
+    <testCase name="OnboardingsService getOboardingByBankUserId should throw BadGatewayException when watchman server error" duration="4"/>
+    <testCase name="OnboardingsService getOboardingByBankUserId should retrieve onboarding by customer" duration="6"/>
+    <testCase name="OnboardingsService setCompleteOnboarding should throw BadRequestException when customer type not found" duration="5"/>
+    <testCase name="OnboardingsService setCompleteOnboarding should throw BadRequestException when customer type invalid" duration="6"/>
+    <testCase name="OnboardingsService setCompleteOnboarding should throw NotFoundException when customer not found" duration="5"/>
+    <testCase name="OnboardingsService setCompleteOnboarding should throw BadRequestException when partner not found" duration="5"/>
+    <testCase name="OnboardingsService setCompleteOnboarding should throw BadGatewayException when watchman server error" duration="5"/>
+    <testCase name="OnboardingsService setCompleteOnboarding should throw BadGatewayException when watchman server response error in onboarding" duration="6"/>
+    <testCase name="OnboardingsService setCompleteOnboarding should complete onboarding proccess" duration="5"/>
+    <testCase name="OnboardingsService updateOnboarding should throw BadRequestException when customer type not found" duration="5"/>
+    <testCase name="OnboardingsService updateOnboarding should throw BadRequestException when customer type invalid" duration="7"/>
+    <testCase name="OnboardingsService updateOnboarding should throw BadRequestException when customer not found" duration="5"/>
+    <testCase name="OnboardingsService updateOnboarding should throw BadRequestException when partner not found" duration="4"/>
+    <testCase name="OnboardingsService updateOnboarding should throw BadGatewayException when taxpayer not found" duration="5"/>
+    <testCase name="OnboardingsService updateOnboarding should throw BadGatewayException when service watchman updateOnboarding return error" duration="12"/>
+    <testCase name="OnboardingsService updateOnboarding should update onboarding with azifaceProcess" duration="6"/>
+    <testCase name="OnboardingsService documentAnalysis should throw BadRequestException when customer type not found" duration="5"/>
+    <testCase name="OnboardingsService documentAnalysis should throw BadRequestException when customer type invalid" duration="5"/>
+    <testCase name="OnboardingsService documentAnalysis should throw BadRequestException when document invalid" duration="4"/>
+    <testCase name="OnboardingsService documentAnalysis should throw NotFoundException when customer not found" duration="4"/>
+    <testCase name="OnboardingsService documentAnalysis should throw NotFoundException when partner not found" duration="4"/>
+    <testCase name="OnboardingsService documentAnalysis should throw BadGatewayException when file error" duration="5"/>
+    <testCase name="OnboardingsService documentAnalysis should throw BadGatewayException when file error" duration="5"/>
+    <testCase name="OnboardingsService setAzifaceProcessCode should throw BadRequestException when customer type not found" duration="5"/>
+    <testCase name="OnboardingsService setAzifaceProcessCode should throw BadRequestException when customer type invalid" duration="5"/>
+    <testCase name="OnboardingsService setAzifaceProcessCode should throw BadRequestException when process not found" duration="4"/>
+    <testCase name="OnboardingsService setAzifaceProcessCode should throw BadRequestException when partner mismatch" duration="6"/>
+    <testCase name="OnboardingsService setAzifaceProcessCode should throw BadRequestException if aziface status not COMPLETE" duration="6"/>
+    <testCase name="OnboardingsService setAzifaceProcessCode should update onboarding with azifaceProcess" duration="5"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/user-required-constraints/user-required-constraints.service.spec.ts">
+    <testCase name="UserRequiredConstraintsService create should create a user required constraint" duration="41"/>
+    <testCase name="UserRequiredConstraintsService create should propagate errors from prisma" duration="96"/>
+    <testCase name="UserRequiredConstraintsService findAll should return all user required constraints for a partner" duration="28"/>
+    <testCase name="UserRequiredConstraintsService findAll should propagate errors from prisma" duration="16"/>
+    <testCase name="UserRequiredConstraintsService findOne should return a user required constraint by id" duration="19"/>
+    <testCase name="UserRequiredConstraintsService findOne should throw NotFoundException if not found" duration="35"/>
+    <testCase name="UserRequiredConstraintsService findOne should propagate errors from prisma" duration="56"/>
+    <testCase name="UserRequiredConstraintsService findByUserId should return constraints by userId" duration="18"/>
+    <testCase name="UserRequiredConstraintsService findByUserId should propagate errors from prisma" duration="20"/>
+    <testCase name="UserRequiredConstraintsService findByResourceId should return constraints by resourceId" duration="43"/>
+    <testCase name="UserRequiredConstraintsService findByResourceId should propagate errors from prisma" duration="13"/>
+    <testCase name="UserRequiredConstraintsService findByConstraintId should return constraints by constraintId" duration="25"/>
+    <testCase name="UserRequiredConstraintsService findByConstraintId should propagate errors from prisma" duration="12"/>
+    <testCase name="UserRequiredConstraintsService findByAppliedBy should return constraints by appliedBy" duration="30"/>
+    <testCase name="UserRequiredConstraintsService findByAppliedBy should propagate errors from prisma" duration="10"/>
+    <testCase name="UserRequiredConstraintsService update should update a user required constraint" duration="27"/>
+    <testCase name="UserRequiredConstraintsService update should throw NotFoundException if not found" duration="11"/>
+    <testCase name="UserRequiredConstraintsService update should propagate errors from prisma" duration="31"/>
+    <testCase name="UserRequiredConstraintsService remove should soft delete a user required constraint" duration="25"/>
+    <testCase name="UserRequiredConstraintsService remove should throw NotFoundException if not found" duration="29"/>
+    <testCase name="UserRequiredConstraintsService remove should propagate errors from prisma" duration="12"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/customers/services/customers.service.spec.ts">
+    <testCase name="CustomersService should be defined" duration="24"/>
+    <testCase name="CustomersService create should throw UnauthorizedException when group not found" duration="33"/>
+    <testCase name="CustomersService create should throw UnauthorizedException when unauthorized group access" duration="3"/>
+    <testCase name="CustomersService create should throw ConflictException when email or phone number or username already exists" duration="5"/>
+    <testCase name="CustomersService create should create a new customer successfully" duration="62"/>
+    <testCase name="CustomersService create should handle maestro service error" duration="5"/>
+    <testCase name="CustomersService create should handle HTTP error response" duration="4"/>
+    <testCase name="CustomersService create should throw BadRequestException when taxpayer is invalid" duration="4"/>
+    <testCase name="CustomersService create should throw UnauthorizedException when taxIdStatus is not REGULAR" duration="3"/>
+    <testCase name="CustomersService create should handle transaction rollback on database error" duration="4"/>
+    <testCase name="CustomersService private methods should create system user" duration="3"/>
+    <testCase name="CustomersService private methods should create authentication" duration="73"/>
+    <testCase name="CustomersService private methods should insert bank user" duration="4"/>
+    <testCase name="CustomersService private methods should create user data" duration="4"/>
+    <testCase name="CustomersService private methods should check if user data value exists" duration="5"/>
+    <testCase name="CustomersService private methods should return null when user data value does not exist" duration="3"/>
+    <testCase name="CustomersService private methods should build user data entities" duration="5"/>
+    <testCase name="CustomersService private methods should build create response" duration="5"/>
+    <testCase name="CustomersService private methods should build create bank user dto" duration="3"/>
+    <testCase name="CustomersService private methods should identify HTTP error response correctly" duration="15"/>
+    <testCase name="CustomersService private methods should not identify non-HTTP error as HTTP error response" duration="2"/>
+    <testCase name="CustomersService private methods should handle createUserInTransaction" duration="64"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/webhooks/controllers/webhooks.controller.spec.ts">
+    <testCase name="WebhooksOnboardingController should be defined" duration="5"/>
+    <testCase name="WebhooksOnboardingController upsertWebhook should create a webhook to partner" duration="4"/>
+    <testCase name="WebhooksOnboardingController upsertWebhook should throw NotFoundException on service error" duration="4"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users/bank-user.controller.spec.ts">
+    <testCase name="BankUserController create should return created bank user and call service.create" duration="7"/>
+    <testCase name="BankUserController create should throw BadRequestException when service throws an Error" duration="22"/>
+    <testCase name="BankUserController create should throw BadRequestException with unknown error when service throws non-Error" duration="1"/>
+    <testCase name="BankUserController findAll should return an array of bank users" duration="2"/>
+    <testCase name="BankUserController findAll should throw BadRequestException when service throws an Error" duration="1"/>
+    <testCase name="BankUserController findAll should throw BadRequestException with unknown error when service throws non-Error" duration="2"/>
+    <testCase name="BankUserController findOne should return a single bank user by id" duration="2"/>
+    <testCase name="BankUserController findOne should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="BankUserController findOne should throw BadRequestException with unknown error when service throws non-Error" duration="5"/>
+    <testCase name="BankUserController remove should remove and return the bank user" duration="4"/>
+    <testCase name="BankUserController remove should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="BankUserController remove should throw BadRequestException with unknown error when service throws non-Error" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/authentication/authentication.service.spec.ts">
+    <testCase name="AuthenticationService createAuthentication should create authentication successfully" duration="34"/>
+    <testCase name="AuthenticationService createAuthentication should handle database errors gracefully" duration="26"/>
+    <testCase name="AuthenticationService login should login user successfully with valid credentials" duration="24"/>
+    <testCase name="AuthenticationService login should throw UnauthorizedException when user not found" duration="19"/>
+    <testCase name="AuthenticationService login should throw UnauthorizedException when user is deleted" duration="36"/>
+    <testCase name="AuthenticationService login should throw UnauthorizedException when no authentication exists" duration="16"/>
+    <testCase name="AuthenticationService login should throw UnauthorizedException when password is invalid" duration="28"/>
+    <testCase name="AuthenticationService login should handle default JWT expires in when config is not set" duration="17"/>
+    <testCase name="AuthenticationService login should handle user with null name and external_id" duration="24"/>
+    <testCase name="AuthenticationService validateUser should return user data when user is valid" duration="15"/>
+    <testCase name="AuthenticationService validateUser should return null when user not found" duration="31"/>
+    <testCase name="AuthenticationService validateUser should return null when user is deleted" duration="14"/>
+    <testCase name="AuthenticationService validateUser should handle database errors" duration="47"/>
+    <testCase name="AuthenticationService Integration Tests should complete full authentication flow" duration="13"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/system-permissions/system-permissions.service.spec.ts">
+    <testCase name="SystemPermissionsService Basic functionality should be defined" duration="24"/>
+    <testCase name="SystemPermissionsService create should create a new system permission with name and description" duration="29"/>
+    <testCase name="SystemPermissionsService create should create a system permission without description" duration="17"/>
+    <testCase name="SystemPermissionsService create should handle database errors during creation" duration="35"/>
+    <testCase name="SystemPermissionsService findAll should return all non-deleted system permissions" duration="17"/>
+    <testCase name="SystemPermissionsService findAll should return empty array when no permissions exist" duration="29"/>
+    <testCase name="SystemPermissionsService findAll should handle database errors during findAll" duration="10"/>
+    <testCase name="SystemPermissionsService findOne should return system permission when found" duration="25"/>
+    <testCase name="SystemPermissionsService findOne should return null when permission not found" duration="10"/>
+    <testCase name="SystemPermissionsService findOne should handle database errors during findOne" duration="32"/>
+    <testCase name="SystemPermissionsService update should update system permission and return updated dto" duration="12"/>
+    <testCase name="SystemPermissionsService update should handle partial updates" duration="34"/>
+    <testCase name="SystemPermissionsService update should handle database errors during update" duration="11"/>
+    <testCase name="SystemPermissionsService remove should soft delete system permission by setting deleted_at" duration="26"/>
+    <testCase name="SystemPermissionsService remove should handle database errors during remove" duration="18"/>
+    <testCase name="SystemPermissionsService edge cases and error handling should handle null/undefined values in DTO properly" duration="41"/>
+    <testCase name="SystemPermissionsService edge cases and error handling should properly map all fields from database to DTO" duration="11"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/user-constraints/user-constraints.service.spec.ts">
+    <testCase name="UserConstraintsService create should create a user constraint" duration="30"/>
+    <testCase name="UserConstraintsService create should propagate errors from prisma" duration="44"/>
+    <testCase name="UserConstraintsService findAll should return all user constraints for a partner" duration="20"/>
+    <testCase name="UserConstraintsService findAll should propagate errors from prisma" duration="32"/>
+    <testCase name="UserConstraintsService findOne should return a user constraint by id" duration="14"/>
+    <testCase name="UserConstraintsService findOne should throw NotFoundException if not found" duration="17"/>
+    <testCase name="UserConstraintsService findOne should propagate errors from prisma" duration="35"/>
+    <testCase name="UserConstraintsService findByUserId should return constraints by userId" duration="13"/>
+    <testCase name="UserConstraintsService findByUserId should propagate errors from prisma" duration="33"/>
+    <testCase name="UserConstraintsService findByConstraintId should return constraints by constraintId" duration="22"/>
+    <testCase name="UserConstraintsService findByConstraintId should propagate errors from prisma" duration="27"/>
+    <testCase name="UserConstraintsService findByGrantedBy should return constraints by grantedBy" duration="13"/>
+    <testCase name="UserConstraintsService findByGrantedBy should propagate errors from prisma" duration="23"/>
+    <testCase name="UserConstraintsService update should update a user constraint" duration="12"/>
+    <testCase name="UserConstraintsService update should throw NotFoundException if not found" duration="30"/>
+    <testCase name="UserConstraintsService update should propagate errors from prisma" duration="12"/>
+    <testCase name="UserConstraintsService remove should soft delete a user constraint" duration="30"/>
+    <testCase name="UserConstraintsService remove should throw NotFoundException if not found" duration="15"/>
+    <testCase name="UserConstraintsService remove should propagate errors from prisma" duration="42"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/user-permissions/user-permissions.service.spec.ts">
+    <testCase name="UserPermissionsService Basic functionality should be defined" duration="29"/>
+    <testCase name="UserPermissionsService create should create a new user permission and return UserPermissionDto" duration="30"/>
+    <testCase name="UserPermissionsService create should handle database errors during creation" duration="32"/>
+    <testCase name="UserPermissionsService findAll should return all non-deleted user permissions as UserPermissionDto array" duration="40"/>
+    <testCase name="UserPermissionsService findAll should return empty array when no user permissions exist" duration="14"/>
+    <testCase name="UserPermissionsService findAll should handle database errors during findAll" duration="24"/>
+    <testCase name="UserPermissionsService findOne should return user permission when found" duration="13"/>
+    <testCase name="UserPermissionsService findOne should return null when user permission not found" duration="21"/>
+    <testCase name="UserPermissionsService findOne should handle database errors during findOne" duration="17"/>
+    <testCase name="UserPermissionsService findByUser should return user permissions for specific user" duration="38"/>
+    <testCase name="UserPermissionsService findByUser should return empty array when user has no permissions" duration="12"/>
+    <testCase name="UserPermissionsService findByUser should handle database errors during findByUser" duration="23"/>
+    <testCase name="UserPermissionsService update should update user permission and return updated UserPermissionDto" duration="11"/>
+    <testCase name="UserPermissionsService update should handle database errors during update" duration="24"/>
+    <testCase name="UserPermissionsService update should update with empty dto (no changes)" duration="15"/>
+    <testCase name="UserPermissionsService remove should soft delete user permission by setting deleted_at" duration="43"/>
+    <testCase name="UserPermissionsService remove should handle database errors during remove" duration="17"/>
+    <testCase name="UserPermissionsService edge cases and error handling should handle null/undefined values in DTO properly" duration="28"/>
+    <testCase name="UserPermissionsService edge cases and error handling should properly map all fields from database to DTO" duration="26"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/system-permission-constraints/system-permission-constraints.controller.spec.ts">
+    <testCase name="SystemPermissionConstraintsController Basic functionality should be defined" duration="7"/>
+    <testCase name="SystemPermissionConstraintsController create should create a system permission constraint successfully" duration="3"/>
+    <testCase name="SystemPermissionConstraintsController create should throw ForbiddenException when creating constraint for another partner" duration="21"/>
+    <testCase name="SystemPermissionConstraintsController create should handle service errors and throw BadRequestException" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController create should handle unknown errors with default message" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController findAll should return an array of system permission constraints" duration="4"/>
+    <testCase name="SystemPermissionConstraintsController findAll should return empty array when no constraints exist" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController findAll should handle service errors and throw BadRequestException" duration="5"/>
+    <testCase name="SystemPermissionConstraintsController findOne should return a single system permission constraint by id" duration="3"/>
+    <testCase name="SystemPermissionConstraintsController findOne should throw BadRequestException when constraint not found" duration="5"/>
+    <testCase name="SystemPermissionConstraintsController findOne should handle service errors and throw BadRequestException" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController findByPartnerId should return constraints for the specified partner" duration="3"/>
+    <testCase name="SystemPermissionConstraintsController findByPartnerId should throw ForbiddenException when accessing another partner constraints" duration="18"/>
+    <testCase name="SystemPermissionConstraintsController findByPartnerId should return empty array when partner has no constraints" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController findByPartnerId should handle service errors and throw BadRequestException" duration="3"/>
+    <testCase name="SystemPermissionConstraintsController update should update and return the system permission constraint" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController update should handle partial updates correctly" duration="1"/>
+    <testCase name="SystemPermissionConstraintsController update should throw ForbiddenException when updating partnerId to another partner" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController update should allow updating partnerId to same partner" duration="3"/>
+    <testCase name="SystemPermissionConstraintsController update should handle service errors and throw BadRequestException" duration="8"/>
+    <testCase name="SystemPermissionConstraintsController remove should remove a system permission constraint successfully" duration="4"/>
+    <testCase name="SystemPermissionConstraintsController remove should handle service errors and throw BadRequestException" duration="6"/>
+    <testCase name="SystemPermissionConstraintsController remove should handle unknown errors with default message" duration="6"/>
+    <testCase name="SystemPermissionConstraintsController Guard Integration should have guards properly mocked" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController Guard Integration should have proper authorization decorators" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController Error Handling should handle Error instances correctly" duration="2"/>
+    <testCase name="SystemPermissionConstraintsController Error Handling should handle non-Error exceptions correctly" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/notifications/services/notification.service.spec.ts">
+    <testCase name="NotificationsService should be defined" duration="9"/>
+    <testCase name="NotificationsService create should throw NotFoundException when partner not found" duration="30"/>
+    <testCase name="NotificationsService create should throw NotFoundException when event not found" duration="4"/>
+    <testCase name="NotificationsService create should throw NotFoundException when User id not found in data notification" duration="4"/>
+    <testCase name="NotificationsService create should throw NotFoundException when User not found" duration="4"/>
+    <testCase name="NotificationsService create should receive the CUSTOMER_WAS_REPROVED event" duration="5"/>
+    <testCase name="NotificationsService create should receive the CUSTOMER_WAS_ON_HOLD event" duration="4"/>
+    <testCase name="NotificationsService create should receive the CUSTOMER_WAS_APPROVED event" duration="4"/>
+    <testCase name="NotificationsService create should create a individual account" duration="5"/>
+    <testCase name="NotificationsService create should update document status when DOCUMENT_WAS_RECEIVED is received and document exists" duration="4"/>
+    <testCase name="NotificationsService create should notify partner when DOCUMENT_WAS_SOLICITED is received" duration="3"/>
+    <testCase name="NotificationsService create should throw NotFoundException if notification.data.id is missing for DOCUMENT_WAS_SOLICITED" duration="3"/>
+    <testCase name="NotificationsService create should throw NotFoundException if user is not found for DOCUMENT_WAS_SOLICITED" duration="4"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/permission-grants-resource/permission-grants-resource.controller.spec.ts">
+    <testCase name="PermissionGrantsResourceController Basic functionality should be defined" duration="5"/>
+    <testCase name="PermissionGrantsResourceController create should create a permission grant and return dto" duration="22"/>
+    <testCase name="PermissionGrantsResourceController create should throw ForbiddenException if partnerId does not match" duration="13"/>
+    <testCase name="PermissionGrantsResourceController create should throw BadRequestException on service error" duration="3"/>
+    <testCase name="PermissionGrantsResourceController findAll should return all permission grants" duration="3"/>
+    <testCase name="PermissionGrantsResourceController findAll should return empty array when no grants exist" duration="2"/>
+    <testCase name="PermissionGrantsResourceController findAll should throw BadRequestException on service error" duration="3"/>
+    <testCase name="PermissionGrantsResourceController findOne should return a permission grant by id" duration="2"/>
+    <testCase name="PermissionGrantsResourceController findOne should return null if not found" duration="3"/>
+    <testCase name="PermissionGrantsResourceController findOne should throw BadRequestException on service error" duration="4"/>
+    <testCase name="PermissionGrantsResourceController remove should remove a permission grant (void return)" duration="3"/>
+    <testCase name="PermissionGrantsResourceController remove should throw BadRequestException on service error" duration="2"/>
+    <testCase name="PermissionGrantsResourceController Guard Integration should have JwtAuthGuard and AuthorizationGuard properly mocked" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/system-users/system-users.service.spec.ts">
+    <testCase name="SystemUsersService Basic functionality should be defined" duration="35"/>
+    <testCase name="SystemUsersService create should create a system user successfully" duration="23"/>
+    <testCase name="SystemUsersService create should handle creation errors" duration="52"/>
+    <testCase name="SystemUsersService create should create user with proper data mapping" duration="23"/>
+    <testCase name="SystemUsersService findAll should return all active system users" duration="29"/>
+    <testCase name="SystemUsersService findAll should return empty array when no users exist" duration="27"/>
+    <testCase name="SystemUsersService findAll should handle database errors" duration="14"/>
+    <testCase name="SystemUsersService findAll should only return non-deleted users" duration="26"/>
+    <testCase name="SystemUsersService findOne should return a system user by id" duration="16"/>
+    <testCase name="SystemUsersService findOne should return null when user not found" duration="40"/>
+    <testCase name="SystemUsersService findOne should handle database errors" duration="12"/>
+    <testCase name="SystemUsersService findOne should handle data mapping correctly when user found" duration="27"/>
+    <testCase name="SystemUsersService update should update a system user successfully" duration="29"/>
+    <testCase name="SystemUsersService update should handle partial updates" duration="12"/>
+    <testCase name="SystemUsersService update should handle update errors" duration="24"/>
+    <testCase name="SystemUsersService update should properly map updated data to DTO" duration="12"/>
+    <testCase name="SystemUsersService remove should soft delete a system user" duration="25"/>
+    <testCase name="SystemUsersService remove should handle removal errors" duration="14"/>
+    <testCase name="SystemUsersService remove should set deleted_at with current timestamp" duration="40"/>
+    <testCase name="SystemUsersService remove should return the deleted user data" duration="29"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/system-resources/system-resources.service.spec.ts">
+    <testCase name="SystemResourcesService Basic functionality should be defined" duration="24"/>
+    <testCase name="SystemResourcesService create should create a system resource successfully" duration="19"/>
+    <testCase name="SystemResourcesService create should create a system resource without description" duration="31"/>
+    <testCase name="SystemResourcesService create should handle creation errors" duration="34"/>
+    <testCase name="SystemResourcesService findAll should return all system resources" duration="35"/>
+    <testCase name="SystemResourcesService findAll should return empty array when no resources exist" duration="19"/>
+    <testCase name="SystemResourcesService findAll should handle database errors" duration="21"/>
+    <testCase name="SystemResourcesService findOne should return a system resource by id" duration="47"/>
+    <testCase name="SystemResourcesService findOne should return null when resource not found" duration="11"/>
+    <testCase name="SystemResourcesService findOne should handle database errors" duration="28"/>
+    <testCase name="SystemResourcesService update should update a system resource successfully" duration="12"/>
+    <testCase name="SystemResourcesService update should handle partial updates" duration="25"/>
+    <testCase name="SystemResourcesService update should handle update errors" duration="12"/>
+    <testCase name="SystemResourcesService remove should soft delete a system resource" duration="28"/>
+    <testCase name="SystemResourcesService remove should handle deletion errors" duration="11"/>
+    <testCase name="SystemResourcesService remove should set deleted_at with current timestamp" duration="23"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users-groups/bank-users-groups.controller.spec.ts">
+    <testCase name="GroupsController create should return created bank user group and call service.create" duration="8"/>
+    <testCase name="GroupsController create should throw ForbiddenException when partnerId does not match" duration="15"/>
+    <testCase name="GroupsController create should throw BadRequestException when service throws an Error" duration="3"/>
+    <testCase name="GroupsController create should throw BadRequestException with default message when service throws Error without message" duration="4"/>
+    <testCase name="GroupsController create should throw BadRequestException when service throws non-Error" duration="3"/>
+    <testCase name="GroupsController findAll should return an array of bank user groups" duration="2"/>
+    <testCase name="GroupsController findAll should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="GroupsController findAll should throw BadRequestException with default message when service throws Error without message" duration="2"/>
+    <testCase name="GroupsController findAll should throw BadRequestException when service throws non-Error" duration="7"/>
+    <testCase name="GroupsController findOne should return a single bank user group by id" duration="2"/>
+    <testCase name="GroupsController findOne should throw BadRequestException when service throws an Error" duration="3"/>
+    <testCase name="GroupsController findOne should throw BadRequestException with default message when service throws Error without message" duration="2"/>
+    <testCase name="GroupsController findOne should throw BadRequestException when service throws non-Error" duration="2"/>
+    <testCase name="GroupsController update should update and return the bank user group" duration="2"/>
+    <testCase name="GroupsController update should throw BadRequestException when service throws an Error" duration="13"/>
+    <testCase name="GroupsController update should throw BadRequestException with default message when service throws Error without message" duration="2"/>
+    <testCase name="GroupsController update should throw BadRequestException when service throws non-Error" duration="2"/>
+    <testCase name="GroupsController remove should remove and return the bank user group" duration="2"/>
+    <testCase name="GroupsController remove should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="GroupsController remove should throw BadRequestException with default message when service throws Error without message" duration="2"/>
+    <testCase name="GroupsController remove should throw BadRequestException when service throws non-Error" duration="3"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users-groups/bank-users-groups.service.spec.ts">
+    <testCase name="GroupsService create should throw if name starts with WISIEX_ and ends with _ADMIN" duration="20"/>
+    <testCase name="GroupsService create should throw if name starts with PARTNER_ and ends with _ADMIN" duration="3"/>
+    <testCase name="GroupsService create should throw if name ends with _CUSTOMER" duration="2"/>
+    <testCase name="GroupsService create should throw UnauthorizedException if name includes partner name" duration="2"/>
+    <testCase name="GroupsService create should create group successfully if name is valid and allowed" duration="3"/>
+    <testCase name="GroupsService findAll should return results using custom projection if provided" duration="5"/>
+    <testCase name="GroupsService findOne should return group when found" duration="3"/>
+    <testCase name="GroupsService findOne should return null when group not found" duration="3"/>
+    <testCase name="GroupsService update should update a group and return the updated DTO" duration="3"/>
+    <testCase name="GroupsService remove should soft delete a group by updating deleted_at" duration="7"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/webhooks/services/webhooks.service.spec.ts">
+    <testCase name="WebhooksOnboardingService should be defined" duration="5"/>
+    <testCase name="WebhooksOnboardingService upsert should create webhook partner" duration="3"/>
+    <testCase name="WebhooksOnboardingService upsert should update webhook partner" duration="2"/>
+    <testCase name="WebhooksOnboardingService notify should warn if no webhook configured" duration="3"/>
+    <testCase name="WebhooksOnboardingService notify should notify webhook with GET" duration="2"/>
+    <testCase name="WebhooksOnboardingService notify should notify webhook with POST" duration="6"/>
+    <testCase name="WebhooksOnboardingService findOne should warn if no webhook configured" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/business-partners/business-partners.controller.spec.ts">
+    <testCase name="BusinessPartnersController create should return created bank user group and call service.create" duration="6"/>
+    <testCase name="BusinessPartnersController create should throw BadRequestException when service throws an Error" duration="15"/>
+    <testCase name="BusinessPartnersController create should throw BadRequestException when service throws unknown error" duration="3"/>
+    <testCase name="BusinessPartnersController findAll should return an array of bank user groups" duration="2"/>
+    <testCase name="BusinessPartnersController findAll should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="BusinessPartnersController findAll should throw BadRequestException when service throws unknown error" duration="2"/>
+    <testCase name="BusinessPartnersController findOne should return a single bank user group by id" duration="8"/>
+    <testCase name="BusinessPartnersController findOne should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="BusinessPartnersController findOne should throw BadRequestException when service throws unknown error" duration="3"/>
+    <testCase name="BusinessPartnersController update should update and return the bank user group" duration="7"/>
+    <testCase name="BusinessPartnersController update should throw BadRequestException when service throws an Error" duration="10"/>
+    <testCase name="BusinessPartnersController update should throw BadRequestException when service throws unknown error" duration="3"/>
+    <testCase name="BusinessPartnersController remove should remove and return the bank user group" duration="2"/>
+    <testCase name="BusinessPartnersController remove should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="BusinessPartnersController remove should throw BadRequestException when service throws unknown error" duration="3"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/aziface/controllers/aziface.controller.spec.ts">
+    <testCase name="AzifaceController should be defined" duration="13"/>
+    <testCase name="AzifaceController retrieveConfig should return config from service" duration="3"/>
+    <testCase name="AzifaceController retrieveConfig should throw UnauthorizedException" duration="8"/>
+    <testCase name="AzifaceController createTokenSessionService should return token data from service" duration="2"/>
+    <testCase name="AzifaceController createTokenSessionService should throw UnauthorizedException" duration="2"/>
+    <testCase name="AzifaceController createProcess should return process ID from service" duration="2"/>
+    <testCase name="AzifaceController createProcess should throw UnauthorizedException" duration="12"/>
+    <testCase name="AzifaceController retrieveProcess should return process data from service" duration="5"/>
+    <testCase name="AzifaceController retrieveProcess should throw UnauthorizedException" duration="3"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/partner-api-keys/partner-api-keys.service.spec.ts">
+    <testCase name="PartnerApiKeysService should be defined" duration="32"/>
+    <testCase name="PartnerApiKeysService should create a partner API key calling the encrypt method of AesService and save it in the database" duration="27"/>
+    <testCase name="PartnerApiKeysService expect findAll to return all api keys as a PartnerApiKeyDto and decryptAsString method as called" duration="23"/>
+    <testCase name="PartnerApiKeysService expect findOne to return a PartnerApiKeyDto and decrypt the api key" duration="11"/>
+    <testCase name="PartnerApiKeysService should throw error when API key is not found in findOne" duration="53"/>
+    <testCase name="PartnerApiKeysService should handle decryption errors gracefully" duration="20"/>
+    <testCase name="PartnerApiKeysService should handle decryption error with specific error message" duration="35"/>
+    <testCase name="PartnerApiKeysService expect remove to update the deleted_at field of the API key" duration="14"/>
+    <testCase name="PartnerApiKeysService validateApiKey method should validate API key and return partner information" duration="36"/>
+    <testCase name="PartnerApiKeysService validateApiKey method should throw error when API key is not found" duration="20"/>
+    <testCase name="PartnerApiKeysService validateApiKey method should throw error when partner account is inactive" duration="14"/>
+    <testCase name="PartnerApiKeysService validateApiKey method should validate API key successfully when partner_id_watchman is null" duration="21"/>
+    <testCase name="PartnerApiKeysService validateApiKey method should handle multiple API keys and find the correct one" duration="16"/>
+    <testCase name="PartnerApiKeysService private decryptApiKey method should successfully decrypt a valid API key" duration="38"/>
+    <testCase name="PartnerApiKeysService private decryptApiKey method should throw error when AES decryption fails" duration="21"/>
+    <testCase name="PartnerApiKeysService private decryptApiKey method should throw error when AES service throws non-Error object" duration="34"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/customers/controllers/customers.controller.spec.ts">
+    <testCase name="CustomersController should be defined" duration="5"/>
+    <testCase name="CustomersController createCustomer should create a customer" duration="3"/>
+    <testCase name="CustomersController createCustomer should throw NotFoundException on service error" duration="4"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/maestro/services/maestro.service.spec.ts">
+    <testCase name="MaestroService should be defined" duration="5"/>
+    <testCase name="MaestroService createCustomer should throw UnauthorizedException when credentials maestro not found" duration="14"/>
+    <testCase name="MaestroService createCustomer should throw BadRequestException when server error" duration="6"/>
+    <testCase name="MaestroService createCustomer should create a new customer" duration="3"/>
+    <testCase name="MaestroService retrieveOnboarding should throw UnauthorizedException when credentials maestro not found" duration="2"/>
+    <testCase name="MaestroService retrieveOnboarding should throw BadRequestException when server error" duration="3"/>
+    <testCase name="MaestroService retrieveOnboarding should retrieve a onboarding" duration="8"/>
+    <testCase name="MaestroService createOnboarding should throw UnauthorizedException when credentials maestro not found" duration="3"/>
+    <testCase name="MaestroService createOnboarding should throw BadRequestException when server error" duration="1"/>
+    <testCase name="MaestroService createOnboarding should create a new onboarding" duration="2"/>
+    <testCase name="MaestroService submitOnboarding should throw UnauthorizedException when credentials maestro not found" duration="1"/>
+    <testCase name="MaestroService submitOnboarding should throw BadRequestException when server error" duration="2"/>
+    <testCase name="MaestroService submitOnboarding should submit a onboarding" duration="2"/>
+    <testCase name="MaestroService createAccount should throw UnauthorizedException when credentials maestro not found" duration="1"/>
+    <testCase name="MaestroService createAccount should throw BadRequestException when server error" duration="3"/>
+    <testCase name="MaestroService createAccount should create a new account" duration="4"/>
+    <testCase name="MaestroService retrieveAccountByExternalId should throw UnauthorizedException when credentials maestro not found" duration="4"/>
+    <testCase name="MaestroService retrieveAccountByExternalId should throw BadRequestException when server error" duration="2"/>
+    <testCase name="MaestroService retrieveAccountByExternalId should retrieve account by customer Id" duration="9"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/onboardings/controller/onboardings.controller.spec.ts">
+    <testCase name="OnboardingsController should be defined" duration="10"/>
+    <testCase name="OnboardingsController getOnboarding should retrieve a proccess onboarding" duration="2"/>
+    <testCase name="OnboardingsController getOnboarding should throw NotFoundException on service error" duration="16"/>
+    <testCase name="OnboardingsController getOnboarding should throw NotFoundException on service error" duration="4"/>
+    <testCase name="OnboardingsController updateOnboarding should update a proccess onboarding" duration="5"/>
+    <testCase name="OnboardingsController updateOnboarding should throw NotFoundException on service error" duration="2"/>
+    <testCase name="OnboardingsController updateOnboarding should throw NotFoundException on service error" duration="3"/>
+    <testCase name="OnboardingsController documentAnalysis should send a document during the onboarding process" duration="3"/>
+    <testCase name="OnboardingsController documentAnalysis should throw NotFoundException on service error" duration="3"/>
+    <testCase name="OnboardingsController documentAnalysis should throw NotFoundException on service error" duration="3"/>
+    <testCase name="OnboardingsController setCompleteOnboarding should complete a onboarding process" duration="3"/>
+    <testCase name="OnboardingsController setCompleteOnboarding should throw BadRequestException when terms not accepted" duration="14"/>
+    <testCase name="OnboardingsController setCompleteOnboarding should throw NotFoundException on service error" duration="4"/>
+    <testCase name="OnboardingsController setCompleteOnboarding should throw BadGatewayException on service error" duration="2"/>
+    <testCase name="OnboardingsController setAzifaceProcess should set aziface process code successfully" duration="2"/>
+    <testCase name="OnboardingsController setAzifaceProcess should throw NotFoundException on service error" duration="15"/>
+    <testCase name="OnboardingsController setAzifaceProcess should throw BadGatewayException on service error" duration="5"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users-groups-constraints/bank-users-groups-constraints.controller.spec.ts">
+    <testCase name="BankUsersGroupsConstraintsController create should return created bank users groups constraint and call service.create" duration="6"/>
+    <testCase name="BankUsersGroupsConstraintsController create should throw BadRequestException when service.create throws an Error" duration="33"/>
+    <testCase name="BankUsersGroupsConstraintsController create should throw BadRequestException when service.create throws a non-Error" duration="15"/>
+    <testCase name="BankUsersGroupsConstraintsController findAll should return an array of bank users groups constraints" duration="14"/>
+    <testCase name="BankUsersGroupsConstraintsController findAll should throw BadRequestException when service.findAll throws an Error" duration="10"/>
+    <testCase name="BankUsersGroupsConstraintsController findAll should throw BadRequestException when service.findAll throws a non-Error" duration="11"/>
+    <testCase name="BankUsersGroupsConstraintsController findOne should return a single bank users groups constraint by id" duration="3"/>
+    <testCase name="BankUsersGroupsConstraintsController findOne should throw NotFoundException when service.findOne returns null" duration="2"/>
+    <testCase name="BankUsersGroupsConstraintsController findOne should re-throw NotFoundException when service.findOne throws NotFoundException" duration="20"/>
+    <testCase name="BankUsersGroupsConstraintsController findOne should throw BadRequestException when service.findOne throws an Error" duration="17"/>
+    <testCase name="BankUsersGroupsConstraintsController findOne should throw BadRequestException when service.findOne throws a non-Error" duration="6"/>
+    <testCase name="BankUsersGroupsConstraintsController findByGroupId should return constraints for a specific group" duration="3"/>
+    <testCase name="BankUsersGroupsConstraintsController findByGroupId should throw BadRequestException when service.findByGroupId throws an Error" duration="2"/>
+    <testCase name="BankUsersGroupsConstraintsController findByGroupId should throw BadRequestException when service.findByGroupId throws a non-Error" duration="2"/>
+    <testCase name="BankUsersGroupsConstraintsController findByConstraintId should return groups for a specific constraint" duration="2"/>
+    <testCase name="BankUsersGroupsConstraintsController findByConstraintId should throw BadRequestException when service.findByConstraintId throws an Error" duration="7"/>
+    <testCase name="BankUsersGroupsConstraintsController findByConstraintId should throw BadRequestException when service.findByConstraintId throws a non-Error" duration="2"/>
+    <testCase name="BankUsersGroupsConstraintsController update should return updated bank users groups constraint and call service.update" duration="3"/>
+    <testCase name="BankUsersGroupsConstraintsController update should throw BadRequestException when service.update throws an Error" duration="15"/>
+    <testCase name="BankUsersGroupsConstraintsController update should throw BadRequestException when service.update throws a non-Error" duration="4"/>
+    <testCase name="BankUsersGroupsConstraintsController remove should remove and return the bank users groups constraint" duration="2"/>
+    <testCase name="BankUsersGroupsConstraintsController remove should throw BadRequestException when service.remove throws an Error" duration="3"/>
+    <testCase name="BankUsersGroupsConstraintsController remove should throw BadRequestException when service.remove throws a non-Error" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/user-required-constraints/user-required-constraints.controller.spec.ts">
+    <testCase name="UserRequiredConstraintsController create should create a user required constraint" duration="13"/>
+    <testCase name="UserRequiredConstraintsController create should throw BadRequestException on service error" duration="27"/>
+    <testCase name="UserRequiredConstraintsController findAll should return all user required constraints for partner" duration="2"/>
+    <testCase name="UserRequiredConstraintsController findAll should throw ForbiddenException on service error" duration="2"/>
+    <testCase name="UserRequiredConstraintsController findByUserId should return constraints by userId" duration="2"/>
+    <testCase name="UserRequiredConstraintsController findByUserId should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserRequiredConstraintsController findByResourceId should return constraints by resourceId" duration="4"/>
+    <testCase name="UserRequiredConstraintsController findByResourceId should throw BadRequestException on service error" duration="6"/>
+    <testCase name="UserRequiredConstraintsController findByConstraintId should return constraints by constraintId" duration="4"/>
+    <testCase name="UserRequiredConstraintsController findByConstraintId should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserRequiredConstraintsController findByAppliedBy should return constraints by appliedBy" duration="2"/>
+    <testCase name="UserRequiredConstraintsController findByAppliedBy should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserRequiredConstraintsController findOne should return a user required constraint by id" duration="3"/>
+    <testCase name="UserRequiredConstraintsController findOne should throw NotFoundException on service error" duration="3"/>
+    <testCase name="UserRequiredConstraintsController update should update a user required constraint" duration="2"/>
+    <testCase name="UserRequiredConstraintsController update should throw BadRequestException on service error" duration="4"/>
+    <testCase name="UserRequiredConstraintsController remove should remove a user required constraint" duration="2"/>
+    <testCase name="UserRequiredConstraintsController remove should throw BadRequestException on service error" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/authentication/authentication.controller.spec.ts">
+    <testCase name="AuthenticationController login should return a object with access and user information" duration="7"/>
+    <testCase name="AuthenticationController register should return a object with access and user information" duration="2"/>
+    <testCase name="AuthenticationController getProfile should return the current authenticated user" duration="2"/>
+    <testCase name="AuthenticationController validateToken should return valid true and the user" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/health-check/health-check.controller.spec.ts">
+    <testCase name="HealthController check should return health check result" duration="4"/>
+    <testCase name="HealthController check - detailed coverage should call memory heap check with correct parameters" duration="2"/>
+    <testCase name="HealthController check - detailed coverage should handle health check errors" duration="2"/>
+    <testCase name="HealthController getLiveness should return liveness status and timestamp" duration="1"/>
+    <testCase name="HealthController getReadiness should return readiness health check result" duration="2"/>
+    <testCase name="HealthController getReadiness - detailed coverage should call memory heap check with correct parameters for readiness" duration="1"/>
+    <testCase name="HealthController getReadiness - detailed coverage should handle readiness check errors" duration="2"/>
+    <testCase name="HealthController constructor and dependencies should be properly instantiated with all dependencies" duration="5"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/business-partners/business-partners.service.spec.ts">
+    <testCase name="BusinessPartnersService create should create and return a new business partner" duration="5"/>
+    <testCase name="BusinessPartnersService findAll should return all business partners" duration="2"/>
+    <testCase name="BusinessPartnersService findOne should return one business partner by id" duration="2"/>
+    <testCase name="BusinessPartnersService update should update and return the business partner" duration="2"/>
+    <testCase name="BusinessPartnersService remove should soft delete and return the business partner" duration="1"/>
+    <testCase name="BusinessPartnersService findOneByParterIdWatchman should return a partner by watchman partner ID" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/partner-system-user/partner-system-user.service.spec.ts">
+    <testCase name="PartnerSystemUserService should be defined" duration="5"/>
+    <testCase name="PartnerSystemUserService setupWisiexSystemUser should create a partner system user with all steps" duration="72"/>
+    <testCase name="PartnerSystemUserService setupWisiexSystemUser should use existing group if found" duration="61"/>
+    <testCase name="PartnerSystemUserService setupWisiexSystemUser should throw if partner.id is missing" duration="12"/>
+    <testCase name="PartnerSystemUserService setupWisiexSystemUser should propagate errors from transaction" duration="64"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/system-users/admin-system-users.service.spec.ts">
+    <testCase name="AdminSystemUsersService findAllWisiexBankSystemAdmins should return all admin system users" duration="27"/>
+    <testCase name="AdminSystemUsersService findAllWisiexBankSystemAdmins - data mapping should handle null user name" duration="13"/>
+    <testCase name="AdminSystemUsersService findAllWisiexBankSystemAdmins - data mapping should handle missing bank_users_groups" duration="22"/>
+    <testCase name="AdminSystemUsersService findAllWisiexBankSystemAdmins - data mapping should handle missing business_partners" duration="10"/>
+    <testCase name="AdminSystemUsersService findAllWisiexBankSystemAdmins - data mapping should handle null values in groups and partners" duration="43"/>
+    <testCase name="AdminSystemUsersService findAllWisiexBankSystemAdmins - data mapping should handle multiple users" duration="17"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/group-required-constraints/group-required-constraints.controller.spec.ts">
+    <testCase name="GroupRequiredConstraintsController create should create a group required constraint and return dto" duration="6"/>
+    <testCase name="GroupRequiredConstraintsController create should throw BadRequestException on service error" duration="13"/>
+    <testCase name="GroupRequiredConstraintsController findAll should return all group required constraints" duration="4"/>
+    <testCase name="GroupRequiredConstraintsController findAll should return empty array when no constraints exist" duration="2"/>
+    <testCase name="GroupRequiredConstraintsController findAll should throw ForbiddenException on service error" duration="12"/>
+    <testCase name="GroupRequiredConstraintsController findOne should return a group required constraint by Id" duration="2"/>
+    <testCase name="GroupRequiredConstraintsController findOne should throw BadRequestException on service error" duration="3"/>
+    <testCase name="GroupRequiredConstraintsController findByResourceId should return a group required constraints by resource Id" duration="5"/>
+    <testCase name="GroupRequiredConstraintsController findByResourceId should throw BadRequestException on service error" duration="3"/>
+    <testCase name="GroupRequiredConstraintsController findByConstraintId should return a group required constraints by constraint Id" duration="3"/>
+    <testCase name="GroupRequiredConstraintsController findByConstraintId should throw BadRequestException on service error" duration="2"/>
+    <testCase name="GroupRequiredConstraintsController update should update a group required constraint" duration="2"/>
+    <testCase name="GroupRequiredConstraintsController update should throw BadRequestException on service error" duration="2"/>
+    <testCase name="GroupRequiredConstraintsController remove should soft delete a group required constraint" duration="2"/>
+    <testCase name="GroupRequiredConstraintsController remove should throw BadRequestException on service error" duration="2"/>
+    <testCase name="GroupRequiredConstraintsController Guard Integration should have JwtAuthGuard and AuthorizationGuard properly mocked" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users-groups-permissions/bank-users-groups-permissions.service.spec.ts">
+    <testCase name="BankUsersGroupsPermissionsService create should create multiple permissions for a group" duration="6"/>
+    <testCase name="BankUsersGroupsPermissionsService findAll should return all group-permission relations not soft deleted" duration="2"/>
+    <testCase name="BankUsersGroupsPermissionsService findOne should return a single permission by ID" duration="2"/>
+    <testCase name="BankUsersGroupsPermissionsService findOne should return null if not found" duration="2"/>
+    <testCase name="BankUsersGroupsPermissionsService update should update a permission relation" duration="2"/>
+    <testCase name="BankUsersGroupsPermissionsService remove should soft delete a permission relation" duration="1"/>
+    <testCase name="BankUsersGroupsPermissionsService findByGroupId should return permissions by group ID" duration="3"/>
+    <testCase name="BankUsersGroupsPermissionsService findByPermissionId should return permissions by permission ID" duration="8"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/user-constraints/user-constraints.controller.spec.ts">
+    <testCase name="UserConstraintsController create should create a user constraint" duration="5"/>
+    <testCase name="UserConstraintsController create should throw BadRequestException on service error" duration="24"/>
+    <testCase name="UserConstraintsController findAll should return all user constraints for partner" duration="2"/>
+    <testCase name="UserConstraintsController findAll should throw ForbiddenException on service error" duration="3"/>
+    <testCase name="UserConstraintsController findOne should return a user constraint by id" duration="11"/>
+    <testCase name="UserConstraintsController findOne should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserConstraintsController findByUserId should return constraints by userId" duration="2"/>
+    <testCase name="UserConstraintsController findByUserId should throw BadRequestException on service error" duration="10"/>
+    <testCase name="UserConstraintsController findByConstraintId should return constraints by constraintId" duration="3"/>
+    <testCase name="UserConstraintsController findByConstraintId should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserConstraintsController findByGrantedBy should return constraints by grantedBy" duration="2"/>
+    <testCase name="UserConstraintsController findByGrantedBy should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserConstraintsController update should update a user constraint" duration="11"/>
+    <testCase name="UserConstraintsController update should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserConstraintsController remove should remove a user constraint" duration="3"/>
+    <testCase name="UserConstraintsController remove should throw BadRequestException on service error" duration="6"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/onboarding_process/onboarding-process.controller.spec.ts">
+    <testCase name="OnboardingProcessController Basic functionality should be defined" duration="6"/>
+    <testCase name="OnboardingProcessController create should return created onboarding process and call service.create" duration="5"/>
+    <testCase name="OnboardingProcessController create should handle service errors and throw BadRequestException" duration="14"/>
+    <testCase name="OnboardingProcessController create should throw BadRequestException with custom message" duration="2"/>
+    <testCase name="OnboardingProcessController findAll should return an array of onboarding processes" duration="5"/>
+    <testCase name="OnboardingProcessController findAll should return empty array when no processes exist" duration="3"/>
+    <testCase name="OnboardingProcessController findAll should handle service errors and throw BadRequestException" duration="2"/>
+    <testCase name="OnboardingProcessController findOne should return a single onboarding process by id" duration="8"/>
+    <testCase name="OnboardingProcessController findOne should handle not found scenario" duration="3"/>
+    <testCase name="OnboardingProcessController findOne should handle service errors and throw BadRequestException" duration="3"/>
+    <testCase name="OnboardingProcessController update should update and return the onboarding process" duration="2"/>
+    <testCase name="OnboardingProcessController update should handle partial updates correctly" duration="2"/>
+    <testCase name="OnboardingProcessController update should handle service errors and throw BadRequestException" duration="2"/>
+    <testCase name="OnboardingProcessController remove should remove and return the onboarding process" duration="2"/>
+    <testCase name="OnboardingProcessController remove should handle remove operation for non-existent entity" duration="2"/>
+    <testCase name="OnboardingProcessController remove should handle service errors and throw BadRequestException" duration="2"/>
+    <testCase name="OnboardingProcessController Guard Integration should have ApiKeyGuard properly configured" duration="2"/>
+    <testCase name="OnboardingProcessController Error Handling should preserve error name in BadRequestException" duration="1"/>
+    <testCase name="OnboardingProcessController Error Handling should use default error message when error message is undefined" duration="3"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/user-permissions/user-permissions.controller.spec.ts">
+    <testCase name="UserPermissionsController should be defined" duration="9"/>
+    <testCase name="UserPermissionsController createUserPermission should create a user permission" duration="3"/>
+    <testCase name="UserPermissionsController createUserPermission should throw BadRequestException on service error" duration="14"/>
+    <testCase name="UserPermissionsController createUserPermission should throw ForbiddenException when partner id does not match" duration="3"/>
+    <testCase name="UserPermissionsController createUserPermission should handle unknown errors gracefully" duration="2"/>
+    <testCase name="UserPermissionsController findAllUserPermission should list all user permission" duration="2"/>
+    <testCase name="UserPermissionsController findAllUserPermission should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserPermissionsController findAllUserPermission should handle unknown errors gracefully" duration="3"/>
+    <testCase name="UserPermissionsController findByUserPermission should list user permissions by userId" duration="4"/>
+    <testCase name="UserPermissionsController findByUserPermission should throw BadRequestException on service error" duration="6"/>
+    <testCase name="UserPermissionsController findByUserPermission should handle unknown errors gracefully" duration="2"/>
+    <testCase name="UserPermissionsController findOneUserPermission should retrieve user permissions by Id" duration="3"/>
+    <testCase name="UserPermissionsController findOneUserPermission should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserPermissionsController findOneUserPermission should handle unknown errors gracefully" duration="2"/>
+    <testCase name="UserPermissionsController deleteUserPermission should soft delete a user permission by Id" duration="2"/>
+    <testCase name="UserPermissionsController deleteUserPermission should throw BadRequestException on service error" duration="2"/>
+    <testCase name="UserPermissionsController deleteUserPermission should handle unknown errors gracefully" duration="4"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/permission-tests/permission-tests.controller.spec.ts">
+    <testCase name="PermissionTestsController should be defined" duration="11"/>
+    <testCase name="PermissionTestsController routeWisiexAdmin should return WISIEX Admin permission test result" duration="2"/>
+    <testCase name="PermissionTestsController routeAdmin should return Admin permission test result" duration="2"/>
+    <testCase name="PermissionTestsController testCustomer should return Customer permission test result" duration="3"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/http-client/http-client.service.spec.ts">
+    <testCase name="HttpClientService Basic functionality should be defined" duration="19"/>
+    <testCase name="HttpClientService get should make a successful GET request" duration="6"/>
+    <testCase name="HttpClientService get should handle GET request with custom options" duration="3"/>
+    <testCase name="HttpClientService post should make a successful POST request with body" duration="3"/>
+    <testCase name="HttpClientService post should make POST request without body" duration="2"/>
+    <testCase name="HttpClientService put should make a successful PUT request" duration="2"/>
+    <testCase name="HttpClientService patch should make a successful PATCH request" duration="13"/>
+    <testCase name="HttpClientService delete should make a successful DELETE request" duration="3"/>
+    <testCase name="HttpClientService error handling should throw HttpErrorResponse for 4xx errors" duration="24"/>
+    <testCase name="HttpClientService error handling should throw HttpErrorResponse for 5xx errors" duration="3"/>
+    <testCase name="HttpClientService retry logic should retry failed requests" duration="3007"/>
+    <testCase name="HttpClientService retry logic should throw error after all retries fail" duration="1010"/>
+    <testCase name="HttpClientService response processing should handle non-JSON responses" duration="5"/>
+    <testCase name="HttpClientService response processing should normalize response headers correctly" duration="2"/>
+    <testCase name="HttpClientService response processing should include correct status descriptions" duration="6"/>
+    <testCase name="HttpClientService URL building with parameters should build URL with query parameters" duration="8"/>
+    <testCase name="HttpClientService URL building with parameters should append parameters to URL with existing query string" duration="6"/>
+    <testCase name="HttpClientService URL building with parameters should handle empty parameters" duration="2"/>
+    <testCase name="HttpClientService edge cases should handle request with no options" duration="10"/>
+    <testCase name="HttpClientService edge cases should handle unknown status codes" duration="4"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/partner-system-user/partner-system-user.controller.spec.ts">
+    <testCase name="PartnerSystemUserController should be defined" duration="5"/>
+    <testCase name="PartnerSystemUserController setupPartnerSystemUser should create a partner system user and return response" duration="3"/>
+    <testCase name="PartnerSystemUserController setupPartnerSystemUser should throw BadRequestException on service error" duration="14"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/system-users/system-users.controller.spec.ts">
+    <testCase name="SystemUsersController create should create a system user and return dto" duration="6"/>
+    <testCase name="SystemUsersController create should throw BadRequestException on service error" duration="18"/>
+    <testCase name="SystemUsersController findAll should return all system users" duration="28"/>
+    <testCase name="SystemUsersController findAll should return empty array when no users exist" duration="3"/>
+    <testCase name="SystemUsersController findAll should throw BadRequestException on service error" duration="5"/>
+    <testCase name="SystemUsersController findOne should return a system user by id" duration="3"/>
+    <testCase name="SystemUsersController findOne should return null if not found" duration="3"/>
+    <testCase name="SystemUsersController findOne should throw BadRequestException on service error" duration="3"/>
+    <testCase name="SystemUsersController update should update and return the system user" duration="2"/>
+    <testCase name="SystemUsersController update should throw BadRequestException on service error" duration="3"/>
+    <testCase name="SystemUsersController remove should remove a system user (void return)" duration="2"/>
+    <testCase name="SystemUsersController remove should throw BadRequestException on service error" duration="7"/>
+    <testCase name="SystemUsersController Guard Integration should have ApiKeyGuard properly mocked" duration="7"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/acceptance-terms-and-conditions/acceptance-terms-and-conditions.service.spec.ts">
+    <testCase name="AcceptanceTermsAndConditionsService should be defined" duration="10"/>
+    <testCase name="AcceptanceTermsAndConditionsService getTermsAndConditionsUrl should return terms and conditions DTO when partner has acceptance_terms_links" duration="2"/>
+    <testCase name="AcceptanceTermsAndConditionsService getTermsAndConditionsUrl should return null when partner is not found" duration="10"/>
+    <testCase name="AcceptanceTermsAndConditionsService getTermsAndConditionsUrl should return null when partner exists but has no acceptance_terms_links" duration="4"/>
+    <testCase name="AcceptanceTermsAndConditionsService getTermsAndConditionsUrl should return null when partner exists but acceptance_terms_links is undefined" duration="2"/>
+    <testCase name="AcceptanceTermsAndConditionsService getTermsAndConditionsUrl should handle database errors gracefully" duration="16"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/partner-api-keys/partner-api-keys.controller.spec.ts">
+    <testCase name="PartnerApiKeysController create should return created bank user and call service.create" duration="8"/>
+    <testCase name="PartnerApiKeysController create should throw BadRequestException when service throws an Error" duration="11"/>
+    <testCase name="PartnerApiKeysController create should throw BadRequestException when service throws unknown error" duration="2"/>
+    <testCase name="PartnerApiKeysController findAll should return an array of bank users" duration="2"/>
+    <testCase name="PartnerApiKeysController findAll should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="PartnerApiKeysController findAll should throw BadRequestException when service throws unknown error" duration="2"/>
+    <testCase name="PartnerApiKeysController findOne should return a single bank user by id" duration="2"/>
+    <testCase name="PartnerApiKeysController findOne should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="PartnerApiKeysController findOne should throw BadRequestException when service throws unknown error" duration="2"/>
+    <testCase name="PartnerApiKeysController remove should remove and return the bank user" duration="2"/>
+    <testCase name="PartnerApiKeysController remove should throw BadRequestException when service throws an Error" duration="4"/>
+    <testCase name="PartnerApiKeysController remove should throw BadRequestException when service throws unknown error" duration="3"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/authorization/default-config/default-config.service.spec.ts">
+    <testCase name="DefaultConfigService configDefaults should execute full config when partners exist" duration="5"/>
+    <testCase name="DefaultConfigService configDefaults should skip configuration if no partners found" duration="1"/>
+    <testCase name="DefaultConfigService configDefaults should log and throw error on failure" duration="30"/>
+    <testCase name="DefaultConfigService onModuleInit should call configDefaults and log success" duration="3"/>
+    <testCase name="DefaultConfigService onModuleInit should call configDefaults and log error on failure" duration="2"/>
+    <testCase name="DefaultConfigService onModuleInit should handle promise rejection gracefully" duration="5"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should log warning and return early when no partners found" duration="3"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should pass options parameter to all service calls" duration="2"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should call configDefaults without options parameter" duration="2"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should log groups management completion with all metrics" duration="2"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should log default configuration completion with all metrics" duration="4"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should log resource permission grants creation" duration="9"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should log completion time using process.uptime()" duration="2"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should handle error from groupsManagementService" duration="5"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should handle error from groupsPermissionsManagementService" duration="5"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should handle error from defaultResourcePermissionGrantsService" duration="2"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should execute the complete flow when partners are found" duration="4"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should handle partial success scenarios" duration="2"/>
+    <testCase name="DefaultConfigService configDefaults - additional coverage should verify process.uptime() formatting with different values" duration="2"/>
+    <testCase name="DefaultConfigService constructor and dependencies should be defined with all dependencies" duration="1"/>
+    <testCase name="DefaultConfigService constructor and dependencies should implement OnModuleInit interface" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/common/modules/cryptography/aes.service.spec.ts">
+    <testCase name="CryptoProviderService should be defined" duration="4"/>
+    <testCase name="CryptoProviderService generateIv should generate an IV with 12 bytes length" duration="2"/>
+    <testCase name="CryptoProviderService createCipher should create a cipher with correct algorithm, key, and iv" duration="3"/>
+    <testCase name="CryptoProviderService createDecipher should create a decipher with correct algorithm, key, iv, and set auth tag" duration="4"/>
+    <testCase name="ConfigKeyProviderService should be defined" duration="2"/>
+    <testCase name="ConfigKeyProviderService getEncryptionKey should return a valid 32-byte buffer when AES_KEY is correctly set" duration="2"/>
+    <testCase name="ConfigKeyProviderService getEncryptionKey should throw an error when AES_KEY is not set" duration="39"/>
+    <testCase name="ConfigKeyProviderService getEncryptionKey should throw an error when AES_KEY is null" duration="22"/>
+    <testCase name="ConfigKeyProviderService getEncryptionKey should throw an error when AES_KEY is empty string" duration="4"/>
+    <testCase name="ConfigKeyProviderService getEncryptionKey should throw an error when AES_KEY has incorrect length (too short)" duration="2"/>
+    <testCase name="ConfigKeyProviderService getEncryptionKey should throw an error when AES_KEY has incorrect length (too long)" duration="3"/>
+    <testCase name="ConfigKeyProviderService getEncryptionKey should handle non-hex characters gracefully" duration="3"/>
+    <testCase name="AesService should be defined" duration="5"/>
+    <testCase name="AesService should initialize with encryption key from key provider" duration="4"/>
+    <testCase name="AesService encrypt should encrypt plain text and return EncryptionResult" duration="4"/>
+    <testCase name="AesService encrypt should handle empty string encryption" duration="1"/>
+    <testCase name="AesService encryptAsString should encrypt and return formatted string" duration="3"/>
+    <testCase name="AesService decrypt should decrypt encrypted data successfully" duration="5"/>
+    <testCase name="AesService decrypt should handle empty encrypted data" duration="2"/>
+    <testCase name="AesService decryptString should decrypt formatted string successfully" duration="2"/>
+    <testCase name="AesService decryptString should throw error for invalid format - missing parts" duration="3"/>
+    <testCase name="AesService decryptString should throw error for invalid format - too many parts" duration="2"/>
+    <testCase name="AesService decryptString should throw error for invalid format - empty string" duration="2"/>
+    <testCase name="AesService decryptString should throw error for invalid format - only colons" duration="2"/>
+    <testCase name="AesService decryptString should handle string with empty parts" duration="1"/>
+    <testCase name="Integration Tests - Mocked Crypto should encrypt and decrypt a string successfully with mocked crypto" duration="3"/>
+    <testCase name="Integration Tests - Mocked Crypto should encrypt and decrypt using string format successfully" duration="5"/>
+    <testCase name="Integration Tests - Mocked Crypto should handle special characters and unicode" duration="8"/>
+    <testCase name="Integration Tests - Mocked Crypto should generate different encrypted results for same input" duration="3"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/prisma/prisma.service.spec.ts">
+    <testCase name="PrismaService Basic functionality should be defined" duration="7"/>
+    <testCase name="PrismaService Basic functionality should have required PrismaClient methods" duration="4"/>
+    <testCase name="PrismaService Basic functionality should have lifecycle methods" duration="17"/>
+    <testCase name="PrismaService Basic functionality should have database table accessors" duration="4"/>
+    <testCase name="PrismaService onModuleInit should call onModuleInit successfully and trigger internal methods" duration="10"/>
+    <testCase name="PrismaService onModuleInit should handle errors during $connect" duration="48"/>
+    <testCase name="PrismaService onModuleInit should handle errors during checkPermissions" duration="7"/>
+    <testCase name="PrismaService onModuleInit should handle errors during checkResources" duration="7"/>
+    <testCase name="PrismaService onModuleInit should handle errors during giveAllPermissionsToAdmins" duration="7"/>
+    <testCase name="PrismaService onModuleDestroy should call onModuleDestroy successfully" duration="4"/>
+    <testCase name="PrismaService onModuleDestroy should handle errors during module destruction" duration="3"/>
+    <testCase name="PrismaService Database Connection should be able to connect to database" duration="7"/>
+    <testCase name="PrismaService Database Connection should be able to disconnect from database" duration="5"/>
+    <testCase name="PrismaService Database Connection should handle connection errors" duration="5"/>
+    <testCase name="PrismaService Database Connection should handle disconnection errors" duration="9"/>
+    <testCase name="PrismaService checkPermissions (private method) should create missing permissions when some permissions do not exist" duration="5"/>
+    <testCase name="PrismaService checkPermissions (private method) should not create permissions when all permissions already exist" duration="8"/>
+    <testCase name="PrismaService checkPermissions (private method) should handle errors during permission checking" duration="6"/>
+    <testCase name="PrismaService checkPermissions (private method) should handle errors during permission creation" duration="7"/>
+    <testCase name="PrismaService checkResources (private method) should create missing resources when some resources do not exist" duration="5"/>
+    <testCase name="PrismaService checkResources (private method) should not create resources when all resources already exist" duration="4"/>
+    <testCase name="PrismaService checkResources (private method) should handle errors during resource checking" duration="10"/>
+    <testCase name="PrismaService checkResources (private method) should handle errors during resource creation" duration="3"/>
+    <testCase name="PrismaService giveAllPermissionsToAdmins should assign missing permissions to admin groups successfully" duration="17"/>
+    <testCase name="PrismaService giveAllPermissionsToAdmins should not create permissions when admin group already has all permissions" duration="7"/>
+    <testCase name="PrismaService giveAllPermissionsToAdmins should handle case when there are no admin groups" duration="6"/>
+    <testCase name="PrismaService giveAllPermissionsToAdmins should handle errors during permission retrieval" duration="3"/>
+    <testCase name="PrismaService giveAllPermissionsToAdmins should handle errors during admin groups retrieval" duration="3"/>
+    <testCase name="PrismaService giveAllPermissionsToAdmins should handle errors during existing permissions retrieval" duration="3"/>
+    <testCase name="PrismaService giveAllPermissionsToAdmins should handle errors during permission creation" duration="8"/>
+    <testCase name="PrismaService giveAllPermissionsToAdmins should correctly filter out existing permissions for each group" duration="3"/>
+    <testCase name="PrismaService Integration Tests should complete full initialization flow successfully" duration="5"/>
+    <testCase name="PrismaService Integration Tests should handle partial failures gracefully" duration="3"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/authorization/default-config/default-resource-permission-grants.service.spec.ts">
+    <testCase name="DefaultResourcePermissionGrantsService ensureDefaultResourcePermissionGrants should create missing grants and return created count" duration="5"/>
+    <testCase name="DefaultResourcePermissionGrantsService ensureDefaultResourcePermissionGrants should return 0 created when all grants already exist" duration="4"/>
+    <testCase name="DefaultResourcePermissionGrantsService ensureDefaultResourcePermissionGrants should skip entries with unknown permissions or resources" duration="2"/>
+    <testCase name="DefaultResourcePermissionGrantsService ensureDefaultResourcePermissionGrants should call createMany with correct grants" duration="3"/>
+    <testCase name="DefaultResourcePermissionGrantsService ensureDefaultResourcePermissionGrants should throw if createMany fails" duration="11"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/acceptance-terms-and-conditions/acceptance-terms-and-conditions.controller.spec.ts">
+    <testCase name="AcceptanceTermsAndConditionsController should be defined" duration="9"/>
+    <testCase name="AcceptanceTermsAndConditionsController getAcceptanceTermsAndConditions should return acceptance terms and conditions when terms URL is found" duration="3"/>
+    <testCase name="AcceptanceTermsAndConditionsController getAcceptanceTermsAndConditions should throw an error when terms URL is not found" duration="6"/>
+    <testCase name="AcceptanceTermsAndConditionsController getAcceptanceTermsAndConditions should propagate service errors" duration="3"/>
+    <testCase name="AcceptanceTermsAndConditionsController getAcceptanceTermsAndConditions should handle undefined terms URL" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users-groups-permissions/bank-users-groups-permissions.controller.spec.ts">
+    <testCase name="BankUsersGroupsPermissionsController create should return created bank user and call service.create" duration="8"/>
+    <testCase name="BankUsersGroupsPermissionsController create should throw BadRequestException when service throws an Error" duration="14"/>
+    <testCase name="BankUsersGroupsPermissionsController create should throw BadRequestException when service throws unknown error" duration="3"/>
+    <testCase name="BankUsersGroupsPermissionsController findByGroupId should return an array of bank users groups permissions by group id" duration="2"/>
+    <testCase name="BankUsersGroupsPermissionsController findByGroupId should throw BadRequestException when service throws an Error" duration="3"/>
+    <testCase name="BankUsersGroupsPermissionsController findByGroupId should throw BadRequestException when service throws unknown error" duration="3"/>
+    <testCase name="BankUsersGroupsPermissionsController findByPermissionId should return an array of bank users group permissions by permission id" duration="2"/>
+    <testCase name="BankUsersGroupsPermissionsController findByPermissionId should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="BankUsersGroupsPermissionsController findByPermissionId should throw BadRequestException when service throws unknown error" duration="10"/>
+    <testCase name="BankUsersGroupsPermissionsController findOne should return a single bank user group permission by id" duration="3"/>
+    <testCase name="BankUsersGroupsPermissionsController findOne should throw BadRequestException when service throws an Error" duration="5"/>
+    <testCase name="BankUsersGroupsPermissionsController findOne should throw BadRequestException when service throws unknown error" duration="10"/>
+    <testCase name="BankUsersGroupsPermissionsController findAll should return an array of bank users groups permissions" duration="5"/>
+    <testCase name="BankUsersGroupsPermissionsController findAll should throw BadRequestException when service throws an Error" duration="2"/>
+    <testCase name="BankUsersGroupsPermissionsController findAll should throw BadRequestException when service throws unknown error" duration="6"/>
+    <testCase name="BankUsersGroupsPermissionsController remove should remove and return the bank user group permission" duration="21"/>
+    <testCase name="BankUsersGroupsPermissionsController remove should throw BadRequestException when service throws an Error" duration="4"/>
+    <testCase name="BankUsersGroupsPermissionsController remove should throw BadRequestException when service throws unknown error" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users-groups-constraints/bank-users-groups-constraints.service.spec.ts">
+    <testCase name="BankUsersGroupsConstraintsService create should create a constraint assignment" duration="6"/>
+    <testCase name="BankUsersGroupsConstraintsService findAll should return all constraints not soft deleted" duration="2"/>
+    <testCase name="BankUsersGroupsConstraintsService findOne should return a single constraint by ID" duration="2"/>
+    <testCase name="BankUsersGroupsConstraintsService findOne should return null if constraint not found" duration="1"/>
+    <testCase name="BankUsersGroupsConstraintsService findByGroupId should return constraints by group ID" duration="2"/>
+    <testCase name="BankUsersGroupsConstraintsService findByConstraintId should return groups by constraint ID" duration="4"/>
+    <testCase name="BankUsersGroupsConstraintsService update should update a constraint assignment" duration="3"/>
+    <testCase name="BankUsersGroupsConstraintsService remove should soft delete a constraint assignment" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/permission-grants-resource/permission-grants-resource.service.spec.ts">
+    <testCase name="PermissionGrantsResourceService should be defined" duration="5"/>
+    <testCase name="PermissionGrantsResourceService create should create a permission grant and return dto" duration="2"/>
+    <testCase name="PermissionGrantsResourceService create should propagate errors from prisma" duration="13"/>
+    <testCase name="PermissionGrantsResourceService createForAllPartnerByDefault should create grants for all partners and return count" duration="9"/>
+    <testCase name="PermissionGrantsResourceService createForAllPartnerByDefault should propagate errors from prisma" duration="3"/>
+    <testCase name="PermissionGrantsResourceService findAll should return all permission grants as dtos" duration="2"/>
+    <testCase name="PermissionGrantsResourceService findAll should propagate errors from prisma" duration="2"/>
+    <testCase name="PermissionGrantsResourceService findOne should return a permission grant dto by id" duration="2"/>
+    <testCase name="PermissionGrantsResourceService findOne should return null if not found" duration="6"/>
+    <testCase name="PermissionGrantsResourceService findOne should propagate errors from prisma" duration="2"/>
+    <testCase name="PermissionGrantsResourceService update should update a permission grant and return dto" duration="3"/>
+    <testCase name="PermissionGrantsResourceService update should propagate errors from prisma" duration="2"/>
+    <testCase name="PermissionGrantsResourceService remove should soft delete a permission grant" duration="2"/>
+    <testCase name="PermissionGrantsResourceService remove should propagate errors from prisma" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/app.controller.spec.ts">
+    <testCase name="AppController getHello should return hello world" duration="12"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/permission-tests/permission-tests.service.spec.ts">
+    <testCase name="PermissionTestsService should be defined" duration="1"/>
+    <testCase name="PermissionTestsService testWisiexAdmin should return success for wisiex_admin" duration="0"/>
+    <testCase name="PermissionTestsService testAdmin should return success for admin" duration="0"/>
+    <testCase name="PermissionTestsService testCustomer should return success for customer" duration="0"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/system-users/admin-system-users.controller.spec.ts">
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should return all admin system users" duration="8"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should return empty array when no admins exist" duration="2"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should throw BadRequestException on service error" duration="13"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should handle service error with Error instance" duration="2"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should handle service error with non-Error instance" duration="2"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should handle service error with null error" duration="5"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should handle service error with undefined error" duration="4"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should use unknown error name for non-Error instances" duration="2"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should use error name for Error instances" duration="1"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should use error message for Error instances in description" duration="2"/>
+    <testCase name="AdminSystemUsersController findAllWisiexBankSystemAdmins should use default message for non-Error instances in description" duration="1"/>
+    <testCase name="AdminSystemUsersController Guard Integration should have ApiKeyGuard properly mocked" duration="1"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/generate-swagger.spec.ts">
+    <testCase name="generate-swagger module file structure and existence should exist as a TypeScript file" duration="1"/>
+    <testCase name="generate-swagger module file structure and existence should be readable and contain expected content" duration="1"/>
+    <testCase name="generate-swagger module imports and dependencies should import NestFactory from @nestjs/core" duration="0"/>
+    <testCase name="generate-swagger module imports and dependencies should import NestExpressApplication type" duration="0"/>
+    <testCase name="generate-swagger module imports and dependencies should import AppModule from src/app.module" duration="0"/>
+    <testCase name="generate-swagger module imports and dependencies should import Swagger configuration functions" duration="1"/>
+    <testCase name="generate-swagger module function definition and signature should have an async bootstrap function" duration="0"/>
+    <testCase name="generate-swagger module function definition and signature should return Promise&lt;void&gt;" duration="0"/>
+    <testCase name="generate-swagger module function definition and signature should call bootstrap function with void operator" duration="0"/>
+    <testCase name="generate-swagger module function implementation should create NestJS application with correct type and module" duration="1"/>
+    <testCase name="generate-swagger module function implementation should call configSwagger with app instance" duration="0"/>
+    <testCase name="generate-swagger module function implementation should call configSwaggerInternal with app instance" duration="0"/>
+    <testCase name="generate-swagger module function implementation should call functions in correct order" duration="1"/>
+    <testCase name="generate-swagger module documentation and comments should have comprehensive JSDoc documentation" duration="0"/>
+    <testCase name="generate-swagger module documentation and comments should document the main functionality steps" duration="0"/>
+    <testCase name="generate-swagger module documentation and comments should document return type and parameters" duration="1"/>
+    <testCase name="generate-swagger module code quality and best practices should use proper async/await syntax" duration="0"/>
+    <testCase name="generate-swagger module code quality and best practices should use TypeScript type annotations" duration="1"/>
+    <testCase name="generate-swagger module code quality and best practices should have proper variable naming" duration="0"/>
+    <testCase name="generate-swagger module code quality and best practices should have reasonable file size" duration="1"/>
+    <testCase name="generate-swagger module integration aspects should follow project import patterns" duration="0"/>
+    <testCase name="generate-swagger module integration aspects should be compatible with module system" duration="1"/>
+    <testCase name="generate-swagger module integration aspects should use project-specific types and interfaces" duration="0"/>
+    <testCase name="generate-swagger module error handling considerations should use void operator for fire-and-forget execution" duration="0"/>
+    <testCase name="generate-swagger module error handling considerations should be designed for immediate execution" duration="1"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/bank-users/bank-user.service.spec.ts">
+    <testCase name="BankUserService should be defined" duration="13"/>
+    <testCase name="BankUserService create should throw ForbiddenException when partnerId does not match" duration="29"/>
+    <testCase name="BankUserService create should throw ForbiddenException when trying to assign user to WISIEX admin group" duration="8"/>
+    <testCase name="BankUserService create should throw ForbiddenException when group belongs to different partner" duration="7"/>
+    <testCase name="BankUserService create should throw ForbiddenException when group does not exist" duration="47"/>
+    <testCase name="BankUserService create should successfully create bank user when transaction succeeds" duration="68"/>
+    <testCase name="BankUserService create should log error and throw when transaction fails" duration="3"/>
+    <testCase name="BankUserService create should throw error when response is null after transaction" duration="57"/>
+    <testCase name="BankUserService findAll should return all non-deleted users mapped to DTOs" duration="6"/>
+    <testCase name="BankUserService findOne should return a user when found" duration="3"/>
+    <testCase name="BankUserService findOne should return null if user is not found" duration="2"/>
+    <testCase name="BankUserService remove should soft delete a bank user by setting deleted_at" duration="7"/>
+    <testCase name="BankUserService findOneByUserId should return a BankUserDto when user is found" duration="2"/>
+    <testCase name="BankUserService findOneByUserId should return null when user is not found" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/app.service.spec.ts">
+    <testCase name="AppService Basic functionality should be defined" duration="6"/>
+    <testCase name="AppService getHello should return &quot;Hello World!!&quot; string" duration="2"/>
+    <testCase name="AppService getHello should return consistent message on multiple calls" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/authorization/authorization.service.spec.ts">
+    <testCase name="AuthorizationService isAuthorized should return false if user is null" duration="4"/>
+    <testCase name="AuthorizationService isAuthorized should return false if user has no id" duration="2"/>
+    <testCase name="AuthorizationService isAuthorized should return true if user is admin group" duration="1"/>
+    <testCase name="AuthorizationService isAuthorized should return false if checkUserPermission returns false" duration="2"/>
+    <testCase name="AuthorizationService isAuthorized should return true if checkUserPermission returns true" duration="2"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/onboardings/services/onboardings-utils.service.spec.ts">
+    <testCase name="OnboardingUtilService should be defined" duration="3"/>
+    <testCase name="OnboardingUtilService onboardingCompareAndConcatenateObjects should merge objects and remove specified keys" duration="1"/>
+    <testCase name="OnboardingUtilService onboardingCompareAndConcatenateObjects should replace array fields like legalRepresentatives" duration="2"/>
+    <testCase name="OnboardingUtilService checkBase64 should return true for valid image base64 prefix" duration="1"/>
+    <testCase name="OnboardingUtilService checkBase64 should return true for valid PDF base64 prefix" duration="1"/>
+    <testCase name="OnboardingUtilService checkBase64 should return false for invalid base64 string" duration="1"/>
+  </file>
+  <file path="/home/wisiex/work/assemble/src/modules/watchman/services/watchman.service.spec.ts">
+    <testCase name="WatchmanService should be defined" duration="6"/>
+    <testCase name="WatchmanService getOnboardingByCustomer should throw UnauthorizedException when partner not found" duration="22"/>
+    <testCase name="WatchmanService getOnboardingByCustomer should throw BadRequestException when server error" duration="5"/>
+    <testCase name="WatchmanService getOnboardingByCustomer should retrieve onboarding by customer" duration="2"/>
+    <testCase name="WatchmanService updateOnboarding should throw UnauthorizedException when partner not found" duration="3"/>
+    <testCase name="WatchmanService updateOnboarding should throw BadRequestException when server error" duration="5"/>
+    <testCase name="WatchmanService updateOnboarding should update onboarding by customer" duration="2"/>
+    <testCase name="WatchmanService sendOrValidateOnboarding should throw UnauthorizedException when partner not found" duration="2"/>
+    <testCase name="WatchmanService sendOrValidateOnboarding should throw BadRequestException when server error" duration="2"/>
+    <testCase name="WatchmanService sendOrValidateOnboarding should send or validate onboarding by customer" duration="1"/>
+    <testCase name="WatchmanService documentAnalysis should throw UnauthorizedException when partner not found" duration="1"/>
+    <testCase name="WatchmanService documentAnalysis should throw BadRequestException when server error" duration="1"/>
+    <testCase name="WatchmanService documentAnalysis should throw BadRequestException when server return result with error" duration="1"/>
+    <testCase name="WatchmanService documentAnalysis should analyze document onboarding by customer" duration="2"/>
+    <testCase name="WatchmanService confirmOnboarding should throw UnauthorizedException when partner not found" duration="2"/>
+    <testCase name="WatchmanService confirmOnboarding should throw BadRequestException when server error" duration="2"/>
+    <testCase name="WatchmanService confirmOnboarding should confirm onboarding by customer" duration="1"/>
+  </file>
+</testExecutions>
