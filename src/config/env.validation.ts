@@ -14,6 +14,10 @@ export const envSchema = z.object({
   CORS_ORIGIN: z.string(),
   DATABASE_URL: z.string().url(),
   API_KEY: z.string().min(1),
+  JWT_SECRET: z.string().min(1),
+  JWT_EXPIRES_IN: z.coerce.number().min(1),
+  AES_KEY: z.string().min(1),
+  ASSEMBLE_URL: z.string().url(),
 });
 
 export type EnvVars = z.infer<typeof envSchema>;
