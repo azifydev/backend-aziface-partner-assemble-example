@@ -17,7 +17,7 @@ $ open http://localhost:60000/api-docs
 
 ## ⚡ Descrição
 
-API desenvolvida para servir de exemplo como o parceiro pode integrar seu backend com o sistema ASSEMBLE para os serviços de biometria.
+Este backend foi desenvolvido para exemplificar a utilização dos serviços de biometria do ASSEMBLE, servindo como referência para integração de sistemas parceiros.
 
 ## 🛠️ Tecnologias Principais
 
