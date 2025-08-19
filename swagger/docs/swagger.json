@@ -921,6 +921,45 @@
           "Biometrics"
         ]
       }
+    },
+    "/biometrics/configs": {
+      "get": {
+        "operationId": "BiometricsController_retrieveConfig",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Config retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductionKeyDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get Config",
+        "tags": [
+          "Biometrics"
+        ]
+      }
     }
   },
   "info": {
@@ -1189,6 +1228,31 @@
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
           }
         }
+      },
+      "ProductionKeyDto": {
+        "type": "object",
+        "properties": {
+          "device": {
+            "type": "string",
+            "description": "Identificador do dispositivo",
+            "example": "abc123XYZ987deviceToken"
+          },
+          "productionKey": {
+            "type": "string",
+            "description": "Chave de produção formatada",
+            "example": "appId      = myApp\nexpiryDate = 2026-01-01\nkey        = 0030450abcde..."
+          },
+          "key": {
+            "type": "string",
+            "description": "Chave pública em formato PEM",
+            "example": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BA...\n-----END PUBLIC KEY-----"
+          }
+        },
+        "required": [
+          "device",
+          "productionKey",
+          "key"
+        ]
       }
     }
   }
