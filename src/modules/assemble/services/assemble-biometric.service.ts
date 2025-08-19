@@ -18,6 +18,10 @@ import {
   BiometricProcessDataDto,
   BiometricProcessDto,
 } from '../dto/generic-error-maestro.dto';
+import {
+  ProductionKeyDto,
+  ProductionKeyResponseDto,
+} from 'src/biometrics/dto/product-key.dto';
 
 @Injectable()
 export class AssembleBiometricService {
@@ -119,6 +123,42 @@ export class AssembleBiometricService {
       );
 
       const { error, data } = result as unknown as BiometricProcessDto;
+
+      if (error) {
+        throw new BadRequestException(
+          'Error api Biometric create token session service',
+        );
+      }
+
+      return data;
+    } catch (error) {
+      const errorResponse = error as HttpErrorResponse;
+
+      handleHttpClientError(errorResponse);
+    }
+  }
+
+  async retrieveConfig(user: AuthenticatedUser): Promise<ProductionKeyDto> {
+    try {
+      const users = await this.prismaService.users.findFirst({
+        where: {
+          id: user.id,
+        },
+      });
+
+      if (!users) {
+        throw new NotFoundException('User not found');
+      }
+
+      const endpoint = `${this.baseUrl}/biometric/configs`;
+
+      const headers = this.makeHeaders();
+
+      const result = await this.httpClientService.get(endpoint, {
+        headers,
+      });
+
+      const { error, data } = result as unknown as ProductionKeyResponseDto;
 
       if (error) {
         throw new BadRequestException(

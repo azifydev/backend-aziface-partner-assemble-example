@@ -5,6 +5,7 @@ import {
   HttpStatus,
   BadRequestException,
   UseGuards,
+  Get,
 } from '@nestjs/common';
 import {
   ApiOperation,
@@ -25,6 +26,12 @@ import {
   BiometricAuthTokenSessionDataDto,
   BiometricProcessDataDto,
 } from 'src/modules/assemble/dto/generic-error-maestro.dto';
+import { ProductionKeyDto } from './dto/product-key.dto';
+
+const BAD_REQUEST = 'Bad Request';
+const FORBIDDEN = 'Forbidden';
+const NOT_FOUND = 'Not Found';
+const INTERNAL_SERVER_ERROR = 'Internal Server Error';
 
 @ApiTags('Biometrics')
 @UseGuards(JwtAuthGuard)
@@ -113,5 +120,27 @@ export class BiometricsController {
         description: err.message || 'Erro ao criar usuário',
       });
     }
+  }
+
+  @Get('configs')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get Config' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Config retrieved successfully',
+    type: ProductionKeyDto,
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: BAD_REQUEST })
+  @ApiResponse({ status: HttpStatus.FORBIDDEN, description: FORBIDDEN })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: NOT_FOUND })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: INTERNAL_SERVER_ERROR,
+  })
+  async retrieveConfig(
+    @CurrentUserId() user: AuthenticatedUser,
+  ): Promise<ProductionKeyDto> {
+    return await this.assembleService.retrieveConfig(user);
   }
 }
