@@ -70,7 +70,7 @@ export class UsersController {
     example: 'd41d8cd98f00b204e9800998ecf8427e',
   })
   @Post()
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
   async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
     try {
       return await this.usersService.create(createUserDto);
