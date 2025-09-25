@@ -64,6 +64,12 @@ export class AssembleBiometricService {
         throw new NotFoundException('User not found');
       }
 
+      const process = await this.createProcess(user);
+
+      if (!process.processId) {
+        throw new BadRequestException('Process not created');
+      }
+
       const endpoint = `${this.baseUrl}/biometric/sessions`;
 
       const headers = this.makeHeaders();
@@ -86,7 +92,10 @@ export class AssembleBiometricService {
         );
       }
 
-      return data;
+      return {
+        ...data,
+        processId: process.processId,
+      };
     } catch (error) {
       const errorResponse = error as HttpErrorResponse;
 

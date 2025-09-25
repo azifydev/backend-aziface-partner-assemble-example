@@ -807,64 +807,7 @@
         ]
       }
     },
-    "/biometrics/biometric-auth": {
-      "post": {
-        "operationId": "BiometricsController_createProcess",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Process biometric successfully created. Returns the created process data.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BiometricProcessDataDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request. The provided data is invalid or missing required fields.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized request. The user is not authenticated.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden. The user does not have permission to perform this action.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenRequestDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Creates a new biometric id",
-        "tags": [
-          "Biometrics"
-        ]
-      }
-    },
-    "/biometrics/biometric-auth/session": {
+    "/biometrics/session": {
       "post": {
         "description": "Creates a new token for biometric authentication process.",
         "operationId": "BiometricsController_createTokenSession",
@@ -1209,25 +1152,24 @@
           }
         }
       },
-      "BiometricProcessDataDto": {
-        "type": "object",
-        "properties": {
-          "process": {
-            "type": "object",
-            "description": "Process ID for biometric",
-            "example": "1234-5678-9012-345678901234"
-          }
-        }
-      },
       "BiometricAuthTokenSessionDataDto": {
         "type": "object",
         "properties": {
           "token": {
-            "type": "object",
+            "type": "string",
             "description": "Token for biometric authentication",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          },
+          "processId": {
+            "type": "string",
+            "description": "Process ID for biometric",
+            "example": "b3e1c2d4-5f67-4a89-8e12-3f4b5c6d7e8f"
           }
-        }
+        },
+        "required": [
+          "token",
+          "processId"
+        ]
       },
       "ProductionKeyDto": {
         "type": "object",
