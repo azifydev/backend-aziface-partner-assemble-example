@@ -31,6 +31,7 @@
     "deploy": "pnpm run build && pnpm run pm2:start:prod",
     "db:pull": "prisma db pull",
     "db:push": "prisma db push",
+    "db:migrate:create": "prisma migrate dev --create-only",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:reset": "prisma migrate reset",
     "db:generate": "prisma generate",

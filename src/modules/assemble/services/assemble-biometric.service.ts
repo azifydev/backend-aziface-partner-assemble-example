@@ -64,10 +64,29 @@ export class AssembleBiometricService {
         throw new NotFoundException('User not found');
       }
 
-      const process = await this.createProcess(user);
+      const processId = await this.prismaService.user_data.findFirst({
+        where: { user_id: user.id, key: 'processId' },
+      });
 
-      if (!process.processId) {
-        throw new BadRequestException('Process not created');
+      let process: string;
+
+      if (!processId) {
+        const resultProcess = await this.createProcess(user);
+
+        if (!resultProcess.processId) {
+          throw new BadRequestException('Process not created');
+        }
+
+        process = resultProcess.processId;
+        await this.prismaService.user_data.create({
+          data: {
+            user_id: user.id,
+            key: 'processId',
+            value: process,
+          },
+        });
+      } else {
+        process = processId.value;
       }
 
       const endpoint = `${this.baseUrl}/biometric/sessions`;
@@ -94,7 +113,7 @@ export class AssembleBiometricService {
 
       return {
         ...data,
-        processId: process.processId,
+        processId: process,
       };
     } catch (error) {
       const errorResponse = error as HttpErrorResponse;
