@@ -83,6 +83,11 @@ export class UsersService {
 
         name: true,
         assemble_user_id: true,
+        authentication: {
+          select: {
+            username: true,
+          },
+        },
         created_at: true,
         updated_at: true,
         deleted_at: true,
@@ -96,6 +101,10 @@ export class UsersService {
         new UserDto({
           id: item.id,
           name: item.name,
+          username:
+            item.authentication.length > 0
+              ? item.authentication[0].username
+              : '',
           assembleUserId: item.assemble_user_id,
           createdAt: item.created_at,
           updatedAt: item.updated_at,

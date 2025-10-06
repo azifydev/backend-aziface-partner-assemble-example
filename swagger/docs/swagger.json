@@ -1072,6 +1072,11 @@
             "description": "Name of the user",
             "example": "John Doe"
           },
+          "username": {
+            "type": "string",
+            "description": "Username",
+            "example": "JohnDoe"
+          },
           "assembleUserId": {
             "type": "string",
             "description": "External identifier of the user in other systems",
@@ -1098,6 +1103,7 @@
         },
         "required": [
           "id",
+          "username",
           "createdAt",
           "updatedAt"
         ]
