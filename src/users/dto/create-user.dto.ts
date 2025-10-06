@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { IsString, IsOptional } from 'class-validator';
 
-export class CreateSystemUserDto {
+export class CreateUserDto {
   @ApiProperty({
     description: "User's name",
     example: 'João Silva',
@@ -17,7 +17,7 @@ export class CreateSystemUserDto {
   })
   @IsString()
   @IsOptional()
-  externalId?: string;
+  assembleUserId?: string;
 
   @ApiProperty({
     description: 'User name',

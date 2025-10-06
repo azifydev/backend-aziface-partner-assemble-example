@@ -2,7 +2,13 @@ import { HttpStatus } from '@nestjs/common';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JsonObject } from '@prisma/client/runtime/library';
 
-import { IsEnum, IsObject, IsOptional, IsString } from 'class-validator';
+import {
+  IsEnum,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class ResponseFromAssembleDto {
   @ApiPropertyOptional({
@@ -31,13 +37,19 @@ export class ResponseFromAssembleDto {
 }
 
 export class BiometricAuthTokenSessionDataDto {
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Token for biometric authentication',
     example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
   })
-  @IsOptional()
   @IsString()
-  token?: string | null;
+  token: string;
+
+  @ApiProperty({
+    description: 'Process ID for biometric',
+    example: 'b3e1c2d4-5f67-4a89-8e12-3f4b5c6d7e8f',
+  })
+  @IsUUID()
+  processId: string;
 }
 
 export class BiometricProcessDataDto {
@@ -47,7 +59,7 @@ export class BiometricProcessDataDto {
   })
   @IsOptional()
   @IsString()
-  process?: string | null;
+  processId?: string | null;
 }
 
 export class BiometricAuthTokenSessionDto extends ResponseFromAssembleDto {

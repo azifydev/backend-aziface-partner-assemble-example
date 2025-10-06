@@ -433,10 +433,10 @@
         ]
       }
     },
-    "/system-users": {
+    "/users": {
       "post": {
-        "description": "Creates a new system user with the provided data. Returns the created user with all its details.",
-        "operationId": "SystemUsersController_create",
+        "description": "Creates a new user with the provided data. Returns the created user with all its details.",
+        "operationId": "UsersController_create",
         "parameters": [
           {
             "name": "x-api-key",
@@ -453,7 +453,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateSystemUserDto"
+                "$ref": "#/components/schemas/CreateUserDto"
               }
             }
           }
@@ -464,7 +464,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemUserDto"
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -505,14 +505,14 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "Create a new system user",
+        "summary": "Create a new user",
         "tags": [
-          "System Users"
+          "Users"
         ]
       },
       "get": {
-        "description": "Returns a list of all system users that have not been soft deleted.",
-        "operationId": "SystemUsersController_findAll",
+        "description": "Returns a list of all users.",
+        "operationId": "UsersController_findAll",
         "parameters": [
           {
             "name": "x-api-key",
@@ -532,7 +532,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/SystemUserDto"
+                    "$ref": "#/components/schemas/UserDto"
                   }
                 }
               }
@@ -574,16 +574,16 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "List all system users",
+        "summary": "List all users",
         "tags": [
-          "System Users"
+          "Users"
         ]
       }
     },
-    "/system-users/{id}": {
+    "/users/{id}": {
       "get": {
-        "description": "Fetches and returns the details of a system user by its unique identifier (UUID).",
-        "operationId": "SystemUsersController_findOne",
+        "description": "Fetches and returns the details of a user by its unique identifier (UUID).",
+        "operationId": "UsersController_findOne",
         "parameters": [
           {
             "name": "id",
@@ -609,7 +609,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemUserDto"
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -650,14 +650,14 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "Get a system user by ID",
+        "summary": "Get a user by ID",
         "tags": [
-          "System Users"
+          "Users"
         ]
       },
       "patch": {
-        "description": "Updates the details of a system user identified by its UUID. Returns the updated user.",
-        "operationId": "SystemUsersController_update",
+        "description": "Updates the details of a user identified by its UUID. Returns the updated user.",
+        "operationId": "UsersController_update",
         "parameters": [
           {
             "name": "id",
@@ -682,7 +682,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateSystemUserDto"
+                "$ref": "#/components/schemas/UpdateUserDto"
               }
             }
           }
@@ -693,7 +693,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemUserDto"
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -734,14 +734,14 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "Update a system user by ID",
+        "summary": "Update a user by ID",
         "tags": [
-          "System Users"
+          "Users"
         ]
       },
       "delete": {
-        "description": "Performs a soft delete on a system user by its UUID. The user is not removed from the database, only marked as deleted.",
-        "operationId": "SystemUsersController_remove",
+        "description": "Performs a delete on a user by its UUID. The user is not removed from the database, only marked as deleted.",
+        "operationId": "UsersController_remove",
         "parameters": [
           {
             "name": "id",
@@ -762,15 +762,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "User successfully soft deleted.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SystemUserDto"
-                }
-              }
-            }
+          "204": {
+            "description": "User successfully deleted."
           },
           "400": {
             "description": "Bad request when removing user.",
@@ -808,65 +801,13 @@
             "x-api-key-partner": []
           }
         ],
-        "summary": "Soft delete a system user by ID",
+        "summary": "Delete a user by ID",
         "tags": [
-          "System Users"
+          "Users"
         ]
       }
     },
-    "/biometrics/biometric-auth": {
-      "post": {
-        "operationId": "BiometricsController_createProcess",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Process biometric successfully created. Returns the created process data.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BiometricProcessDataDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request. The provided data is invalid or missing required fields.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized request. The user is not authenticated.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedRequestDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden. The user does not have permission to perform this action.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenRequestDto"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Creates a new biometric id",
-        "tags": [
-          "Biometrics"
-        ]
-      }
-    },
-    "/biometrics/biometric-auth/session": {
+    "/biometrics/session": {
       "post": {
         "description": "Creates a new token for biometric authentication process.",
         "operationId": "BiometricsController_createTokenSession",
@@ -913,7 +854,51 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Create a new biometric token session",
+        "tags": [
+          "Biometrics"
+        ]
+      }
+    },
+    "/biometrics/configs": {
+      "get": {
+        "operationId": "BiometricsController_retrieveConfig",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Config retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductionKeyDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get Config",
         "tags": [
           "Biometrics"
         ]
@@ -921,8 +906,8 @@
     }
   },
   "info": {
-    "title": "Assemble API",
-    "description": "Documentação da API Assemble",
+    "title": "Backend Aziface Partner Assemble Example API",
+    "description": "Documentação da API Backend Aziface Partner Assemble Example",
     "version": "1.0",
     "contact": {}
   },
@@ -935,12 +920,6 @@
         "in": "header",
         "name": "x-api-key",
         "description": "Partner ApiKey"
-      },
-      "x-api-key-admin": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "x-api-key",
-        "description": "Admin Wisiex ApiKey"
       },
       "bearer": {
         "scheme": "bearer",
@@ -1050,7 +1029,7 @@
           "error"
         ]
       },
-      "CreateSystemUserDto": {
+      "CreateUserDto": {
         "type": "object",
         "properties": {
           "name": {
@@ -1058,7 +1037,7 @@
             "description": "User's name",
             "example": "João Silva"
           },
-          "externalId": {
+          "assembleUserId": {
             "type": "string",
             "description": "External identifier of the user in other systems",
             "example": "external123"
@@ -1080,12 +1059,12 @@
           "password"
         ]
       },
-      "SystemUserDto": {
+      "UserDto": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "description": "Unique identifier for the system user",
+            "description": "Unique identifier for the user",
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           "name": {
@@ -1093,7 +1072,12 @@
             "description": "Name of the user",
             "example": "John Doe"
           },
-          "externalId": {
+          "username": {
+            "type": "string",
+            "description": "Username",
+            "example": "JohnDoe"
+          },
+          "assembleUserId": {
             "type": "string",
             "description": "External identifier of the user in other systems",
             "example": "external-123"
@@ -1119,6 +1103,7 @@
         },
         "required": [
           "id",
+          "username",
           "createdAt",
           "updatedAt"
         ]
@@ -1148,7 +1133,7 @@
           "error"
         ]
       },
-      "UpdateSystemUserDto": {
+      "UpdateUserDto": {
         "type": "object",
         "properties": {
           "name": {
@@ -1156,7 +1141,7 @@
             "description": "User's name",
             "example": "João Silva"
           },
-          "externalId": {
+          "assembleUserId": {
             "type": "string",
             "description": "External identifier of the user in other systems",
             "example": "external123"
@@ -1173,25 +1158,49 @@
           }
         }
       },
-      "BiometricProcessDataDto": {
-        "type": "object",
-        "properties": {
-          "process": {
-            "type": "object",
-            "description": "Process ID for biometric",
-            "example": "1234-5678-9012-345678901234"
-          }
-        }
-      },
       "BiometricAuthTokenSessionDataDto": {
         "type": "object",
         "properties": {
           "token": {
-            "type": "object",
+            "type": "string",
             "description": "Token for biometric authentication",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          },
+          "processId": {
+            "type": "string",
+            "description": "Process ID for biometric",
+            "example": "b3e1c2d4-5f67-4a89-8e12-3f4b5c6d7e8f"
           }
-        }
+        },
+        "required": [
+          "token",
+          "processId"
+        ]
+      },
+      "ProductionKeyDto": {
+        "type": "object",
+        "properties": {
+          "device": {
+            "type": "string",
+            "description": "Identificador do dispositivo",
+            "example": "abc123XYZ987deviceToken"
+          },
+          "productionKey": {
+            "type": "string",
+            "description": "Chave de produção formatada",
+            "example": "appId      = myApp\nexpiryDate = 2026-01-01\nkey        = 0030450abcde..."
+          },
+          "key": {
+            "type": "string",
+            "description": "Chave pública em formato PEM",
+            "example": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BA...\n-----END PUBLIC KEY-----"
+          }
+        },
+        "required": [
+          "device",
+          "productionKey",
+          "key"
+        ]
       }
     }
   }

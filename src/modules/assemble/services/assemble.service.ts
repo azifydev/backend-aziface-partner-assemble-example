@@ -6,6 +6,7 @@ import {
   BiometricAuthTokenSessionDataDto,
   BiometricProcessDataDto,
 } from '../dto/generic-error-maestro.dto';
+import { ProductionKeyDto } from 'src/biometrics/dto/product-key.dto';
 
 @Injectable()
 export class AssembleService {
@@ -23,5 +24,9 @@ export class AssembleService {
     user: AuthenticatedUser,
   ): Promise<BiometricProcessDataDto> {
     return await this.assembleBiometricService.createProcess(user);
+  }
+
+  async retrieveConfig(user: AuthenticatedUser): Promise<ProductionKeyDto> {
+    return await this.assembleBiometricService.retrieveConfig(user);
   }
 }

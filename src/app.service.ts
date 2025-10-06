@@ -1,11 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
-
-import { Logger } from 'nestjs-pino';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  public constructor(@Inject(Logger) private readonly logger: Logger) {}
+  public constructor() {}
+
   getHello(): string {
-    return 'Hello World!!';
+    return 'Welcome Backend Aziface Partner Assemble Example API. 📘 Documentation: http://localhost:60000/api-docs#/';
   }
 }

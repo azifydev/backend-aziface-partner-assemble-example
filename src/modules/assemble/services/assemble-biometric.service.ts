@@ -18,6 +18,10 @@ import {
   BiometricProcessDataDto,
   BiometricProcessDto,
 } from '../dto/generic-error-maestro.dto';
+import {
+  ProductionKeyDto,
+  ProductionKeyResponseDto,
+} from 'src/biometrics/dto/product-key.dto';
 
 @Injectable()
 export class AssembleBiometricService {
@@ -50,14 +54,39 @@ export class AssembleBiometricService {
     user: AuthenticatedUser,
   ): Promise<BiometricAuthTokenSessionDataDto> {
     try {
-      const systemUser = await this.prismaService.system_users.findFirst({
+      const users = await this.prismaService.users.findFirst({
         where: {
           id: user.id,
         },
       });
 
-      if (!systemUser) {
-        throw new NotFoundException('System user not found');
+      if (!users) {
+        throw new NotFoundException('User not found');
+      }
+
+      const processId = await this.prismaService.user_data.findFirst({
+        where: { user_id: user.id, key: 'processId' },
+      });
+
+      let process: string;
+
+      if (!processId) {
+        const resultProcess = await this.createProcess(user);
+
+        if (!resultProcess.processId) {
+          throw new BadRequestException('Process not created');
+        }
+
+        process = resultProcess.processId;
+        await this.prismaService.user_data.create({
+          data: {
+            user_id: user.id,
+            key: 'processId',
+            value: process,
+          },
+        });
+      } else {
+        process = processId.value;
       }
 
       const endpoint = `${this.baseUrl}/biometric/sessions`;
@@ -67,7 +96,7 @@ export class AssembleBiometricService {
       const result = await this.httpClientService.post(
         endpoint,
         {
-          userId: systemUser.external_id,
+          userId: users.assemble_user_id,
         },
         {
           headers,
@@ -75,6 +104,53 @@ export class AssembleBiometricService {
       );
 
       const { error, data } = result as unknown as BiometricAuthTokenSessionDto;
+
+      if (error) {
+        throw new BadRequestException(
+          'Error api Biometric create token session service',
+        );
+      }
+
+      return {
+        ...data,
+        processId: process,
+      };
+    } catch (error) {
+      const errorResponse = error as HttpErrorResponse;
+
+      handleHttpClientError(errorResponse);
+    }
+  }
+
+  async createProcess(
+    user: AuthenticatedUser,
+  ): Promise<BiometricProcessDataDto> {
+    try {
+      const users = await this.prismaService.users.findFirst({
+        where: {
+          id: user.id,
+        },
+      });
+
+      if (!users) {
+        throw new NotFoundException('User not found');
+      }
+
+      const endpoint = `${this.baseUrl}/biometric/process`;
+
+      const headers = this.makeHeaders();
+
+      const result = await this.httpClientService.post(
+        endpoint,
+        {
+          userId: users.assemble_user_id,
+        },
+        {
+          headers,
+        },
+      );
+
+      const { error, data } = result as unknown as BiometricProcessDto;
 
       if (error) {
         throw new BadRequestException(
@@ -90,35 +166,27 @@ export class AssembleBiometricService {
     }
   }
 
-  async createProcess(
-    user: AuthenticatedUser,
-  ): Promise<BiometricProcessDataDto> {
+  async retrieveConfig(user: AuthenticatedUser): Promise<ProductionKeyDto> {
     try {
-      const systemUser = await this.prismaService.system_users.findFirst({
+      const users = await this.prismaService.users.findFirst({
         where: {
           id: user.id,
         },
       });
 
-      if (!systemUser) {
-        throw new NotFoundException('System user not found');
+      if (!users) {
+        throw new NotFoundException('User not found');
       }
 
-      const endpoint = `${this.baseUrl}/biometric/process`;
+      const endpoint = `${this.baseUrl}/biometric/configs`;
 
       const headers = this.makeHeaders();
 
-      const result = await this.httpClientService.post(
-        endpoint,
-        {
-          userId: systemUser.external_id,
-        },
-        {
-          headers,
-        },
-      );
+      const result = await this.httpClientService.get(endpoint, {
+        headers,
+      });
 
-      const { error, data } = result as unknown as BiometricProcessDto;
+      const { error, data } = result as unknown as ProductionKeyResponseDto;
 
       if (error) {
         throw new BadRequestException(
