@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
@@ -59,12 +63,27 @@ export class AuthenticationService {
       },
     });
 
+    const assembleUser = this.configService.get<string>('ASSEMBLE_USER');
+    const assemblePassword =
+      this.configService.get<string>('ASSEMBLE_PASSWORD');
+
+    if (!assembleUser || !assemblePassword) {
+      throw new BadRequestException('Assemble credentials are not set');
+    }
+
     if (!users || users.deleted_at) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     // Verificar se existe autenticação para o usuário
     if (users.authentication.length === 0) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    if (
+      !username.includes(assembleUser) ||
+      !password.includes(assemblePassword)
+    ) {
       throw new UnauthorizedException('Invalid credentials');
     }
 

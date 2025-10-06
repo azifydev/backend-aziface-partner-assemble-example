@@ -7,12 +7,14 @@ import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { AuthenticationService } from 'src/authentication/authentication.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly authenticationService: AuthenticationService,
+    private readonly configService: ConfigService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserDto> {
@@ -24,6 +26,21 @@ export class UsersService {
 
     if (authentication) {
       throw new BadRequestException('Username is already in use');
+    }
+
+    const assembleUser = this.configService.get<string>('ASSEMBLE_USER');
+    const assemblePassword =
+      this.configService.get<string>('ASSEMBLE_PASSWORD');
+
+    if (!assembleUser || !assemblePassword) {
+      throw new BadRequestException('Assemble credentials are not set');
+    }
+
+    if (
+      !createUserDto.username.includes(assembleUser) ||
+      !createUserDto.password.includes(assemblePassword)
+    ) {
+      throw new BadRequestException('Invalid Assemble credentials');
     }
 
     const data = await this.prismaService.users.create({
@@ -66,6 +83,11 @@ export class UsersService {
 
         name: true,
         assemble_user_id: true,
+        authentication: {
+          select: {
+            username: true,
+          },
+        },
         created_at: true,
         updated_at: true,
         deleted_at: true,
@@ -79,6 +101,10 @@ export class UsersService {
         new UserDto({
           id: item.id,
           name: item.name,
+          username:
+            item.authentication.length > 0
+              ? item.authentication[0].username
+              : '',
           assembleUserId: item.assemble_user_id,
           createdAt: item.created_at,
           updatedAt: item.updated_at,

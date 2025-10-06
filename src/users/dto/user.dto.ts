@@ -39,6 +39,12 @@ export class UserDto {
   name?: string;
 
   @ApiProperty({
+    description: 'Username',
+    example: 'JohnDoe',
+  })
+  username?: string;
+
+  @ApiProperty({
     description: 'External identifier of the user in other systems',
     example: 'external-123',
     required: false,
