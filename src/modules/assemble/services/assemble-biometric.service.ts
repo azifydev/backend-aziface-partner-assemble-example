@@ -38,8 +38,8 @@ export class AssembleBiometricService {
       'ASSEMBLE_URL is required',
     );
     this.apiKey = this.configService.getOrThrow<string>(
-      'API_KEY',
-      'API_KEY is required',
+      'API_KEY_ASSEMBLE',
+      'API_KEY_ASSEMBLE is required',
     );
   }
 
