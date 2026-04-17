@@ -33,6 +33,6 @@ export function configCors(app: INestApplication): void {
     origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Accept',
-    credentials: true,
+    credentials: false,
   });
 }
