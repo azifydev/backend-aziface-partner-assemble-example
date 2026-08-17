@@ -2,11 +2,11 @@ import type { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 /**
- * Configures CORS settings for the NestJS application
+ * Configures CORS settings for the NestJS application.
  *
- * This function enables CORS with different origins based on the environment:
- * - In development or test environments, it allows all origins ('*')
- * - In production, it uses the CORS_ORIGIN environment variable or falls back to 'https://assemble.com'
+ * - In development or test, reflects the request origin (any origin) with credentials.
+ * - In production, uses CORS_ORIGIN (one origin or a comma-separated list).
+ *   A value of '*' is treated as reflecting the request origin so credentials stay valid.
  *
  * @param app - The NestJS application instance to configure
  *
@@ -25,14 +25,37 @@ export function configCors(app: INestApplication): void {
 
   const isNonProductionEnv = ['development', 'test'].includes(nodeEnv);
 
-  const allowedOrigins = isNonProductionEnv
-    ? '*'
-    : configService.get<string>('CORS_ORIGIN') || 'https://assemble.com';
+  const origin = isNonProductionEnv
+    ? true
+    : parseCorsOrigins(configService.get<string>('CORS_ORIGIN'));
 
   app.enableCors({
-    origin: allowedOrigins,
+    origin,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Accept',
+    allowedHeaders: [
+      'Content-Type',
+      'Accept',
+      'Authorization',
+      'x-api-key',
+      'X-Requested-With',
+    ],
     credentials: true,
   });
+}
+
+function parseCorsOrigins(corsOrigin?: string): boolean | string | string[] {
+  if (!corsOrigin || corsOrigin === '*') {
+    return true;
+  }
+
+  const origins = corsOrigin
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  if (origins.length === 0) {
+    return true;
+  }
+
+  return origins.length === 1 ? origins[0] : origins;
 }
