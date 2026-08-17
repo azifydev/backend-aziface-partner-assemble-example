@@ -51,7 +51,11 @@ async function bootstrap(): Promise<void> {
 
   configCors(app);
 
-  app.use(helmet());
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }),
+  );
 
   app.useGlobalPipes(
     new ValidationPipe({

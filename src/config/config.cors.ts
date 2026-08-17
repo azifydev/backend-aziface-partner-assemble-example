@@ -1,5 +1,16 @@
 import type { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import type { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+
+const DEFAULT_ALLOWED_HEADERS = [
+  'Content-Type',
+  'Accept',
+  'Authorization',
+  'x-api-key',
+  'X-Api-Key',
+  'X-API-KEY',
+  'X-Requested-With',
+];
 
 /**
  * Configures CORS settings for the NestJS application.
@@ -9,14 +20,6 @@ import { ConfigService } from '@nestjs/config';
  *   A value of '*' is treated as reflecting the request origin so credentials stay valid.
  *
  * @param app - The NestJS application instance to configure
- *
- * @example
- * ```typescript
- * // In your main.ts file
- * const app = await NestFactory.create(AppModule);
- * configCors(app);
- * await app.listen(3000);
- * ```
  */
 export function configCors(app: INestApplication): void {
   const configService = app.get<ConfigService>(ConfigService);
@@ -29,18 +32,16 @@ export function configCors(app: INestApplication): void {
     ? true
     : parseCorsOrigins(configService.get<string>('CORS_ORIGIN'));
 
-  app.enableCors({
+  const corsOptions: CorsOptions = {
     origin,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: [
-      'Content-Type',
-      'Accept',
-      'Authorization',
-      'x-api-key',
-      'X-Requested-With',
-    ],
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: DEFAULT_ALLOWED_HEADERS,
     credentials: true,
-  });
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  };
+
+  app.enableCors(corsOptions);
 }
 
 function parseCorsOrigins(corsOrigin?: string): boolean | string | string[] {
