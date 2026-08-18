@@ -1,11 +1,15 @@
 import type { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+import type { IncomingMessage } from 'http';
 
 const DEFAULT_ALLOWED_HEADERS = [
   'Content-Type',
   'Accept',
   'Authorization',
+  'Origin',
+  'Accept-Language',
+  'Content-Language',
   'x-api-key',
   'X-Api-Key',
   'X-API-KEY',
@@ -22,12 +26,18 @@ const DEFAULT_METHODS = [
   'OPTIONS',
 ];
 
+type CorsRequest = IncomingMessage & {
+  headers: IncomingMessage['headers'] & {
+    'access-control-request-headers'?: string;
+  };
+};
+
 /**
- * Configures CORS for browser clients.
+ * Configures CORS for browser clients (including Safari/WebKit).
  *
- * CORS_ORIGIN=* (or empty) reflects any request origin.
- * Otherwise it uses the comma-separated list, always including
- * https://azifaceweb.azify.dev.
+ * Safari sends `origin` (and sometimes language headers) in
+ * Access-Control-Request-Headers and expects them echoed back.
+ * We mirror the requested headers on preflight when present.
  */
 export function configCors(app: INestApplication): void {
   const configService = app.get<ConfigService>(ConfigService);
@@ -35,8 +45,11 @@ export function configCors(app: INestApplication): void {
     configService.get<string>('CORS_ORIGIN'),
   );
 
-  const corsOptions: CorsOptions = {
-    origin: (requestOrigin, callback) => {
+  const corsOptions = {
+    origin: (
+      requestOrigin: string | undefined,
+      callback: (err: Error | null, allow?: boolean) => void,
+    ) => {
       if (!requestOrigin || isOriginAllowed(requestOrigin, allowedOrigins)) {
         callback(null, true);
         return;
@@ -45,12 +58,24 @@ export function configCors(app: INestApplication): void {
       callback(null, false);
     },
     methods: DEFAULT_METHODS,
-    allowedHeaders: DEFAULT_ALLOWED_HEADERS,
+    allowedHeaders: (
+      req: CorsRequest,
+      callback: (err: Error | null, allowed?: string | string[]) => void,
+    ) => {
+      const requested = req.headers['access-control-request-headers'];
+
+      if (requested) {
+        callback(null, requested);
+        return;
+      }
+
+      callback(null, DEFAULT_ALLOWED_HEADERS);
+    },
     credentials: true,
     preflightContinue: false,
     optionsSuccessStatus: 204,
     maxAge: 86_400,
-  };
+  } as unknown as CorsOptions;
 
   app.enableCors(corsOptions);
 }
