@@ -34,9 +34,6 @@ async function bootstrap(): Promise<void> {
     bufferLogs: true,
   });
 
-  app.use(express.json({ limit: '50mb' }));
-  app.use(express.urlencoded({ limit: '50mb', extended: true }));
-
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') || 3000;
   const baseUrl = configService.get<string>('BASE_URL') || '0.0.0.0';
@@ -45,15 +42,19 @@ async function bootstrap(): Promise<void> {
 
   app.useLogger(logger);
 
+  configCors(app);
+
+  app.use(express.json({ limit: '50mb' }));
+  app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
   configSwagger(app);
 
   configAppEnv();
 
-  configCors(app);
-
   app.use(
     helmet({
       crossOriginResourcePolicy: { policy: 'cross-origin' },
+      crossOriginEmbedderPolicy: false,
     }),
   );
 
