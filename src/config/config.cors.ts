@@ -1,7 +1,6 @@
 import type { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
-import type { IncomingMessage } from 'http';
 
 const DEFAULT_ALLOWED_HEADERS = [
   'Content-Type',
@@ -26,18 +25,11 @@ const DEFAULT_METHODS = [
   'OPTIONS',
 ];
 
-type CorsRequest = IncomingMessage & {
-  headers: IncomingMessage['headers'] & {
-    'access-control-request-headers'?: string;
-  };
-};
-
 /**
- * Configures CORS for browser clients (including Safari/WebKit).
+ * Configures CORS for browser clients (Chrome, Firefox, Safari/WebKit).
  *
- * Safari sends `origin` (and sometimes language headers) in
- * Access-Control-Request-Headers and expects them echoed back.
- * We mirror the requested headers on preflight when present.
+ * Safari includes `origin` in Access-Control-Request-Headers during preflight,
+ * so Origin must be explicitly allowed alongside the usual API headers.
  */
 export function configCors(app: INestApplication): void {
   const configService = app.get<ConfigService>(ConfigService);
@@ -45,11 +37,8 @@ export function configCors(app: INestApplication): void {
     configService.get<string>('CORS_ORIGIN'),
   );
 
-  const corsOptions = {
-    origin: (
-      requestOrigin: string | undefined,
-      callback: (err: Error | null, allow?: boolean) => void,
-    ) => {
+  const corsOptions: CorsOptions = {
+    origin: (requestOrigin, callback) => {
       if (!requestOrigin || isOriginAllowed(requestOrigin, allowedOrigins)) {
         callback(null, true);
         return;
@@ -58,24 +47,12 @@ export function configCors(app: INestApplication): void {
       callback(null, false);
     },
     methods: DEFAULT_METHODS,
-    allowedHeaders: (
-      req: CorsRequest,
-      callback: (err: Error | null, allowed?: string | string[]) => void,
-    ) => {
-      const requested = req.headers['access-control-request-headers'];
-
-      if (requested) {
-        callback(null, requested);
-        return;
-      }
-
-      callback(null, DEFAULT_ALLOWED_HEADERS);
-    },
+    allowedHeaders: DEFAULT_ALLOWED_HEADERS,
     credentials: true,
     preflightContinue: false,
     optionsSuccessStatus: 204,
     maxAge: 86_400,
-  } as unknown as CorsOptions;
+  };
 
   app.enableCors(corsOptions);
 }
