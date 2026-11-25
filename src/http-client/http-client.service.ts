@@ -6,7 +6,20 @@ import { randomUUID } from 'crypto';
 import { Injectable } from '@nestjs/common';
 
 import { Logger } from 'nestjs-pino';
-import { Dispatcher, request } from 'undici';
+import { Dispatcher, EnvHttpProxyAgent, request } from 'undici';
+
+// request() do undici do pacote nao usa o proxy de NODE_USE_ENV_PROXY (esse vale para o
+// undici embutido no Node). Com HTTP(S)_PROXY definido, usa EnvHttpProxyAgent, que tambem
+// respeita NO_PROXY; sem as variaveis, segue com o dispatcher global de sempre.
+const hasProxyEnv = [
+  'HTTPS_PROXY',
+  'https_proxy',
+  'HTTP_PROXY',
+  'http_proxy',
+].some((name) => Boolean(process.env[name]));
+const proxyDispatcher: Dispatcher | undefined = hasProxyEnv
+  ? new EnvHttpProxyAgent()
+  : undefined;
 
 export interface HttpClientOptions {
   headers?: Record<string, string>;
@@ -316,6 +329,7 @@ export class HttpClientService {
       body: body ? JSON.stringify(body) : undefined,
       headersTimeout: timeout,
       bodyTimeout: timeout,
+      dispatcher: proxyDispatcher,
     });
 
     const responseHeaders = this.normalizeResponseHeaders(response.headers);

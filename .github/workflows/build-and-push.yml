@@ -1,0 +1,95 @@
+name: Build and Push Image
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+  workflow_dispatch:
+
+env:
+  ACR_NAME: azifyapps
+  ACR_IMAGE: azifyapps.azurecr.io/aziface-partner/backend-aziface-partner-assemble-example
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-push:
+    runs-on: [self-hosted, azify]
+    # Environment fixo para o subject OIDC ficar estavel (repo:azifydev/<repo>:environment:acr-push).
+    environment: acr-push
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Log in to Azure (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          # A identidade de push so tem papel no registry, nenhum na subscription.
+          allow-no-subscriptions: true
+
+      # Troca o token do Entra direto no registry: os papeis ABAC por repositorio nao dao leitura
+      # no ARM, entao `az acr login` nao consegue resolver o recurso do registry.
+      - name: Log in to ACR
+        run: |
+          AAD=$(az account get-access-token --resource https://containerregistry.azure.net --query accessToken -o tsv)
+          RT=$(curl -fsS -X POST "https://${ACR_NAME}.azurecr.io/oauth2/exchange" \
+            --data-urlencode grant_type=access_token \
+            --data-urlencode "service=${ACR_NAME}.azurecr.io" \
+            --data-urlencode "access_token=${AAD}" | jq -r .refresh_token)
+          echo "::add-mask::${RT}"
+          echo "${RT}" | podman login "${ACR_NAME}.azurecr.io" -u 00000000-0000-0000-0000-000000000000 --password-stdin
+
+      - name: Extract metadata (labels and tags)
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.ACR_IMAGE }}
+          tags: |
+            type=sha,format=short,prefix=sha-
+            type=ref,event=branch,enable=${{ github.ref_name == 'develop' }}
+            type=ref,event=pr,prefix=pr-
+
+      - name: Build image
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
+          LABELS: ${{ steps.meta.outputs.labels }}
+        run: |
+          set -euo pipefail
+          mapfile -t tags < <(printf '%s\n' "$TAGS" | sed 's/^[[:space:]]*//; /^$/d')
+          args=(--layers --format docker --file ./Dockerfile)
+          for t in "${tags[@]}"; do args+=(--tag "$t"); done
+          while IFS= read -r l; do
+            if [ -n "$l" ]; then args+=(--label "$l"); fi
+          done <<< "${LABELS:-}"
+          podman build "${args[@]}" .
+          echo "IMAGE=${tags[0]}" >> "$GITHUB_ENV"
+
+      - name: Check image does not run as root
+        run: |
+          set -euo pipefail
+          uid=$(podman run --rm --entrypoint id "$IMAGE" -u)
+          echo "uid=${uid}"
+          if [ "$uid" = "0" ]; then
+            echo "::error::image runs as root"
+            exit 1
+          fi
+
+      - name: Push image
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          set -euo pipefail
+          mapfile -t tags < <(printf '%s\n' "$TAGS" | sed 's/^[[:space:]]*//; /^$/d')
+          for t in "${tags[@]}"; do
+            podman push --digestfile "$RUNNER_TEMP/digest" "$t"
+          done
+          echo "Digest: $(cat "$RUNNER_TEMP/digest")"
