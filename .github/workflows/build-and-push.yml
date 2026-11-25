@@ -17,7 +17,9 @@ concurrency:
 
 jobs:
   build-and-push:
-    runs-on: [self-hosted, azify]
+    # Repo publico: os runners self-hosted da org so pegam repos privados, e PR de fork nunca deve
+    # rodar neles. O ubuntu-latest do GitHub ja tem podman.
+    runs-on: ubuntu-latest
     # Environment fixo para o subject OIDC ficar estavel (repo:azifydev/<repo>:environment:acr-push).
     environment: acr-push
     permissions:
