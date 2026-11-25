@@ -54,7 +54,9 @@ export function configSwagger(app: INestApplication): INestApplication<any> {
     ),
   );
 
-  const docsPath = join(process.cwd(), 'swagger', 'docs');
+  // No container o rootfs e read-only: SWAGGER_DOCS_PATH aponta para /tmp.
+  const docsPath =
+    process.env.SWAGGER_DOCS_PATH || join(process.cwd(), 'swagger', 'docs');
   mkdirSync(docsPath, { recursive: true });
 
   const swaggerPath = join(docsPath, 'swagger.json');
